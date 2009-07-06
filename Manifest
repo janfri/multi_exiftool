@@ -1,0 +1,6 @@
+CHANGELOG
+test/test_writer.rb
+Rakefile
+lib/multi_exiftool/executable.rb
+lib/multi_exiftool/writer.rb
+Manifest
