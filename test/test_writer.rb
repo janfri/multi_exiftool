@@ -21,7 +21,7 @@ class TestWriter < Test::Unit::TestCase
     assert_equal command, @writer.command
   end
 
-  def test_filenames_with_tags
+  def test_filenames_with_spaces
     @writer.filenames = ['one file with spaces.jpg', 'another file with spaces.tif']
     @writer.values = {:author => 'janfri'}
     command = 'exiftool -author=janfri one\ file\ with\ spaces.jpg another\ file\ with\ spaces.tif'
