@@ -11,6 +11,7 @@ module MultiExiftool
     end
 
     def escaped_filenames
+      raise MultiExiftool::Error.new('No filenames.') unless @filenames
       @filenames.map { |fn| Shellwords.escape(fn) }
     end
 

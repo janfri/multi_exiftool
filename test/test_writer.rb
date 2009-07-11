@@ -1,4 +1,4 @@
-require_relative '../lib/multi_exiftool/writer'
+require_relative '../lib/multi_exiftool'
 require 'test/unit'
 
 class TestWriter < Test::Unit::TestCase
@@ -12,6 +12,20 @@ class TestWriter < Test::Unit::TestCase
     @writer.values = {:author => 'janfri'}
     command = 'exiftool -author=janfri a.jpg b.tif c.bmp'
     assert_equal command, @writer.command
+  end
+
+  def test_no_filenames
+    @writer.values = {:author => 'janfri'}
+    assert_raises MultiExiftool::Error do
+      @writer.command
+    end
+  end
+
+  def test_no_values
+    @writer.filenames = %w(a.jpg b.tif c.bmp)
+    assert_raises MultiExiftool::Error do
+      @writer.command
+    end
   end
 
   def test_tags_with_space_values

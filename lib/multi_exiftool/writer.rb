@@ -15,6 +15,7 @@ module MultiExiftool
     private
 
     def values_opts
+      raise MultiExiftool::Error.new('No values.') unless @values
       @values.map {|tag, val| "-#{tag}=#{escape(val.to_s)}"}
     end
 

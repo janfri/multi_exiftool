@@ -1,6 +1,7 @@
 CHANGELOG
 test/test_writer.rb
+Manifest
 Rakefile
 lib/multi_exiftool/executable.rb
 lib/multi_exiftool/writer.rb
-Manifest
+lib/multi_exiftool.rb
