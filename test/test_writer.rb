@@ -42,4 +42,12 @@ class TestWriter < Test::Unit::TestCase
     assert_equal command, @writer.command
   end
 
+  def test_extra_options
+    @writer.filenames = %w(a.jpg b.tif c.bmp)
+    @writer.values = {:author => 'janfri'}
+    @writer.options = {:overwrite_original => true}
+    command = 'exiftool -overwrite_original -author=janfri a.jpg b.tif c.bmp'
+    assert_equal command, @writer.command
+  end
+
 end
