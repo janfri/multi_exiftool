@@ -9,13 +9,13 @@ module MultiExiftool
     include Executable
 
     def command
-     [exiftool_command, values_opts, shelljoin(filenames)].join(' ') 
+     [exiftool_command, values_opts, escaped_filenames].flatten.join(' ')
     end
 
     private
 
     def values_opts
-      @values.map {|tag, val| "-#{tag}=#{shelljoin(val.to_s)}"}
+      @values.map {|tag, val| "-#{tag}=#{escape(val.to_s)}"}
     end
 
   end

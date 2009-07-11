@@ -10,6 +10,10 @@ module MultiExiftool
       @exiftool_command = 'exiftool'
     end
 
+    def escaped_filenames
+      @filenames.map { |fn| Shellwords.escape(fn) }
+    end
+
     def execute
       @errors = []
       %x(#{command})
@@ -17,8 +21,8 @@ module MultiExiftool
 
     private
 
-    def shelljoin *args
-      Shellwords.shelljoin(args.flatten)
+    def escape str
+      Shellwords.escape(str)
     end
 
   end
