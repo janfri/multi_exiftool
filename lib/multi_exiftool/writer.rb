@@ -20,7 +20,13 @@ module MultiExiftool
 
     def options_args
       return [] unless @options
-      @options.map {|opt, val| "-#{opt}"}
+      @options.map do |opt, val|
+        if val == true
+          "-#{opt}"
+        else
+          "-#{opt} #{val}"
+        end
+      end
     end
 
     def values_args
