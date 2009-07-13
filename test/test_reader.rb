@@ -32,4 +32,44 @@ class TestReader < Test::Unit::TestCase
     assert_equal command, @reader.command
   end
 
+  def test_run
+    # Stubbing execute_command, the Ruby way :)
+    class << @reader
+      def execute_command
+        expected_command = 'exiftool -J -fnumber a.jpg b.tif c.bmp'
+        if command == expected_command
+          json = <<-EOS
+            [{
+              "SourceFile": "a.jpg",
+              "FNumber": 11.0
+            },
+            {
+              "SourceFile": "b.tif",
+              "FNumber": 9.0
+            },
+            {
+              "SourceFile": "c.bmp",
+              "FNumber": 8.0
+            }]
+          EOS
+          json.gsub!(/^ {12}/, '')
+          @stdout = StringIO.new(json)
+          @stderr = StringIO.new('')
+        else
+          @stdout = StringIO.new('')
+          @stderr = StringIO.new(format("Expected: %s\nGot: %s", expected_command, command))
+        end
+      end
+    end
+    @reader.filenames = %w(a.jpg b.tif c.bmp)
+    res = @reader.read
+    assert_equal [], res
+    @reader.tags = %w(fnumber)
+    res = @reader.read
+    assert_kind_of Array, res
+    assert_equal 3, res.size
+    assert_equal [11.0, 9.0, 8.0], res.map {|e| e['FNumber']}
+    assert_equal [], @reader.errors
+  end
+
 end

@@ -1,4 +1,5 @@
 require_relative 'executable'
+require 'json'
 
 module MultiExiftool
 
@@ -25,6 +26,14 @@ module MultiExiftool
     def tags_args
       return [] unless @tags
       @tags.map {|tag| "-#{tag}"}
+    end
+
+    def parse_results
+      @errors = @stderr.readlines
+      json = JSON.parse(@stdout.read)
+      json.map {|data| Data.new(data)}
+    rescue JSON::ParserError
+      return []
     end
 
   end
