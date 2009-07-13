@@ -15,6 +15,12 @@ module MultiExiftool
       tag.gsub(/[-_]/, '').downcase
     end
 
+    private
+
+    def method_missing tag, *args
+      @values[Data.unify_tag(tag.to_s)]
+    end
+
   end
 
 end

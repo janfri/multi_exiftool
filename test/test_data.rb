@@ -18,4 +18,9 @@ class TestData < Test::Unit::TestCase
     assert_equal 8, @data['f-number']
   end
 
+  def test_method_access
+    assert_equal 8, @data.fnumber
+    assert_equal 8, @data.f_number
+  end
+
 end
