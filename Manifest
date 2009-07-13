@@ -1,9 +1,11 @@
-Manifest
-test/test_writer.rb
-test/test_reader.rb
-Rakefile
 CHANGELOG
+Manifest
+Rakefile
 lib/multi_exiftool.rb
 lib/multi_exiftool/executable.rb
 lib/multi_exiftool/reader.rb
 lib/multi_exiftool/writer.rb
+lib/multi_exiftool/data.rb
+test/test_reader.rb
+test/test_writer.rb
+test/test_data.rb
