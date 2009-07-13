@@ -16,6 +16,8 @@ module MultiExiftool
       cmd.flatten.join(' ')
     end
 
+    alias write execute
+
     private
 
     def options_args
@@ -32,6 +34,11 @@ module MultiExiftool
     def values_args
       raise MultiExiftool::Error.new('No values.') unless @values
       @values.map {|tag, val| "-#{tag}=#{escape(val.to_s)}"}
+    end
+
+    def parse_results
+      @errors = @stderr.readlines
+      @errors.empty?
     end
 
   end

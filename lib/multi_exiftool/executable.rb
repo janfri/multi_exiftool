@@ -1,3 +1,4 @@
+require 'open3'
 require 'shellwords'
 
 module MultiExiftool
@@ -16,14 +17,23 @@ module MultiExiftool
     end
 
     def execute
-      @errors = []
-      %x(#{command})
+      prepare_execution
+      execute_command
+      parse_results
     end
 
     private
 
     def escape str
       Shellwords.escape(str)
+    end
+
+    def prepare_execution
+      @errors = []
+    end
+
+    def execute_command
+      stdin, @stdout, @stderr = Open3.popen3(command)
     end
 
   end
