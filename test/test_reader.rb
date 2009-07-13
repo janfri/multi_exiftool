@@ -25,4 +25,11 @@ class TestReader < Test::Unit::TestCase
     assert_equal command, @reader.command
   end
 
+  def test_tags
+    @reader.filenames = %w(a.jpg b.tif c.bmp)
+    @reader.tags = %w(author fnumber)
+    command = 'exiftool -J -author -fnumber a.jpg b.tif c.bmp'
+    assert_equal command, @reader.command
+  end
+
 end
