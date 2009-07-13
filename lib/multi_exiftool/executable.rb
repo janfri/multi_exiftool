@@ -5,7 +5,7 @@ module MultiExiftool
 
   module Executable
 
-    attr_accessor :exiftool_command, :errors
+    attr_accessor :exiftool_command, :filenames, :options, :errors
 
     def initialize
       @exiftool_command = 'exiftool'
@@ -26,6 +26,17 @@ module MultiExiftool
 
     def escape str
       Shellwords.escape(str)
+    end
+
+    def options_args
+      return [] unless @options
+      @options.map do |opt, val|
+        if val == true
+          "-#{opt}"
+        else
+          "-#{opt} #{val}"
+        end
+      end
     end
 
     def prepare_execution

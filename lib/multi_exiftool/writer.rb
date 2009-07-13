@@ -4,7 +4,7 @@ module MultiExiftool
 
   class Writer
 
-    attr_accessor :filenames, :options, :values
+    attr_accessor :values
 
     include Executable
 
@@ -19,17 +19,6 @@ module MultiExiftool
     alias write execute
 
     private
-
-    def options_args
-      return [] unless @options
-      @options.map do |opt, val|
-        if val == true
-          "-#{opt}"
-        else
-          "-#{opt} #{val}"
-        end
-      end
-    end
 
     def values_args
       raise MultiExiftool::Error.new('No values.') unless @values

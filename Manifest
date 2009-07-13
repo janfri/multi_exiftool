@@ -1,7 +1,9 @@
-CHANGELOG
-test/test_writer.rb
 Manifest
+test/test_writer.rb
+test/test_reader.rb
 Rakefile
-lib/multi_exiftool/executable.rb
-lib/multi_exiftool/writer.rb
+CHANGELOG
 lib/multi_exiftool.rb
+lib/multi_exiftool/executable.rb
+lib/multi_exiftool/reader.rb
+lib/multi_exiftool/writer.rb
