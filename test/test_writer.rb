@@ -1,6 +1,4 @@
-require_relative '../lib/multi_exiftool'
-require 'stringio'
-require 'test/unit'
+require_relative 'helper'
 
 class TestWriter < Test::Unit::TestCase
 
@@ -60,17 +58,7 @@ class TestWriter < Test::Unit::TestCase
   end
 
   def test_write
-    # Stubbing execute_command, the Ruby way :)
-    class << @writer
-      def execute_command
-        expected_command = 'exiftool -author=janfri a.jpg b.tif c.bmp'
-        if command == expected_command
-          @stderr = StringIO.new('')
-        else
-          @stderr = StringIO.new(format("Expected: %s\nGot: %s", expected_command, command))
-        end
-      end
-    end
+    mocking_open3('exiftool -author=janfri a.jpg b.tif c.bmp', '', '')
     @writer.filenames = %w(a.jpg b.tif c.bmp)
     @writer.values = {:author => 'janfri'}
     rc = @writer.write

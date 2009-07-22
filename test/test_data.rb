@@ -1,5 +1,4 @@
-require_relative '../lib/multi_exiftool'
-require 'test/unit'
+require_relative 'helper'
 
 class TestData < Test::Unit::TestCase
 

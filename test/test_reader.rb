@@ -1,5 +1,4 @@
-require_relative '../lib/multi_exiftool'
-require 'test/unit'
+require_relative 'helper'
 
 class TestReader < Test::Unit::TestCase
 
@@ -32,44 +31,38 @@ class TestReader < Test::Unit::TestCase
     assert_equal command, @reader.command
   end
 
-  def test_run
-    # Stubbing execute_command, the Ruby way :)
-    class << @reader
-      def execute_command
-        expected_command = 'exiftool -J -fnumber a.jpg b.tif c.bmp'
-        if command == expected_command
-          json = <<-EOS
-            [{
-              "SourceFile": "a.jpg",
-              "FNumber": 11.0
-            },
-            {
-              "SourceFile": "b.tif",
-              "FNumber": 9.0
-            },
-            {
-              "SourceFile": "c.bmp",
-              "FNumber": 8.0
-            }]
-          EOS
-          json.gsub!(/^ {12}/, '')
-          @stdout = StringIO.new(json)
-          @stderr = StringIO.new('')
-        else
-          @stdout = StringIO.new('')
-          @stderr = StringIO.new(format("Expected: %s\nGot: %s", expected_command, command))
-        end
-      end
-    end
-    @reader.filenames = %w(a.jpg b.tif c.bmp)
+  def test_run_nonexisting_file
+    mocking_open3('exiftool -J non_existing_file', '', 'File non_existing_file not found.')
+    @reader.filenames = %w(non_existing_file)
     res = @reader.read
     assert_equal [], res
+    assert_equal ['File non_existing_file not found.'], @reader.errors
+  end
+
+  def test_run_with_one_tag
+    json = <<-EOS
+      [{
+        "SourceFile": "a.jpg",
+        "FNumber": 11.0
+      },
+      {
+        "SourceFile": "b.tif",
+        "FNumber": 9.0
+      },
+      {
+        "SourceFile": "c.bmp",
+        "FNumber": 8.0
+      }]
+    EOS
+    json.gsub!(/^ {12}/, '')
+    mocking_open3('exiftool -J -fnumber a.jpg b.tif c.bmp', json, '')
+    @reader.filenames = %w(a.jpg b.tif c.bmp)
     @reader.tags = %w(fnumber)
-    res = @reader.read
+    res =  @reader.read
     assert_kind_of Array, res
-    assert_equal 3, res.size
     assert_equal [11.0, 9.0, 8.0], res.map {|e| e['FNumber']}
     assert_equal [], @reader.errors
   end
+
 
 end
