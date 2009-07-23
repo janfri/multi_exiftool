@@ -6,13 +6,13 @@ require 'stringio'
 module TestHelper
 
   def mocking_open3(command, outstr, errstr)
-    Open3.module_exec(command, outstr, errstr) do |cmd, out, err|
-      @cmd, @out, @err = cmd, out, err
-      def self.popen3(command)
-        if command == @cmd
-          return [nil, StringIO.new(@out), StringIO.new(@err)]
+    open3_eigenclass = class << Open3; self; end
+    open3_eigenclass.module_exec(command, outstr, errstr) do |cmd, out, err|
+      define_method :popen3 do |arg|
+        if arg == cmd
+          return [nil, StringIO.new(out), StringIO.new(err)]
         else
-          raise ArgumentError
+          raise ArgumentError.new("Expected call of Open3.popen3 with argument #{cmd.inspect} but was #{arg.inspect}.")
         end
       end
     end

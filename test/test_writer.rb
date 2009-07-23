@@ -61,9 +61,13 @@ class TestWriter < Test::Unit::TestCase
     mocking_open3('exiftool -author=janfri a.jpg b.tif c.bmp', '', '')
     @writer.filenames = %w(a.jpg b.tif c.bmp)
     @writer.values = {:author => 'janfri'}
-    rc = @writer.write
-    assert_equal [], @writer.errors
-    assert_equal true, rc
+    begin
+      rc = @writer.write
+      assert_equal [], @writer.errors
+      assert_equal true, rc
+    rescue ArgumentError => e
+      assert false, e.message
+    end
   end
 
 end

@@ -34,9 +34,13 @@ class TestReader < Test::Unit::TestCase
   def test_run_nonexisting_file
     mocking_open3('exiftool -J non_existing_file', '', 'File non_existing_file not found.')
     @reader.filenames = %w(non_existing_file)
-    res = @reader.read
-    assert_equal [], res
-    assert_equal ['File non_existing_file not found.'], @reader.errors
+    begin
+      res = @reader.read
+      assert_equal [], res
+      assert_equal ['File non_existing_file not found.'], @reader.errors
+    rescue ArgumentError => e
+      assert false, e.message
+    end
   end
 
   def test_run_with_one_tag
@@ -58,10 +62,14 @@ class TestReader < Test::Unit::TestCase
     mocking_open3('exiftool -J -fnumber a.jpg b.tif c.bmp', json, '')
     @reader.filenames = %w(a.jpg b.tif c.bmp)
     @reader.tags = %w(fnumber)
-    res =  @reader.read
-    assert_kind_of Array, res
-    assert_equal [11.0, 9.0, 8.0], res.map {|e| e['FNumber']}
-    assert_equal [], @reader.errors
+    begin
+      res =  @reader.read
+      assert_kind_of Array, res
+      assert_equal [11.0, 9.0, 8.0], res.map {|e| e['FNumber']}
+      assert_equal [], @reader.errors
+    rescue ArgumentError => e
+      assert false, e.message
+    end
   end
 
 
