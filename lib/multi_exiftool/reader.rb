@@ -14,6 +14,7 @@ module MultiExiftool
     def command
       cmd = [exiftool_command]
       cmd << MANDATORY_ARGS
+      cmd << options_args
       cmd << tags_args
       cmd << escaped_filenames
       cmd.flatten.join(' ')
