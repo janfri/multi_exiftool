@@ -6,9 +6,11 @@ module MultiExiftool
   module Executable
 
     attr_accessor :exiftool_command, :filenames, :options, :errors
+    attr_reader :numerical
 
     def initialize
       @exiftool_command = 'exiftool'
+      @options = {}
     end
 
     def escaped_filenames
@@ -20,6 +22,10 @@ module MultiExiftool
       prepare_execution
       execute_command
       parse_results
+    end
+
+    def numerical= bool
+      @options[:n] = !!bool
     end
 
     private

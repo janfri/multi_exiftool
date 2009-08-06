@@ -57,6 +57,14 @@ class TestWriter < Test::Unit::TestCase
     assert_equal command, @writer.command
   end
 
+  def test_numerical
+    @writer.filenames = %w(a.jpg b.tif c.bmp)
+    @writer.values = {:author => 'janfri'}
+    @writer.numerical = true
+    command = 'exiftool -n -author=janfri a.jpg b.tif c.bmp'
+    assert_equal command, @writer.command
+  end
+
   def test_write
     mocking_open3('exiftool -author=janfri a.jpg b.tif c.bmp', '', '')
     @writer.filenames = %w(a.jpg b.tif c.bmp)

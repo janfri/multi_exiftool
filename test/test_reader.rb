@@ -45,6 +45,13 @@ class TestReader < Test::Unit::TestCase
     assert_equal command, @reader.command
   end
 
+  def test_numerical
+    @reader.filenames = %w(a.jpg b.tif c.bmp)
+    @reader.numerical = true
+    command = 'exiftool -J -n a.jpg b.tif c.bmp'
+    assert_equal command, @reader.command
+  end
+
   def test_run_nonexisting_file
     mocking_open3('exiftool -J non_existing_file', '', 'File non_existing_file not found.')
     @reader.filenames = %w(non_existing_file)
