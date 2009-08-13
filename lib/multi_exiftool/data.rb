@@ -6,7 +6,10 @@ module MultiExiftool
 
     def initialize values
       @values = {}
-      values.map {|tag,val| @values[Data.unify_tag(tag)] = val}
+      values.map do |tag,val|
+        val = val.kind_of?(Hash) ? Data.new(val) : val
+        @values[Data.unify_tag(tag)] = val
+      end
     end
 
     def [](tag)
