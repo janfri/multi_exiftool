@@ -23,7 +23,3 @@ end
 class Test::Unit::TestCase
   include TestHelper
 end
-
-class Test::Unit::TestCase
-  include TestHelper
-end
