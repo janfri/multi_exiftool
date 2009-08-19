@@ -2,24 +2,28 @@ require_relative 'helper'
 
 class TestData < Test::Unit::TestCase
 
-  def setup
+  setup do
     hash = {'FNumber' => 8, 'Author' => 'janfri'}
     @data = MultiExiftool::Data.new(hash)
   end
 
-  def test_simple
-    assert_equal 8, @data['FNumber']
-  end
+  context 'value access' do
 
-  def test_variant_spellings
-    assert_equal 8, @data['fnumber']
-    assert_equal 8, @data['f_number']
-    assert_equal 8, @data['f-number']
-  end
+    test 'original spelling of tag name' do
+      assert_equal 8, @data['FNumber']
+    end
 
-  def test_method_access
-    assert_equal 8, @data.fnumber
-    assert_equal 8, @data.f_number
+    test 'variant spellings of tag names' do
+      assert_equal 8, @data['fnumber']
+      assert_equal 8, @data['f_number']
+      assert_equal 8, @data['f-number']
+    end
+
+    test 'tag access via methods' do
+      assert_equal 8, @data.fnumber
+      assert_equal 8, @data.f_number
+    end
+
   end
 
 end

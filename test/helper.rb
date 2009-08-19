@@ -1,5 +1,6 @@
 require_relative '../lib/multi_exiftool'
 require 'test/unit'
+require 'contest'
 require 'open3'
 require 'stringio'
 
