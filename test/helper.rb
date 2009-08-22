@@ -1,3 +1,4 @@
+# coding: utf-8
 require_relative '../lib/multi_exiftool'
 require 'test/unit'
 require 'contest'
