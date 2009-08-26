@@ -1,4 +1,5 @@
 # coding: utf-8
+require 'date'
 module MultiExiftool
 
   class Data
@@ -25,8 +26,14 @@ module MultiExiftool
     def parse_value val
       return val unless val.kind_of?(String)
       case val
-      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d):(\d\d)$/
-        Time.local($1, $2, $3, $4, $5, $6)
+      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d):(\d\d)([-+]\d\d:\d\d)?$/
+        arr = $~.captures[0,6].map {|cap| cap.to_i}
+        arr << $7 if $7
+        if arr.size == 7
+          DateTime.new(*arr).to_time
+        else
+          Time.local(*arr) #$1, $2, $3, $4, $5, $6)
+        end
       else
         val
       end

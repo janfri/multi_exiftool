@@ -1,5 +1,6 @@
 # coding: utf-8
 require_relative 'helper'
+require 'date'
 
 class TestData < Test::Unit::TestCase
 
@@ -30,13 +31,24 @@ class TestData < Test::Unit::TestCase
   context 'parsing of values' do
 
     setup do
-      hash = {'TimestampWithoutZone' => '2009:08:25 12:35:42'}
+      hash = {
+        'TimestampWithoutZone' => '2009:08:25 12:35:42',
+        'TimestampWithPositiveZone' => '2009:08:26 20:22:24+05:00', 
+        'TimestampWithNegativeZone' => '2009:08:26 20:22:24-07:00' 
+      }
       @data = MultiExiftool::Data.new(hash)
     end
 
     test 'local Time object' do
       time = Time.local(2009, 8, 25, 12, 35, 42)
       assert_equal time, @data['TimestampWithoutZone']
+    end
+
+    test 'Time object with given zone' do
+      time = DateTime.new(2009,8,26,20,22,24,'+0500').to_time
+      assert_equal time, @data['TimestampWithPositiveZone']
+      time = DateTime.new(2009,8,26,20,22,24,'-0700').to_time
+      assert_equal time, @data['TimestampWithNegativeZone']
     end
 
   end
