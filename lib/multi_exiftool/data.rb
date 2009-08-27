@@ -32,8 +32,10 @@ module MultiExiftool
         if arr.size == 7
           DateTime.new(*arr).to_time
         else
-          Time.local(*arr) #$1, $2, $3, $4, $5, $6)
+          Time.local(*arr)
         end
+      when %r(^(\d+)/(\d+)$)
+        Rational($1, $2)
       else
         val
       end
