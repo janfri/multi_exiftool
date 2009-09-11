@@ -68,6 +68,14 @@ class TestWriter < Test::Unit::TestCase
       assert_equal command, @writer.command
     end
 
+    test 'overwrite_original flag' do
+      @writer.filenames = %w(a.jpg b.tif c.bmp)
+      @writer.values = {author: 'janfri'}
+      @writer.overwrite_original = true
+      command = 'exiftool -overwrite_original -author=janfri a.jpg b.tif c.bmp'
+      assert_equal command, @writer.command
+    end
+
   end
 
   context 'write method' do

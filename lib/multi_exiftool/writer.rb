@@ -5,6 +5,7 @@ module MultiExiftool
 
   class Writer
 
+    attr_reader :overwrite_original
     attr_accessor :values
 
     include Executable
@@ -15,6 +16,10 @@ module MultiExiftool
       cmd << values_args
       cmd << escaped_filenames
       cmd.flatten.join(' ')
+    end
+
+    def overwrite_original= bool
+      @options[:overwrite_original] = !!bool
     end
 
     alias write execute
