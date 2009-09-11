@@ -1,4 +1,4 @@
-require 'multi_exiftool'
+require_relative '../lib/multi_exiftool'
 
 reader = MultiExiftool::Reader.new
 reader.filenames = Dir[File.dirname(__FILE__) + '/*.png']

@@ -1,4 +1,4 @@
-require 'multi_exiftool'
+require_relative '../lib/multi_exiftool'
 
 writer = MultiExiftool::Writer.new
 writer.filenames = Dir[File.dirname(__FILE__) + '/*.png']
