@@ -19,6 +19,10 @@ class TestReader < Test::Unit::TestCase
       assert_raises MultiExiftool::Error do
         @reader.command
       end
+      @reader.filenames = []
+      assert_raises MultiExiftool::Error do
+        @reader.command
+      end
     end
 
     test 'filenames with spaces' do

@@ -6,9 +6,13 @@ module MultiExiftool
   class Writer
 
     attr_reader :overwrite_original
-    attr_accessor :values
+    attr_writer :values
 
     include Executable
+
+    def values
+      Array(@values)
+    end
 
     def command
       cmd = [exiftool_command]
@@ -27,7 +31,7 @@ module MultiExiftool
     private
 
     def values_args
-      raise MultiExiftool::Error.new('No values.') unless @values
+      raise MultiExiftool::Error.new('No values.') if values.empty?
       @values.map {|tag, val| "-#{tag}=#{escape(val.to_s)}"}
     end
 

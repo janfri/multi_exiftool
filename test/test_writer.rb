@@ -21,10 +21,18 @@ class TestWriter < Test::Unit::TestCase
       assert_raises MultiExiftool::Error do
         @writer.command
       end
+      @writer.filenames = []
+      assert_raises MultiExiftool::Error do
+        @writer.command
+      end
     end
 
     test 'no values set' do
       @writer.filenames = %w(a.jpg b.tif c.bmp)
+      assert_raises MultiExiftool::Error do
+        @writer.command
+      end
+      @writer.values = []
       assert_raises MultiExiftool::Error do
         @writer.command
       end

@@ -6,16 +6,21 @@ module MultiExiftool
 
   module Executable
 
-    attr_accessor :exiftool_command, :filenames, :options, :errors
+    attr_accessor :exiftool_command, :options, :errors
     attr_reader :numerical
+    attr_writer :filenames
 
     def initialize
       @exiftool_command = 'exiftool'
       @options = {}
     end
 
+    def filenames
+      Array(@filenames)
+    end
+
     def escaped_filenames
-      raise MultiExiftool::Error.new('No filenames.') unless @filenames
+      raise MultiExiftool::Error.new('No filenames.') if filenames.empty?
       @filenames.map { |fn| Shellwords.escape(fn) }
     end
 
