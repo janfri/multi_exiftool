@@ -59,6 +59,16 @@ class TestReader < Test::Unit::TestCase
       assert_equal command, @reader.command
     end
 
+    test 'group flag' do
+      @reader.filenames = %w(a.jpg)
+      @reader.group = 0
+      command = 'exiftool -J -g0 a.jpg'
+      assert_equal command, @reader.command
+      @reader.group = 1
+      command = 'exiftool -J -g1 a.jpg'
+      assert_equal command, @reader.command
+    end
+
   end
 
   context 'read method' do
@@ -93,6 +103,30 @@ class TestReader < Test::Unit::TestCase
       res =  @reader.read
       assert_kind_of Array, res
       assert_equal [11.0, 9.0, 8.0], res.map {|e| e['FNumber']}
+      assert_equal [], @reader.errors
+    end
+
+    test 'successful reading of hierarichal data' do
+      json = <<-EOS
+        [{
+          "SourceFile": "a.jpg",
+          "EXIF": {
+            "FNumber": 7.1
+          },
+          "MakerNotes": {
+            "FNumber": 7.0
+          }
+        }]
+      EOS
+      json.gsub!(/^ {8}/, '')
+      mocking_open3('exiftool -J -g0 -fnumber a.jpg', json, '')
+      @reader.filenames = %w(a.jpg)
+      @reader.tags = %w(fnumber)
+      @reader.group = 0
+      res =  @reader.read.first
+      assert_equal 'a.jpg', res.source_file
+      assert_equal 7.1, res.exif.fnumber
+      assert_equal 7.0, res.maker_notes.fnumber
       assert_equal [], @reader.errors
     end
 
