@@ -1,8 +1,13 @@
-require_relative '../lib/multi_exiftool'
+require 'multi_exiftool'
+
+if ARGV.empty?
+  $stderr.puts 'No filenames given.'
+  exit -1
+end
 
 reader = MultiExiftool::Reader.new
-reader.filenames = Dir[File.dirname(__FILE__) + '/*.png']
-data_objects = reader.read
-data_objects.each do |o|
+reader.filenames = ARGV
+results = reader.read
+results.each do |o|
  puts "#{o.file_name}: #{o.comment}"
 end
