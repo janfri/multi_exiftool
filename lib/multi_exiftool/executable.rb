@@ -6,13 +6,18 @@ module MultiExiftool
 
   module Executable
 
-    attr_accessor :exiftool_command, :options, :errors
-    attr_reader :numerical
-    attr_writer :filenames
+    attr_accessor :exiftool_command, :errors, :numerical
+    attr_writer :options, :filenames
 
     def initialize
       @exiftool_command = 'exiftool'
       @options = {}
+    end
+
+    def options
+      opts = @options.dup
+      opts[:n] = true if @numerical
+      opts
     end
 
     def filenames
@@ -30,10 +35,6 @@ module MultiExiftool
       parse_results
     end
 
-    def numerical= bool
-      @options[:n] = !!bool
-    end
-
     private
 
     def escape str
@@ -41,8 +42,9 @@ module MultiExiftool
     end
 
     def options_args
-      return [] unless @options
-      @options.map do |opt, val|
+      opts = options
+      return [] if opts.empty?
+      opts.map do |opt, val|
         if val == true
           "-#{opt}"
         else

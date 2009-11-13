@@ -8,15 +8,16 @@ module MultiExiftool
 
     MANDATORY_ARGS = %w(-J)
 
-    attr_accessor :tags
-    attr_reader :group
+    attr_accessor :tags, :group
 
     include Executable
 
-    def group= num
-      @options.delete("g#@group") if @group
-      @options["g#{num}"] = true
-      @group = num
+    def options
+      opts = super
+      if @group
+        opts["g#{@group}"] = true
+      end
+      opts
     end
 
     def command
