@@ -4,6 +4,7 @@ require 'shellwords'
 
 module MultiExiftool
 
+  # Mixin for Reader and Writer.
   module Executable
 
     attr_accessor :exiftool_command, :errors, :numerical
@@ -24,12 +25,7 @@ module MultiExiftool
       Array(@filenames)
     end
 
-    def escaped_filenames
-      raise MultiExiftool::Error.new('No filenames.') if filenames.empty?
-      @filenames.map { |fn| Shellwords.escape(fn) }
-    end
-
-    def execute
+    def execute # :nodoc:
       prepare_execution
       execute_command
       parse_results
@@ -39,6 +35,11 @@ module MultiExiftool
 
     def escape str
       Shellwords.escape(str)
+    end
+
+    def escaped_filenames
+      raise MultiExiftool::Error.new('No filenames.') if filenames.empty?
+      @filenames.map { |fn| Shellwords.escape(fn) }
     end
 
     def options_args

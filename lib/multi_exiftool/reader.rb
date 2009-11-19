@@ -4,6 +4,9 @@ require 'json'
 
 module MultiExiftool
 
+  # Handle reading of metadata via exiftool.
+  # Composing the command for the command-line executing it and parsing
+  # the results as well as possible errors.
   class Reader
 
     MANDATORY_ARGS = %w(-J)
@@ -12,6 +15,7 @@ module MultiExiftool
 
     include Executable
 
+    # Options to use with the exiftool command.
     def options
       opts = super
       if @group
@@ -20,6 +24,10 @@ module MultiExiftool
       opts
     end
 
+    # Getting the command for the command-line which would be executed
+    # when calling #read. It could be useful for logging, debugging or
+    # maybe even for creating a batch-file with exiftool command to be
+    # processed.
     def command
       cmd = [exiftool_command]
       cmd << MANDATORY_ARGS
@@ -29,7 +37,7 @@ module MultiExiftool
       cmd.flatten.join(' ')
     end
 
-    alias read execute
+    alias read execute # :nodoc:
 
     private
 

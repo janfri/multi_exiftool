@@ -3,6 +3,9 @@ require_relative 'executable'
 
 module MultiExiftool
 
+  # Handle writing of metadata via exiftool.
+  # Composing the command for the command-line executing it and parsing
+  # possible errors.
   class Writer
 
     attr_accessor :overwrite_original
@@ -14,12 +17,17 @@ module MultiExiftool
       Array(@values)
     end
 
+    # Options to use with the exiftool command.
     def options
       opts = super
       opts[:overwrite_original] = true if @overwrite_original
       opts
     end
 
+    # Getting the command for the command-line which would be executed
+    # when calling #write. It could be useful for logging, debugging or
+    # maybe even for creating a batch-file with exiftool command to be
+    # processed.
     def command
       cmd = [exiftool_command]
       cmd << options_args
@@ -28,7 +36,7 @@ module MultiExiftool
       cmd.flatten.join(' ')
     end
 
-    alias write execute
+    alias write execute # :nodoc:
 
     private
 

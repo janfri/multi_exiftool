@@ -2,6 +2,9 @@
 require 'date'
 module MultiExiftool
 
+  # Representing (tag, value) pairs of metadata.
+  # Access via bracket-methods or dynamic method-interpreting via
+  # method_missing.
   class Data
 
     def initialize values
