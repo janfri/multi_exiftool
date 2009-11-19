@@ -25,8 +25,16 @@ module MultiExiftool
 
     private
 
-    def method_missing tag, *args
-      self[Data.unify_tag(tag.to_s)]
+    def method_missing tag, *args, &block
+      res = self[Data.unify_tag(tag.to_s)]
+      if res && block_given?
+        if block.arity > 0
+          yield res
+        else
+          res.instance_eval &block
+        end
+      end
+      res
     end
 
     def parse_value val
