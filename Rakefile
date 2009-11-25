@@ -2,7 +2,7 @@ require 'echoe'
 
 Echoe.new('multi_exiftool') do |p|
   p.author = 'Jan Friedrich'
-  p.email = 'janfri.rubyforge@gmail.com'
+  p.email = 'janfri26@gmail.com'
   p.summary = 'An alternative approach for a ruby interface to the exiftool command-line application for better dealing with mass processing than MiniExiftool.'
   p.ruby_version = '>=1.9.1'
   p.url = 'http://rubyforge.org/projects/multiexiftool'
