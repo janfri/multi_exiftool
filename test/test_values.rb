@@ -2,28 +2,28 @@
 require_relative 'helper'
 require 'date'
 
-class TestData < Test::Unit::TestCase
+class TestValues < Test::Unit::TestCase
 
   context 'value access' do
 
     setup do
       hash = {'FNumber' => 8, 'Author' => 'janfri'}
-      @data = MultiExiftool::Data.new(hash)
+      @values = MultiExiftool::Values.new(hash)
     end
 
     test 'original spelling of tag name' do
-      assert_equal 8, @data['FNumber']
+      assert_equal 8, @values['FNumber']
     end
 
     test 'variant spellings of tag names' do
-      assert_equal 8, @data['fnumber']
-      assert_equal 8, @data['f_number']
-      assert_equal 8, @data['f-number']
+      assert_equal 8, @values['fnumber']
+      assert_equal 8, @values['f_number']
+      assert_equal 8, @values['f-number']
     end
 
     test 'tag access via methods' do
-      assert_equal 8, @data.fnumber
-      assert_equal 8, @data.f_number
+      assert_equal 8, @values.fnumber
+      assert_equal 8, @values.f_number
     end
 
   end
@@ -38,19 +38,19 @@ class TestData < Test::Unit::TestCase
           'TimestampWithPositiveZone' => '2009:08:26 20:22:24+05:00',
           'TimestampWithNegativeZone' => '2009:08:26 20:22:24-07:00'
         }
-        @data = MultiExiftool::Data.new(hash)
+        @values = MultiExiftool::Values.new(hash)
       end
 
       test 'local Time object' do
         time = Time.local(2009, 8, 25, 12, 35, 42)
-        assert_equal time, @data['TimestampWithoutZone']
+        assert_equal time, @values['TimestampWithoutZone']
       end
 
       test 'Time object with given zone' do
         time = DateTime.new(2009,8,26,20,22,24,'+0500').to_time
-        assert_equal time, @data['TimestampWithPositiveZone']
+        assert_equal time, @values['TimestampWithPositiveZone']
         time = DateTime.new(2009,8,26,20,22,24,'-0700').to_time
-        assert_equal time, @data['TimestampWithNegativeZone']
+        assert_equal time, @values['TimestampWithNegativeZone']
       end
 
     end
@@ -61,11 +61,11 @@ class TestData < Test::Unit::TestCase
         hash = {
           'ShutterSpeed' => '1/200'
         }
-        @data = MultiExiftool::Data.new(hash)
+        @values = MultiExiftool::Values.new(hash)
       end
 
       test 'rational values' do
-        assert_equal Rational(1, 200), @data['ShutterSpeed']
+        assert_equal Rational(1, 200), @values['ShutterSpeed']
       end
 
     end

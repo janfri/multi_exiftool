@@ -5,18 +5,18 @@ module MultiExiftool
   # Representing (tag, value) pairs of metadata.
   # Access via bracket-methods or dynamic method-interpreting via
   # method_missing.
-  class Data
+  class Values
 
     def initialize values
       @values = {}
       values.map do |tag,val|
-        val = val.kind_of?(Hash) ? Data.new(val) : val
-        @values[Data.unify_tag(tag)] = val
+        val = val.kind_of?(Hash) ? Values.new(val) : val
+        @values[Values.unify_tag(tag)] = val
       end
     end
 
     def [](tag)
-      parse_value(@values[Data.unify_tag(tag)])
+      parse_value(@values[Values.unify_tag(tag)])
     end
 
     def self.unify_tag tag
@@ -26,7 +26,7 @@ module MultiExiftool
     private
 
     def method_missing tag, *args, &block
-      res = self[Data.unify_tag(tag.to_s)]
+      res = self[Values.unify_tag(tag.to_s)]
       if res && block_given?
         if block.arity > 0
           yield res
