@@ -9,17 +9,17 @@ reader = MultiExiftool::Reader.new
 reader.filenames = ARGV
 reader.group = 0
 results = reader.read
-results.each do |res|
+valuesults.each do |values|
   # direct access
-  puts res.file.filename
+  puts values.file.filename
   # access via block without parameter
-  res.iptc do
+  values.iptc do
     self.keywords do
       puts "  Keywords (IPCT): #{Array(self).join(', ')}"
     end
   end
   # access via block with parameter
-  res.xmp do |xmp|
+  values.xmp do |xmp|
     xmp.keywords do |kw|
       puts "  Keywords (XMP): #{Array(kw).join(', ')}"
     end

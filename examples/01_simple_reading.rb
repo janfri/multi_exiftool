@@ -8,6 +8,6 @@ end
 reader = MultiExiftool::Reader.new
 reader.filenames = ARGV
 results = reader.read
-results.each do |o|
- puts "#{o.file_name}: #{o.comment}"
+results.each do |values|
+ puts "#{values.file_name}: #{values.comment}"
 end
