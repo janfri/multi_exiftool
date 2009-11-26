@@ -9,7 +9,7 @@ reader = MultiExiftool::Reader.new
 reader.filenames = ARGV
 reader.group = 0
 results = reader.read
-valuesults.each do |values|
+results.each do |values|
   # direct access
   puts values.file.filename
   # access via block without parameter
