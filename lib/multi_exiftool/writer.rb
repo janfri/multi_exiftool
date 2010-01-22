@@ -42,7 +42,19 @@ module MultiExiftool
 
     def values_args
       raise MultiExiftool::Error.new('No values.') if values.empty?
-      @values.map {|tag, val| "-#{tag}=#{escape(val.to_s)}"}
+      values_to_array(@values).map {|arg| "-#{arg}"}
+    end
+
+    def values_to_array hash
+      res = []
+      hash.each do |tag, val|
+        if val.respond_to? :to_hash
+          res << values_to_array(val.to_hash).map {|arg| "#{tag}:#{arg}"}
+        else
+          res << "#{tag}=#{escape(val.to_s)}"
+        end
+      end
+      res.flatten
     end
 
     def parse_results
