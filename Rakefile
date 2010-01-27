@@ -3,7 +3,8 @@ require 'echoe'
 Echoe.new('multi_exiftool') do |p|
   p.author = 'Jan Friedrich'
   p.email = 'janfri26@gmail.com'
-  p.summary = 'An alternative approach for a ruby interface to the exiftool command-line application for better dealing with mass processing than MiniExiftool.'
+  p.summary = 'This library is wrapper for the Exiftool command-line application (http://www.sno.phy.queensu.ca/~phil/exiftool).'
+  p.description = 'This library is wrapper for the Exiftool command-line application (http://www.sno.phy.queensu.ca/~phil/exiftool) written by Phil Harvey. It is designed for dealing with multiple files at once by creating commands to call exiftool with various arguments, call it and parsing the results.'
   p.ruby_version = '>=1.9.1'
   p.url = 'http://rubyforge.org/projects/multiexiftool'
   p.install_message = %q{

@@ -1,10 +1,11 @@
 CHANGELOG
 LICENSE
 Manifest
+README
 Rakefile
 examples/01_simple_reading.rb
 examples/02_simple_writing.rb
-examples/03_reading_with_grouping.rb
+examples/03_reading_using_groups.rb
 lib/multi_exiftool.rb
 lib/multi_exiftool/executable.rb
 lib/multi_exiftool/reader.rb
@@ -13,5 +14,5 @@ lib/multi_exiftool/writer.rb
 test/helper.rb
 test/test_reader.rb
 test/test_values.rb
-test/test_values_grouping.rb
+test/test_values_using_groups.rb
 test/test_writer.rb
