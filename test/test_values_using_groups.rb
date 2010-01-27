@@ -1,7 +1,7 @@
 # coding: utf-8
 require_relative 'helper'
 
-class TestValuesGrouping < Test::Unit::TestCase
+class TestValuesUsingGroups < Test::Unit::TestCase
 
   setup do
     hash = {'EXIF' => {'FNumber' => 8, 'Author' => 'janfri'}}
