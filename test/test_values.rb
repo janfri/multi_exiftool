@@ -34,6 +34,7 @@ class TestValues < Test::Unit::TestCase
 
       setup do
         hash = {
+          'TimestampWithoutSeconds' => '2009:08:25 12:35',
           'TimestampWithoutZone' => '2009:08:25 12:35:42',
           'TimestampWithPositiveZone' => '2009:08:26 20:22:24+05:00',
           'TimestampWithNegativeZone' => '2009:08:26 20:22:24-07:00'
@@ -42,6 +43,8 @@ class TestValues < Test::Unit::TestCase
       end
 
       test 'local Time object' do
+        time = Time.local(2009, 8, 25, 12, 35)
+        assert_equal time, @values['TimestampWithoutSeconds']
         time = Time.local(2009, 8, 25, 12, 35, 42)
         assert_equal time, @values['TimestampWithoutZone']
       end

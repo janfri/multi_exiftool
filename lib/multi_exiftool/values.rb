@@ -40,7 +40,7 @@ module MultiExiftool
     def parse_value val
       return val unless val.kind_of?(String)
       case val
-      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d):(\d\d)([-+]\d\d:\d\d)?$/
+      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::(\d\d))?([-+]\d\d:\d\d)?$/
         arr = $~.captures[0,6].map {|cap| cap.to_i}
         arr << $7 if $7
         if arr.size == 7
