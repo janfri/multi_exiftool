@@ -43,11 +43,7 @@ module MultiExiftool
       when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::(\d\d))?([-+]\d\d:\d\d)?$/
         arr = $~.captures[0,6].map {|cap| cap.to_i}
         arr << $7 if $7
-        if arr.size == 7
-          DateTime.new(*arr).to_time
-        else
-          Time.local(*arr)
-        end
+        Time.new(*arr)
       when %r(^(\d+)/(\d+)$)
         Rational($1, $2)
       else

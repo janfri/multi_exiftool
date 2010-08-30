@@ -1,3 +1,6 @@
-v0.1.1 Parsing timestamps without value for seconds. 
-       Thanks to gittycat for the hint.
+v0.1.2 Preserve time zone in time objects (don't convert to local zone).
+Thanks to Bernard aka gittycat for the hint.
+
+v0.1.1 Parsing timestamps without value for seconds.  Thanks to gittycat for the hint.
+
 v0.1.0 First public release.
