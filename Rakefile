@@ -6,7 +6,7 @@ Echoe.new('multi_exiftool') do |p|
   p.summary = 'This library is wrapper for the Exiftool command-line application (http://www.sno.phy.queensu.ca/~phil/exiftool).'
   p.description = 'This library is wrapper for the Exiftool command-line application (http://www.sno.phy.queensu.ca/~phil/exiftool) written by Phil Harvey. It is designed for dealing with multiple files at once by creating commands to call exiftool with various arguments, call it and parsing the results.'
   p.ruby_version = '>=1.9.1'
-  p.url = 'http://rubyforge.org/projects/multiexiftool'
+  p.url = 'http://gitorious.org/multi_exiftool'
   p.install_message = %q{
 +-----------------------------------------------------------------------+
 | Please ensure you have installed exiftool version 7.65 or higher and  |

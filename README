@@ -42,8 +42,8 @@ See the examples in the examples directory.
 == Requirements
 
 - Ruby 1.9.1 or higher
-- An installation of the Exiftool command-line application.
-  Instructions for installation you can find under
+- An installation of the Exiftool command-line application (version 7.65 or
+  higher). Instructions for installation you can find under
   http://www.sno.phy.queensu.ca/~phil/exiftool/install.html .
 
 == Installation
