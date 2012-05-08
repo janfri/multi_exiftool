@@ -25,6 +25,12 @@ class TestReader < Test::Unit::TestCase
       end
     end
 
+    test 'one filename as string' do
+      @reader.filenames = 'a.jpg'
+      command = 'exiftool -J a.jpg'
+      assert_equal command, @reader.command
+    end
+
     test 'filenames with spaces' do
       @reader.filenames = ['one file with spaces.jpg', 'another file with spaces.tif']
       command = 'exiftool -J one\ file\ with\ spaces.jpg another\ file\ with\ spaces.tif'

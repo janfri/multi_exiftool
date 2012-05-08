@@ -39,7 +39,7 @@ module MultiExiftool
 
     def escaped_filenames
       raise MultiExiftool::Error.new('No filenames.') if filenames.empty?
-      @filenames.map { |fn| Shellwords.escape(fn) }
+      filenames.map { |fn| Shellwords.escape(fn) }
     end
 
     def options_args

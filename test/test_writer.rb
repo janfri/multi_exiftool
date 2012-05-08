@@ -27,6 +27,13 @@ class TestWriter < Test::Unit::TestCase
       end
     end
 
+    test 'one filename as string' do
+      @writer.values = {:author => 'janfri'}
+      @writer.filenames = 'a.jpg'
+      command = 'exiftool -author=janfri a.jpg'
+      assert_equal command, @writer.command
+    end
+
     test 'no values set' do
       @writer.filenames = %w(a.jpg b.tif c.bmp)
       assert_raises MultiExiftool::Error do
