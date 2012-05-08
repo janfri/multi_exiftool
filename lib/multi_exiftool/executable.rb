@@ -8,7 +8,7 @@ module MultiExiftool
   module Executable
 
     attr_accessor :exiftool_command, :errors, :numerical
-    attr_writer :options, :filenames
+    attr_writer :options
 
     def initialize
       @exiftool_command = 'exiftool'
@@ -22,7 +22,11 @@ module MultiExiftool
     end
 
     def filenames
-      Array(@filenames)
+      @filenames ||= []
+    end
+
+    def filenames= value
+      @filenames = Array(value)
     end
 
     def execute # :nodoc:
