@@ -39,7 +39,7 @@ class TestWriter < Test::Unit::TestCase
       assert_raises MultiExiftool::Error do
         @writer.command
       end
-      @writer.values = []
+      @writer.values = {}
       assert_raises MultiExiftool::Error do
         @writer.command
       end

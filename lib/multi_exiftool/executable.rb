@@ -7,22 +7,20 @@ module MultiExiftool
   # Mixin for Reader and Writer.
   module Executable
 
+    attr_reader :filenames
     attr_accessor :exiftool_command, :errors, :numerical
     attr_writer :options
 
     def initialize
       @exiftool_command = 'exiftool'
       @options = {}
+      @filenames = []
     end
 
     def options
       opts = @options.dup
       opts[:n] = true if @numerical
       opts
-    end
-
-    def filenames
-      @filenames ||= []
     end
 
     def filenames= value

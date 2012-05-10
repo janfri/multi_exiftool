@@ -8,13 +8,13 @@ module MultiExiftool
   # possible errors.
   class Writer
 
-    attr_accessor :overwrite_original
-    attr_writer :values
+    attr_accessor :overwrite_original, :values
 
     include Executable
 
-    def values
-      Array(@values)
+    def initialize
+      super
+      @values = {}
     end
 
     # Options to use with the exiftool command.

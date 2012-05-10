@@ -15,6 +15,10 @@ module MultiExiftool
 
     include Executable
 
+    def initialize
+      super
+    end
+
     # Options to use with the exiftool command.
     def options
       opts = super

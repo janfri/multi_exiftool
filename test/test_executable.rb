@@ -3,9 +3,15 @@ require_relative 'helper'
 
 class TestExecutable < Test::Unit::TestCase
 
+  class Exec
+    include MultiExiftool::Executable
+    def initialize
+      super
+    end
+  end
+
   setup do
-    @executable = Object.new
-    @executable.extend MultiExiftool::Executable
+    @executable = Exec.new
   end
 
   test 'appending to filenames' do
