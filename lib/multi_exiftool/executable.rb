@@ -36,7 +36,7 @@ module MultiExiftool
     private
 
     def escape str
-      Shellwords.escape(str)
+      Shellwords.escape(str.to_s)
     end
 
     def escaped_filenames
