@@ -52,7 +52,14 @@ class TestWriter < Test::Unit::TestCase
       assert_equal command, @writer.command
     end
 
-    test 'tags with array--like values' do
+    test 'tags with rational value' do
+      @writer.filenames = %w(a.jpg b.tif c.bmp)
+      @writer.values ={shutterspeed: Rational(1, 125)}
+      command = 'exiftool -shutterspeed=1/125 a.jpg b.tif c.bmp'
+      assert_equal command, @writer.command
+    end
+
+    test 'tags with array-like values' do
       @writer.filenames = %w(a.jpg b.tif c.bmp)
       @writer.values = {keywords: ['one', 'two', 'and three']}
       command = 'exiftool -keywords=one -keywords=two -keywords=and\ three a.jpg b.tif c.bmp'
