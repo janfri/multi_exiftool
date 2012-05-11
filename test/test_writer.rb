@@ -52,6 +52,13 @@ class TestWriter < Test::Unit::TestCase
       assert_equal command, @writer.command
     end
 
+    test 'tags with array--like values' do
+      @writer.filenames = %w(a.jpg b.tif c.bmp)
+      @writer.values = {keywords: ['one', 'two', 'and three']}
+      command = 'exiftool -keywords=one -keywords=two -keywords=and\ three a.jpg b.tif c.bmp'
+      assert_equal command, @writer.command
+    end
+
     test 'filenames with spaces' do
       @writer.filenames = ['one file with spaces.jpg', 'another file with spaces.tif']
       @writer.values = {:author => 'janfri'}

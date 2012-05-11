@@ -50,6 +50,8 @@ module MultiExiftool
       hash.each do |tag, val|
         if val.respond_to? :to_hash
           res << values_to_array(val.to_hash).map {|arg| "#{tag}:#{arg}"}
+        elsif val.respond_to? :to_ary
+          res << val.map {|v| "#{tag}=#{escape(v.to_s)}"}
         else
           res << "#{tag}=#{escape(val.to_s)}"
         end
