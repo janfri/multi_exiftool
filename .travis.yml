@@ -1,6 +1,6 @@
 language: ruby
 before_install:
-  - gem install contest
+  - gem install contest rim
 rvm:
   - 1.9.2
   - 1.9.3
