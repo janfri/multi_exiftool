@@ -87,6 +87,28 @@ class TestReader < Test::Unit::TestCase
       assert_equal ['File non_existing_file not found.'], @reader.errors
     end
 
+    test 'read from an existing and a non-existing file' do
+      json = <<-EOS
+        [{
+          "SourceFile": "a.jpg",
+          "FNumber": 9.5
+        }]
+      EOS
+      json.gsub!(/^ {8}/, '')
+      stderr = <<-EOS
+        File not found: xxx
+            1 image files read
+            1 files could not be read
+      EOS
+      stderr.gsub!(/^ {8}/, '')
+      mocking_open3 'exiftool -J -fnumber -foo a.jpg xxx', json, stderr
+      @reader.filenames = %w(a.jpg xxx)
+      @reader.tags = %w(fnumber foo)
+      res = @reader.read
+      assert_equal [9.5], res.map {|e| e['FNumber']}
+      assert_equal ['File not found: xxx'], @reader.errors
+    end
+
     test 'successful reading with one tag' do
       json = <<-EOS
         [{
