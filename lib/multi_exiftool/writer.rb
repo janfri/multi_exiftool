@@ -60,7 +60,7 @@ module MultiExiftool
     end
 
     def parse_results
-      @errors = @stderr.readlines
+      @errors = @stderr.read.split(/\n/)
       @errors.empty?
     end
 

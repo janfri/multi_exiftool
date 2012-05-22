@@ -108,13 +108,24 @@ class TestWriter < Test::Unit::TestCase
 
   context 'write method' do
 
-    test 'succsessfull write' do
+    test 'successful write' do
       mocking_open3('exiftool -author=janfri a.jpg b.tif c.bmp', '', '')
       @writer.filenames = %w(a.jpg b.tif c.bmp)
       @writer.values = {:author => 'janfri'}
       rc = @writer.write
       assert_equal [], @writer.errors
       assert_equal true, rc
+    end
+
+    test 'unsuccessful write' do
+      stdout = "    1 image files updated\n    1 files weren't updated due to errors"
+      stderr = "Warning: Tag 'foo' does not exist\nError: File not found - xxx"
+      mocking_open3('exiftool -author=janfri -foo=x a.jpg xxx', stdout, stderr)
+      @writer.filenames = %w(a.jpg xxx)
+      @writer.values = {author: 'janfri', foo: 'x'}
+      rc = @writer.write
+      assert_equal stderr, @writer.errors.join("\n")
+      assert_equal false, rc
     end
 
   end
