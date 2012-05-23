@@ -52,7 +52,7 @@ module MultiExiftool
 
     def parse_results
       stdout = @stdout.read
-      error_string = @stderr.read.gsub(/^ {4}.*$/, '')
+      error_string = @stderr.read.gsub(/^ .*$/, '')
       @errors = error_string.split(/\n/)
       json = JSON.parse(stdout)
       json.map {|values| Values.new(values)}
