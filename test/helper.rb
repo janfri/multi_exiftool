@@ -4,8 +4,16 @@ require 'test/unit'
 require 'contest'
 require 'open3'
 require 'stringio'
+require 'yaml'
 
 module TestHelper
+
+  @@fixtures = YAML.load_file('test/fixtures.yml')
+
+  def use_fixture(name)
+    @fixture = @@fixtures[name]
+    mocking_open3(name, @fixture['stdout'], @fixture['stderr'])
+  end
 
   def mocking_open3(command, outstr, errstr)
     open3_eigenclass = class << Open3; self; end

@@ -1,0 +1,72 @@
+# reading
+"exiftool -J non_existing_file":
+  stdout: ""
+  stderr: "File non_existing_file not found."
+"exiftool -J -fnumber -foo a.jpg xxx":
+  stdout: |
+    [{
+      "SourceFile": "a.jpg",
+      "FNumber": 9.5
+    }]
+  stderr: |
+    File not found: xxx
+        1 image files read
+        1 files could not be read
+"exiftool -J a.jpg b.tif c.bmp":
+  stdout: |
+    [{
+      "SourceFile": "a.jpg",
+      "FNumber": 11.0,
+      "ISO": 400
+    },
+    {
+      "SourceFile": "b.tif",
+      "FNumber": 9.0,
+      "ISO": 200
+    },
+    {
+      "SourceFile": "c.bmp",
+      "FNumber": 8.0,
+      "ISO": 100
+    }]
+  stderr: ""
+"exiftool -J -fnumber a.jpg b.tif c.bmp":
+  stdout: |
+    [{
+      "SourceFile": "a.jpg",
+      "FNumber": 11.0
+    },
+    {
+      "SourceFile": "b.tif",
+      "FNumber": 9.0
+    },
+    {
+      "SourceFile": "c.bmp",
+      "FNumber": 8.0
+    }]
+  stderr: ""
+"exiftool -J -g0 -fnumber a.jpg":
+  stdout: |
+    [{
+      "SourceFile": "a.jpg",
+      "EXIF": {
+        "FNumber": 7.1
+      },
+      "MakerNotes": {
+        "FNumber": 7.0
+      }
+    }]
+  stderr: ""
+
+# writing
+"exiftool -author=janfri a.jpg b.tif c.bmp":
+  stdout: |2
+        1 image files updated
+  stderr: ""
+"exiftool -author=janfri -foo=x a.jpg xxx":
+  stdout: |2
+        1 image files updated
+        1 files weren't updated due to errors
+  stderr: |
+    Warning: Tag 'foo' does not exist
+    Error: File not found - xxx

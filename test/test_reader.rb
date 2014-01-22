@@ -80,7 +80,7 @@ class TestReader < Test::Unit::TestCase
   context 'read method' do
 
     test 'try to read a non-existing file' do
-      mocking_open3('exiftool -J non_existing_file', '', 'File non_existing_file not found.')
+      use_fixture('exiftool -J non_existing_file')
       @reader.filenames = %w(non_existing_file)
       res = @reader.read
       assert_equal [], res
@@ -88,20 +88,7 @@ class TestReader < Test::Unit::TestCase
     end
 
     test 'read from an existing and a non-existing file' do
-      json = <<-EOS
-        [{
-          "SourceFile": "a.jpg",
-          "FNumber": 9.5
-        }]
-      EOS
-      json.gsub!(/^ {8}/, '')
-      stderr = <<-EOS
-        File not found: xxx
-            1 image files read
-            1 files could not be read
-      EOS
-      stderr.gsub!(/^ {8}/, '')
-      mocking_open3 'exiftool -J -fnumber -foo a.jpg xxx', json, stderr
+      use_fixture('exiftool -J -fnumber -foo a.jpg xxx')
       @reader.filenames = %w(a.jpg xxx)
       @reader.tags = %w(fnumber foo)
       res = @reader.read
@@ -110,22 +97,7 @@ class TestReader < Test::Unit::TestCase
     end
 
     test 'successful reading with one tag' do
-      json = <<-EOS
-        [{
-          "SourceFile": "a.jpg",
-          "FNumber": 11.0
-        },
-        {
-          "SourceFile": "b.tif",
-          "FNumber": 9.0
-        },
-        {
-          "SourceFile": "c.bmp",
-          "FNumber": 8.0
-        }]
-      EOS
-      json.gsub!(/^ {8}/, '')
-      mocking_open3('exiftool -J -fnumber a.jpg b.tif c.bmp', json, '')
+      use_fixture('exiftool -J -fnumber a.jpg b.tif c.bmp')
       @reader.filenames = %w(a.jpg b.tif c.bmp)
       @reader.tags = %w(fnumber)
       res =  @reader.read
@@ -135,19 +107,7 @@ class TestReader < Test::Unit::TestCase
     end
 
     test 'successful reading of hierarichal data' do
-      json = <<-EOS
-        [{
-          "SourceFile": "a.jpg",
-          "EXIF": {
-            "FNumber": 7.1
-          },
-          "MakerNotes": {
-            "FNumber": 7.0
-          }
-        }]
-      EOS
-      json.gsub!(/^ {8}/, '')
-      mocking_open3('exiftool -J -g0 -fnumber a.jpg', json, '')
+      use_fixture('exiftool -J -g0 -fnumber a.jpg')
       @reader.filenames = %w(a.jpg)
       @reader.tags = %w(fnumber)
       @reader.group = 0
