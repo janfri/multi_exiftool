@@ -41,6 +41,65 @@ class TestFunctionalApi < Test::Unit::TestCase
       mocking_open3 'exiftool -J -e a.jpg b.tif c.bmp', '', ''
       MultiExiftool.read(%w[a.jpg b.tif c.bmp], e: true)
     end
+
+  end
+
+  context 'writing' do
+
+    setup do
+      @filenames = %w(a.jpg b.tif c.bmp)
+    end
+
+    test 'simple case' do
+      mocking_open3 'exiftool -author=janfri a.jpg b.tif c.bmp', '', ''
+      values = {:author => 'janfri'}
+      MultiExiftool.write @filenames, values
+    end
+
+    test 'tags with spaces in values' do
+      mocking_open3 'exiftool -author=janfri -comment=some\ comment a.jpg b.tif c.bmp', '', ''
+      values = {:author => 'janfri', :comment => 'some comment'}
+      MultiExiftool.write @filenames, values
+    end
+
+    test 'tags with rational value' do
+      mocking_open3 'exiftool -shutterspeed=1/125 a.jpg b.tif c.bmp', '', ''
+      values ={shutterspeed: Rational(1, 125)}
+      MultiExiftool.write @filenames, values
+    end
+
+    test 'tags with array-like values' do
+      mocking_open3 'exiftool -keywords=one -keywords=two -keywords=and\ three a.jpg b.tif c.bmp', '', ''
+      values = {keywords: ['one', 'two', 'and three']}
+      MultiExiftool.write @filenames, values
+    end
+
+    test 'options with boolean argument' do
+      mocking_open3 'exiftool -overwrite_original -author=janfri a.jpg b.tif c.bmp', '', ''
+      values = {:author => 'janfri'}
+      options = {:overwrite_original => true}
+      MultiExiftool.write @filenames, values, options
+    end
+
+    test 'options with value argument' do
+      mocking_open3 'exiftool -out output_file -author=janfri a.jpg b.tif c.bmp', '', ''
+      values = {:author => 'janfri'}
+      options = {:out => 'output_file'}
+      MultiExiftool.write @filenames, values, options
+    end
+
+    test 'numerical flag' do
+      mocking_open3 'exiftool -n -author=janfri a.jpg b.tif c.bmp', '', ''
+      values = {:author => 'janfri'}
+      MultiExiftool.write @filenames, values, numerical: true
+    end
+
+    test 'overwrite_original flag' do
+      mocking_open3 'exiftool -overwrite_original -author=janfri a.jpg b.tif c.bmp', '', ''
+      values = {author: 'janfri'}
+      MultiExiftool.write @filenames, values, overwrite_original: true
+    end
+
   end
 
 end

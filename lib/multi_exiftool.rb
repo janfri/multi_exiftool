@@ -18,6 +18,18 @@ module MultiExiftool
     [values, reader.errors]
   end
 
+  def self.write(filenames, values, opts={})
+    writer = Writer.new
+    writer.filenames = filenames
+    writer.values = values
+    if opts.delete(:numerical)
+      writer.numerical = true
+    end
+    writer.options = opts unless opts.empty?
+    writer.write
+    writer.errors
+  end
+
   class Error < ::StandardError; end
 
 end
