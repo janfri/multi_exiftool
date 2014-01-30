@@ -1,3 +1,9 @@
+0.3.0
+New functional api.
+Update documentation.
+Adding tests and new example for functional api.
+Switching to rim.
+
 0.2.0
 Support writing to specific group with hash hierarchy.
 Support array-like values for tags like keywords.
