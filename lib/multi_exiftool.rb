@@ -8,10 +8,8 @@ module MultiExiftool
   def self.read(filenames, opts={})
     reader = Reader.new
     reader.filenames = filenames
-    [:group, :numerical, :tags].each do |p|
-      if val = opts.delete(p)
-        reader.send(p.to_s + '=', val)
-      end
+    if val = opts.delete(:tags)
+      reader.tags = val
     end
     reader.options = opts unless opts.empty?
     values = reader.read
@@ -22,9 +20,6 @@ module MultiExiftool
     writer = Writer.new
     writer.filenames = filenames
     writer.values = values
-    if opts.delete(:numerical)
-      writer.numerical = true
-    end
     writer.options = opts unless opts.empty?
     writer.write
     writer.errors

@@ -68,10 +68,10 @@ class TestReader < Test::Unit::TestCase
     test 'group flag' do
       @reader.filenames = %w(a.jpg)
       @reader.group = 0
-      command = 'exiftool -J -g0 a.jpg'
+      command = 'exiftool -J -g 0 a.jpg'
       assert_equal command, @reader.command
       @reader.group = 1
-      command = 'exiftool -J -g1 a.jpg'
+      command = 'exiftool -J -g 1 a.jpg'
       assert_equal command, @reader.command
     end
 
@@ -107,7 +107,7 @@ class TestReader < Test::Unit::TestCase
     end
 
     test 'successful reading of hierarichal data' do
-      use_fixture('exiftool -J -g0 -fnumber a.jpg')
+      use_fixture('exiftool -J -g 0 -fnumber a.jpg')
       @reader.filenames = %w(a.jpg)
       @reader.tags = %w(fnumber)
       @reader.group = 0

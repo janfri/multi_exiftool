@@ -23,7 +23,7 @@ class TestFunctionalApi < Test::Unit::TestCase
     end
 
     test 'successful reading of hierarichal data' do
-      use_fixture 'exiftool -J -g0 -fnumber a.jpg'
+      use_fixture 'exiftool -J -g 0 -fnumber a.jpg'
       values, errors = MultiExiftool.read(%w(a.jpg), tags: %w[fnumber], group: 0)
       res = values.first
       assert_equal 'a.jpg', res.source_file

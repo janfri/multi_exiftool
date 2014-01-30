@@ -15,6 +15,7 @@ module MultiExiftool
       @exiftool_command = 'exiftool'
       @options = {}
       @filenames = []
+      @option_mapping = {numerical: :n}
     end
 
     def options
@@ -48,10 +49,11 @@ module MultiExiftool
       opts = options
       return [] if opts.empty?
       opts.map do |opt, val|
+        arg = @option_mapping[opt] || opt
         if val == true
-          "-#{opt}"
+          "-#{arg}"
         else
-          "-#{opt} #{val}"
+          "-#{arg} #{val}"
         end
       end
     end

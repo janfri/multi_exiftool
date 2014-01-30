@@ -45,7 +45,7 @@
       "FNumber": 8.0
     }]
   stderr: ""
-"exiftool -J -g0 -fnumber a.jpg":
+"exiftool -J -g 0 -fnumber a.jpg":
   stdout: |
     [{
       "SourceFile": "a.jpg",
