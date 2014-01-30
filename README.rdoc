@@ -14,9 +14,22 @@ the results.
 
   require 'multi_exiftool'
 
+  # Object oriented approach
   reader = MultiExiftool::Reader.new
   reader.filenames = Dir['*.jpg']
   results = reader.read
+  unless reader.errors.empty?
+    $stderr.puts reader.errors
+  end
+  results.each do |values|
+   puts "#{values.file_name}: #{values.comment}"
+  end
+
+  # Functional approach
+  results, errors = MultiExiftool.read(Dir['*.jpg'])
+  unless reader.errors.empty?
+    $stderr.puts reader.errors
+  end
   results.each do |values|
    puts "#{values.file_name}: #{values.comment}"
   end
@@ -25,13 +38,22 @@ the results.
 
   require 'multi_exiftool'
 
+  # Object oriented approach
   writer = MultiExiftool::Writer.new
   writer.filenames = Dir['*.jpg']
   writer.values = {creator: 'Jan Friedrich', copyright: 'Public Domain'}
   if writer.write
     puts 'ok'
   else
-    puts writer.errors.join
+    puts writer.errors
+  end
+
+  # Functional approach
+  errors = MultiExiftool.write(Dir['*.jpg'],  {creator: 'Jan Friedrich', copyright: 'Public Domain'})
+  if errors.empty?
+    puts 'ok'
+  else
+    puts writer.errors
   end
 
 === Further Examples
