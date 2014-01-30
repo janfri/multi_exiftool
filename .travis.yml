@@ -1,7 +1,11 @@
 language: ruby
 before_install:
-  - gem install contest rim
+  - gem install contest regtest rim
 rvm:
   - 1.9.2
   - 1.9.3
+  - 2.0.0
+  - 2.1.0
   - ruby-head
+  - rbx
+  - jruby-19mode
