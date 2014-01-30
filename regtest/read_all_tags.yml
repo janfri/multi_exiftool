@@ -1,0 +1,114 @@
+---
+sample: read all tags
+result:
+- - !ruby/object:MultiExiftool::Values
+    values:
+      sourcefile: regtest/test.jpg
+      exiftoolversion: 9.45
+      filename: test.jpg
+      directory: regtest
+      filesize: 43 kB
+      filemodifydate: 2014:01:30 22:20:14+01:00
+      fileaccessdate: 2014:01:30 22:48:12+01:00
+      fileinodechangedate: 2014:01:30 22:20:14+01:00
+      filepermissions: rw-r--r--
+      filetype: JPEG
+      mimetype: image/jpeg
+      jfifversion: 1.01
+      exifbyteorder: Big-endian (Motorola, MM)
+      imagedescription: KONICA MINOLTA DIGITAL CAMERA
+      make: KONICA MINOLTA
+      model: DYNAX 7D
+      orientation: Horizontal (normal)
+      xresolution: 72
+      yresolution: 72
+      resolutionunit: inches
+      software: DYNAX 7D v1.10
+      modifydate: 2005:09:13 20:08:50
+      ycbcrpositioning: Centered
+      exposuretime: 1/60
+      fnumber: 9.5
+      exposureprogram: Program AE
+      iso: 400
+      exifversion: '0221'
+      datetimeoriginal: 2005:09:13 20:08:50
+      createdate: 2005:09:13 20:08:50
+      componentsconfiguration: Y, Cb, Cr, -
+      brightnessvalue: 4.5
+      exposurecompensation: -1
+      maxaperturevalue: 4.5
+      meteringmode: Multi-segment
+      lightsource: Unknown
+      flash: Off, Did not fire
+      focallength: 75.0 mm
+      subjectarea: 1504 1000 256 304
+      makernoteversion: MLT0
+      minoltaimagesize: Large
+      whitebalance: Auto
+      focusmode: AF-A
+      afpoints: Center
+      flashmode: Normal
+      isosetting: 400
+      freememorycardimages: 202
+      hueadjustment: 0
+      rotation: Horizontal (normal)
+      imagenumber: 6
+      noisereduction: Unknown (2)
+      imagenumber2: 50
+      zonematchingon: 'Off'
+      compressedimagesize: 1598477
+      previewimagestart: 39146
+      previewimagelength: 0
+      scenemode: Standard
+      colormode: Natural sRGB
+      minoltaquality: Fine
+      flashexposurecomp: 0
+      teleconverter: None
+      imagestabilization: 'On'
+      zonematching: ISO Setting Used
+      colortemperature: 0
+      lenstype: Minolta AF 28-135mm F4-4.5 or Sigma Lens
+      usercomment: ''
+      flashpixversion: '0100'
+      colorspace: sRGB
+      exifimagewidth: 3008
+      exifimageheight: 2000
+      customrendered: Normal
+      exposuremode: Auto
+      digitalzoomratio: 0
+      focallengthin35mmformat: 112 mm
+      scenecapturetype: Standard
+      gaincontrol: Low gain up
+      contrast: Normal
+      saturation: Normal
+      sharpness: Normal
+      printimversion: '0300'
+      compression: JPEG (old-style)
+      thumbnailoffset: 39268
+      thumbnaillength: 1820
+      currentiptcdigest: e5ef1faceaa3d410961c63ab090136c7
+      applicationrecordversion: 4
+      supplementalcategories: Natur
+      keywords:
+      - Orange
+      - Rot
+      xmptoolkit: Image::ExifTool 9.45
+      title: Abenddämmerung
+      imagewidth: 1
+      imageheight: 1
+      encodingprocess: Baseline DCT, Huffman coding
+      bitspersample: 8
+      colorcomponents: 3
+      ycbcrsubsampling: YCbCr4:2:0 (2 2)
+      aperture: 9.5
+      imagesize: 1x1
+      lensid: Minolta AF 28-135mm F4-4.5
+      scalefactor35efl: 1.5
+      shutterspeed: 1/60
+      thumbnailimage: "(Binary data 1820 bytes)"
+      circleofconfusion: 0.020 mm
+      fov: 18.3 deg
+      focallength35efl: '75.0 mm (35 mm equivalent: 112.0 mm)'
+      hyperfocaldistance: 29.43 m
+      lightvalue: 10.4
+- []
