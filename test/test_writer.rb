@@ -109,21 +109,23 @@ class TestWriter < Test::Unit::TestCase
   context 'write method' do
 
     test 'successful write' do
-      use_fixture('exiftool -author=janfri a.jpg b.tif c.bmp')
-      @writer.filenames = %w(a.jpg b.tif c.bmp)
-      @writer.values = {:author => 'janfri'}
-      rc = @writer.write
-      assert_equal [], @writer.errors
-      assert_equal true, rc
+      use_fixture('exiftool -author=janfri a.jpg b.tif c.bmp') do
+        @writer.filenames = %w(a.jpg b.tif c.bmp)
+        @writer.values = {:author => 'janfri'}
+        rc = @writer.write
+        assert_equal [], @writer.errors
+        assert_equal true, rc
+      end
     end
 
     test 'unsuccessful write' do
-      use_fixture('exiftool -author=janfri -foo=x a.jpg xxx')
-      @writer.filenames = %w(a.jpg xxx)
-      @writer.values = {author: 'janfri', foo: 'x'}
-      rc = @writer.write
-      assert_equal @fixture['stderr'].chomp, @writer.errors.join("\n")
-      assert_equal false, rc
+      use_fixture('exiftool -author=janfri -foo=x a.jpg xxx') do
+        @writer.filenames = %w(a.jpg xxx)
+        @writer.values = {author: 'janfri', foo: 'x'}
+        rc = @writer.write
+        assert_equal @fixture['stderr'].chomp, @writer.errors.join("\n")
+        assert_equal false, rc
+      end
     end
 
   end

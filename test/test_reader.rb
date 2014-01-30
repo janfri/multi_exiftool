@@ -80,42 +80,46 @@ class TestReader < Test::Unit::TestCase
   context 'read method' do
 
     test 'try to read a non-existing file' do
-      use_fixture('exiftool -J non_existing_file')
-      @reader.filenames = %w(non_existing_file)
-      res = @reader.read
-      assert_equal [], res
-      assert_equal ['File non_existing_file not found.'], @reader.errors
+      use_fixture('exiftool -J non_existing_file') do
+        @reader.filenames = %w(non_existing_file)
+        res = @reader.read
+        assert_equal [], res
+        assert_equal ['File non_existing_file not found.'], @reader.errors
+      end
     end
 
     test 'read from an existing and a non-existing file' do
-      use_fixture('exiftool -J -fnumber -foo a.jpg xxx')
-      @reader.filenames = %w(a.jpg xxx)
-      @reader.tags = %w(fnumber foo)
-      res = @reader.read
-      assert_equal [9.5], res.map {|e| e['FNumber']}
-      assert_equal ['File not found: xxx'], @reader.errors
+      use_fixture('exiftool -J -fnumber -foo a.jpg xxx') do
+        @reader.filenames = %w(a.jpg xxx)
+        @reader.tags = %w(fnumber foo)
+        res = @reader.read
+        assert_equal [9.5], res.map {|e| e['FNumber']}
+        assert_equal ['File not found: xxx'], @reader.errors
+      end
     end
 
     test 'successful reading with one tag' do
-      use_fixture('exiftool -J -fnumber a.jpg b.tif c.bmp')
-      @reader.filenames = %w(a.jpg b.tif c.bmp)
-      @reader.tags = %w(fnumber)
-      res =  @reader.read
-      assert_kind_of Array, res
-      assert_equal [11.0, 9.0, 8.0], res.map {|e| e['FNumber']}
-      assert_equal [], @reader.errors
+      use_fixture('exiftool -J -fnumber a.jpg b.tif c.bmp') do
+        @reader.filenames = %w(a.jpg b.tif c.bmp)
+        @reader.tags = %w(fnumber)
+        res =  @reader.read
+        assert_kind_of Array, res
+        assert_equal [11.0, 9.0, 8.0], res.map {|e| e['FNumber']}
+        assert_equal [], @reader.errors
+      end
     end
 
     test 'successful reading of hierarichal data' do
-      use_fixture('exiftool -J -g 0 -fnumber a.jpg')
-      @reader.filenames = %w(a.jpg)
-      @reader.tags = %w(fnumber)
-      @reader.group = 0
-      res =  @reader.read.first
-      assert_equal 'a.jpg', res.source_file
-      assert_equal 7.1, res.exif.fnumber
-      assert_equal 7.0, res.maker_notes.fnumber
-      assert_equal [], @reader.errors
+      use_fixture('exiftool -J -g 0 -fnumber a.jpg') do
+        @reader.filenames = %w(a.jpg)
+        @reader.tags = %w(fnumber)
+        @reader.group = 0
+        res =  @reader.read.first
+        assert_equal 'a.jpg', res.source_file
+        assert_equal 7.1, res.exif.fnumber
+        assert_equal 7.0, res.maker_notes.fnumber
+        assert_equal [], @reader.errors
+      end
     end
 
   end
