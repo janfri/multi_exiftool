@@ -4,13 +4,9 @@ result:
 - - !ruby/object:MultiExiftool::Values
     values:
       sourcefile: regtest/test.jpg
-      exiftoolversion: 9.45
       filename: test.jpg
       directory: regtest
       filesize: 43 kB
-      filemodifydate: 2014:01:30 22:20:14+01:00
-      fileaccessdate: 2014:01:30 22:48:12+01:00
-      fileinodechangedate: 2014:01:30 22:20:14+01:00
       filepermissions: rw-r--r--
       filetype: JPEG
       mimetype: image/jpeg
