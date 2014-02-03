@@ -7,7 +7,6 @@ result:
       filename: test.jpg
       directory: regtest
       filesize: 43 kB
-      filepermissions: rw-r--r--
       filetype: JPEG
       mimetype: image/jpeg
       jfifversion: 1.01
