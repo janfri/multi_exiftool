@@ -76,7 +76,7 @@ install the gem with
 
 == Contribution
 
-The code is also hostet in a git repository on Gitorious at
+The code is also hosted in a git repository on Gitorious at
 http://gitorious.org/multi_exiftool
 or
 http://github.com/janfri/multi_exiftool-redesign
