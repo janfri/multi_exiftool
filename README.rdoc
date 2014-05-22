@@ -79,12 +79,12 @@ install the gem with
 The code is also hosted in a git repository on Gitorious at
 http://gitorious.org/multi_exiftool
 or
-http://github.com/janfri/multi_exiftool-redesign
+http://github.com/janfri/multi_exiftool
 feel free to contribute!
 
 == Author
 
-Jan Friedrich (janfri26 AT gmail DOT com)
+Jan Friedrich <janfri26gmail.com>
 
 == Copyright / License
 
