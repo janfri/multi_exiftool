@@ -1,6 +1,6 @@
 language: ruby
 before_install:
-  - gem install contest regtest rim
+  - gem install contest regtest rim test-unit
 rvm:
   - 1.9.2
   - 1.9.3
