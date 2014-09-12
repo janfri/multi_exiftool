@@ -1,5 +1,7 @@
 # coding: utf-8
 require 'date'
+require 'set'
+
 module MultiExiftool
 
   # Representing (tag, value) pairs of metadata.
@@ -7,9 +9,13 @@ module MultiExiftool
   # method_missing.
   class Values
 
+    attr_reader :tags
+
     def initialize values
       @values = {}
+      @tags = Set.new
       values.map do |tag,val|
+        @tags << tag
         val = val.kind_of?(Hash) ? Values.new(val) : val
         @values[Values.unify_tag(tag)] = val
       end

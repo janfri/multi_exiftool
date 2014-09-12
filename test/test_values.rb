@@ -79,4 +79,14 @@ class TestValues < Test::Unit::TestCase
 
   end
 
+  context 'tags' do
+
+    test 'tags preserves the original tag names' do
+      hash = {'FNumber' => 8, 'Author' => 'janfri', 'E-MailAddress' => 'janfri26@gmail.com'}
+      @values = MultiExiftool::Values.new(hash)
+      assert_equal hash.keys, @values.tags.to_a
+    end
+
+  end
+
 end
