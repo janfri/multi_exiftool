@@ -22,12 +22,12 @@ module TestHelper
     executed = {exec: false}
     open3_eigenclass = class << Open3; self; end
     open3_eigenclass.module_exec(command, outstr, errstr, executed) do |cmd, out, err, exec|
-      define_method :popen3 do |arg|
+      define_method :popen3 do |*arg|
         exec[:exec] = true
-        if arg == cmd
+        if arg.join(' ') == cmd
           return [nil, StringIO.new(out), StringIO.new(err)]
         else
-          raise ArgumentError.new("Expected call of Open3.popen3 with argument #{cmd.inspect} but was #{arg.inspect}.")
+          raise ArgumentError.new("Expected call of Open3.popen3 with argument #{cmd.inspect} but was #{arg.join(' ').inspect}.")
         end
       end
     end

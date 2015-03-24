@@ -23,14 +23,14 @@ class TestWriter < Test::Unit::TestCase
     test 'one filename as string' do
       @writer.values = {:author => 'janfri'}
       @writer.filenames = 'a.jpg'
-      command = 'exiftool -author=janfri a.jpg'
+      command = ['exiftool', '-author=janfri', 'a.jpg']
       assert_equal command, @writer.command
     end
 
     test 'filenames with spaces' do
       @writer.filenames = ['one file with spaces.jpg', 'another file with spaces.tif']
       @writer.values = {:author => 'janfri'}
-      command = 'exiftool -author=janfri one\ file\ with\ spaces.jpg another\ file\ with\ spaces.tif'
+      command = ['exiftool', '-author=janfri', 'one file with spaces.jpg', 'another file with spaces.tif']
       assert_equal command, @writer.command
     end
 
@@ -44,7 +44,7 @@ class TestWriter < Test::Unit::TestCase
 
     test 'simple case' do
       @writer.values = {:author => 'janfri'}
-      command = 'exiftool -author=janfri a.jpg b.tif c.bmp'
+      command = ['exiftool', '-author=janfri', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @writer.command
     end
 
@@ -60,47 +60,47 @@ class TestWriter < Test::Unit::TestCase
 
     test 'tags with spaces in values' do
       @writer.values = {:author => 'janfri', :comment => 'some comment'}
-      command = 'exiftool -author=janfri -comment=some\ comment a.jpg b.tif c.bmp'
+      command = ['exiftool', '-author=janfri', '-comment=some comment', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @writer.command
     end
 
     test 'tags with rational value' do
       @writer.values ={shutterspeed: Rational(1, 125)}
-      command = 'exiftool -shutterspeed=1/125 a.jpg b.tif c.bmp'
+      command = ['exiftool', '-shutterspeed=1/125', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @writer.command
     end
 
     test 'tags with array-like values' do
       @writer.values = {keywords: ['one', 'two', 'and three']}
-      command = 'exiftool -keywords=one -keywords=two -keywords=and\ three a.jpg b.tif c.bmp'
+      command = ['exiftool', '-keywords=one', '-keywords=two', '-keywords=and three', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @writer.command
     end
 
     test 'options with boolean argument' do
       @writer.values = {:author => 'janfri'}
       @writer.options = {:overwrite_original => true}
-      command = 'exiftool -overwrite_original -author=janfri a.jpg b.tif c.bmp'
+      command = ['exiftool', '-overwrite_original', '-author=janfri', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @writer.command
     end
 
     test 'options with value argument' do
       @writer.values = {:author => 'janfri'}
       @writer.options = {:out => 'output_file'}
-      command = 'exiftool -out output_file -author=janfri a.jpg b.tif c.bmp'
+      command = ['exiftool', '-out output_file', '-author=janfri', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @writer.command
     end
 
     test 'numerical flag' do
       @writer.values = {:author => 'janfri'}
       @writer.numerical = true
-      command = 'exiftool -n -author=janfri a.jpg b.tif c.bmp'
+      command = ['exiftool', '-n', '-author=janfri', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @writer.command
     end
 
     test 'overwrite_original flag' do
       @writer.values = {author: 'janfri'}
       @writer.overwrite_original = true
-      command = 'exiftool -overwrite_original -author=janfri a.jpg b.tif c.bmp'
+      command = ['exiftool', '-overwrite_original', '-author=janfri', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @writer.command
     end
 
