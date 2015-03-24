@@ -9,7 +9,7 @@ module MultiExiftool
   # the results as well as possible errors.
   class Reader
 
-    MANDATORY_ARGS = %w(-J)
+    MANDATORY_ARGS = %w(-J -charset FileName=utf8 -charset utf8)
 
     attr_accessor :tags, :group
 
@@ -34,12 +34,13 @@ module MultiExiftool
     # maybe even for creating a batch-file with exiftool command to be
     # processed.
     def command
-      cmd = [exiftool_command]
+      fail MultiExiftool::Error, 'No filenames.' if filenames.empty?
+      cmd = []
       cmd << MANDATORY_ARGS
       cmd << options_args
       cmd << tags_args
-      cmd << escaped_filenames
-      cmd.flatten.join(' ')
+      cmd << filenames
+      cmd.flatten
     end
 
     alias read execute # :nodoc:

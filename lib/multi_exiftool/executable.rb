@@ -1,6 +1,5 @@
 # coding: utf-8
 require 'open3'
-require 'shellwords'
 
 module MultiExiftool
 
@@ -36,15 +35,6 @@ module MultiExiftool
 
     private
 
-    def escape str
-      Shellwords.escape(str.to_s)
-    end
-
-    def escaped_filenames
-      raise MultiExiftool::Error.new('No filenames.') if filenames.empty?
-      filenames.map { |fn| Shellwords.escape(fn) }
-    end
-
     def options_args
       opts = options
       return [] if opts.empty?
@@ -63,7 +53,12 @@ module MultiExiftool
     end
 
     def execute_command
-      stdin, @stdout, @stderr = Open3.popen3(command)
+      stdin, @stdout, @stderr = Open3.popen3(exiftool_command, '-@', '-')
+      command.each do |part|
+        stdin << part
+        stdin << "\n"
+      end
+      stdin.close
     end
 
   end
