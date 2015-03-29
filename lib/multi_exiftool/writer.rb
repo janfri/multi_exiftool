@@ -29,11 +29,12 @@ module MultiExiftool
     # maybe even for creating a batch-file with exiftool command to be
     # processed.
     def command
+      fail MultiExiftool::Error, 'No filenames.' if filenames.empty?
       cmd = [exiftool_command]
       cmd << options_args
       cmd << values_args
-      cmd << escaped_filenames
-      cmd.flatten.join(' ')
+      cmd << filenames
+      cmd.flatten
     end
 
     alias write execute # :nodoc:
@@ -51,9 +52,9 @@ module MultiExiftool
         if val.respond_to? :to_hash
           res << values_to_param_array(val.to_hash).map {|arg| "#{tag}:#{arg}"}
         elsif val.respond_to? :to_ary
-          res << val.map {|v| "#{tag}=#{escape(v)}"}
+          res << val.map {|v| "#{tag}=#{v}"}
         else
-          res << "#{tag}=#{escape(val)}"
+          res << "#{tag}=#{val}"
         end
       end
       res.flatten

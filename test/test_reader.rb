@@ -11,7 +11,7 @@ class TestReader < Test::Unit::TestCase
 
     test 'simple case' do
       @reader.filenames = %w(a.jpg b.tif c.bmp)
-      command = 'exiftool -J a.jpg b.tif c.bmp'
+      command = ['exiftool', '-J', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @reader.command
     end
 
@@ -27,51 +27,51 @@ class TestReader < Test::Unit::TestCase
 
     test 'one filename as string' do
       @reader.filenames = 'a.jpg'
-      command = 'exiftool -J a.jpg'
+      command = ['exiftool', '-J', 'a.jpg']
       assert_equal command, @reader.command
     end
 
     test 'filenames with spaces' do
       @reader.filenames = ['one file with spaces.jpg', 'another file with spaces.tif']
-      command = 'exiftool -J one\ file\ with\ spaces.jpg another\ file\ with\ spaces.tif'
+      command = ['exiftool', '-J', 'one file with spaces.jpg', 'another file with spaces.tif']
       assert_equal command, @reader.command
     end
 
     test 'tags' do
       @reader.filenames = %w(a.jpg b.tif c.bmp)
       @reader.tags = %w(author fnumber)
-      command = 'exiftool -J -author -fnumber a.jpg b.tif c.bmp'
+      command = ['exiftool', '-J', '-author', '-fnumber', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @reader.command
     end
 
     test 'options with boolean argument' do
       @reader.filenames = %w(a.jpg b.tif c.bmp)
       @reader.options = {:e => true}
-      command = 'exiftool -J -e a.jpg b.tif c.bmp'
+      command = ['exiftool', '-J', '-e', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @reader.command
     end
 
     test 'options with value argument' do
       @reader.filenames = %w(a.jpg b.tif c.bmp)
       @reader.options = {:lang => 'de'}
-      command = 'exiftool -J -lang de a.jpg b.tif c.bmp'
+      command = ['exiftool', '-J', '-lang de', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @reader.command
     end
 
     test 'numerical flag' do
       @reader.filenames = %w(a.jpg b.tif c.bmp)
       @reader.numerical = true
-      command = 'exiftool -J -n a.jpg b.tif c.bmp'
+      command = ['exiftool', '-J', '-n', 'a.jpg', 'b.tif', 'c.bmp']
       assert_equal command, @reader.command
     end
 
     test 'group flag' do
       @reader.filenames = %w(a.jpg)
       @reader.group = 0
-      command = 'exiftool -J -g 0 a.jpg'
+      command = ['exiftool', '-J', '-g 0', 'a.jpg']
       assert_equal command, @reader.command
       @reader.group = 1
-      command = 'exiftool -J -g 1 a.jpg'
+      command = ['exiftool', '-J', '-g 1', 'a.jpg']
       assert_equal command, @reader.command
     end
 

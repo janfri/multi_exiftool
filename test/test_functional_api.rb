@@ -63,7 +63,7 @@ class TestFunctionalApi < Test::Unit::TestCase
     end
 
     test 'tags with spaces in values' do
-      mocking_open3 'exiftool -author=janfri -comment=some\ comment a.jpg b.tif c.bmp', '', '' do
+      mocking_open3 'exiftool -author=janfri -comment=some comment a.jpg b.tif c.bmp', '', '' do
         values = {:author => 'janfri', :comment => 'some comment'}
         MultiExiftool.write @filenames, values
       end
@@ -77,7 +77,7 @@ class TestFunctionalApi < Test::Unit::TestCase
     end
 
     test 'tags with array-like values' do
-      mocking_open3 'exiftool -keywords=one -keywords=two -keywords=and\ three a.jpg b.tif c.bmp', '', '' do
+      mocking_open3 'exiftool -keywords=one -keywords=two -keywords=and three a.jpg b.tif c.bmp', '', '' do
         values = {keywords: ['one', 'two', 'and three']}
         MultiExiftool.write @filenames, values
       end

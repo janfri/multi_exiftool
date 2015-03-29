@@ -11,7 +11,7 @@ class TestWriterGroups < Test::Unit::TestCase
 
   test 'simple case' do
     @writer.values = {:exif => {:comment => 'test'}  }
-    command = 'exiftool -exif:comment=test a.jpg b.bmp c.tif'
+    command = ['exiftool', '-exif:comment=test', 'a.jpg', 'b.bmp', 'c.tif']
     assert_equal command, @writer.command
   end
 
@@ -24,7 +24,7 @@ class TestWriterGroups < Test::Unit::TestCase
         author: janfri
         subjectlocation: somewhere else
     END
-    command = 'exiftool -exif:author=janfri -exif:comment=some\ comment -xmp:author=janfri -xmp:subjectlocation=somewhere\ else a.jpg b.bmp c.tif'
+    command = ['exiftool', '-exif:author=janfri', '-exif:comment=some comment', '-xmp:author=janfri', '-xmp:subjectlocation=somewhere else', 'a.jpg', 'b.bmp', 'c.tif']
     assert_equal command, @writer.command
   end
 
@@ -36,7 +36,7 @@ class TestWriterGroups < Test::Unit::TestCase
           - two
           - and three
     END
-    command = 'exiftool -exif:keywords=one -exif:keywords=two -exif:keywords=and\ three a.jpg b.bmp c.tif'
+    command = ['exiftool', '-exif:keywords=one', '-exif:keywords=two', '-exif:keywords=and three', 'a.jpg', 'b.bmp', 'c.tif']
     assert_equal command, @writer.command
   end
 
