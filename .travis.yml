@@ -1,4 +1,6 @@
 language: ruby
+before_script:
+  - sudo apt-get install libimage-exiftool-perl
 before_install:
   - gem install contest regtest rim test-unit
 rvm:
