@@ -36,7 +36,7 @@ class TestFunctionalApi < Test::Unit::TestCase
 
     test 'successful reading of hierarichal data' do
       run_in_temp_dir do
-        values, errors = MultiExiftool.read(%w(a.jpg), tags: %w[fnumber], group: 0)
+        values, errors = MultiExiftool.read(%w(a.jpg), group: 0)
         res = values.first
         assert_equal 'a.jpg', res.source_file
         assert_equal 5.6, res.exif.fnumber
@@ -73,8 +73,8 @@ class TestFunctionalApi < Test::Unit::TestCase
     test 'simple case' do
       run_in_temp_dir do
         values = {comment: 'foo'}
-        rc = MultiExiftool.write(@filenames, values)
-        assert rc
+        errors = MultiExiftool.write(@filenames, values)
+        assert errors.empty?
         values, _errors = MultiExiftool.read(@filenames)
         assert_equal %w(foo) * 3, values.map {|e| e.comment}
       end
@@ -83,8 +83,8 @@ class TestFunctionalApi < Test::Unit::TestCase
     test 'tags with spaces in values' do
       run_in_temp_dir do
         values = {author: 'Mister X'}
-        rc = MultiExiftool.write(@filenames, values)
-        assert rc
+        errors = MultiExiftool.write(@filenames, values)
+        assert errors.empty?
         values, _errors = MultiExiftool.read(@filenames)
         assert_equal ['Mister X'] * 3, values.map {|e| e.author}
       end
@@ -93,8 +93,8 @@ class TestFunctionalApi < Test::Unit::TestCase
     test 'tags with rational value' do
       run_in_temp_dir do
         values ={exposuretime: Rational(1, 125)}
-        rc = MultiExiftool.write(@filenames, values)
-        assert rc
+        errors = MultiExiftool.write(@filenames, values)
+        assert errors.empty?
         values, _errors = MultiExiftool.read(@filenames)
         assert_equal [Rational(1, 125)] * 3, values.map {|e| e.exposuretime}
       end
@@ -104,8 +104,8 @@ class TestFunctionalApi < Test::Unit::TestCase
       run_in_temp_dir do
         keywords = ['one', 'two', 'and three']
         values = {keywords: keywords}
-        rc = MultiExiftool.write('a.jpg', values)
-        assert rc
+        errors = MultiExiftool.write('a.jpg', values)
+        assert errors.empty?
         values, _errors = MultiExiftool.read('a.jpg')
         assert_equal keywords, values.first.keywords
       end
@@ -115,8 +115,8 @@ class TestFunctionalApi < Test::Unit::TestCase
       run_in_temp_dir do
         values = {comment: 'foo'}
         options = {overwrite_original: true}
-        rc = MultiExiftool.write(@filenames, values, options)
-        assert rc
+        errors = MultiExiftool.write(@filenames, values, options)
+        assert errors.empty?
         assert_equal [], Dir['*_original']
       end
     end
@@ -128,10 +128,10 @@ class TestFunctionalApi < Test::Unit::TestCase
     test 'numerical flag' do
       run_in_temp_dir do
         values = {orientation: 2}
-        rc = MultiExiftool.write(@filenames, values)
-        assert !rc
-        rc = MultiExiftool.write(@filenames, values, numerical: true)
-        assert rc
+        errors = MultiExiftool.write(@filenames, values)
+        assert_equal ["Warning: Can't convert IFD0:Orientation (matches more than one PrintConv)", "Nothing to do."], errors
+        errors = MultiExiftool.write(@filenames, values, numerical: true)
+        assert errors.empty?
       end
     end
 

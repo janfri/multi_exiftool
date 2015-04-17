@@ -22,6 +22,9 @@ module MultiExiftool
     if val = opts.delete(:tags)
       reader.tags = val
     end
+    if val = opts.delete(:group)
+      reader.group = val
+    end
     reader.options = opts unless opts.empty?
     values = reader.read
     [values, reader.errors]

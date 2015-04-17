@@ -17,14 +17,13 @@ module MultiExiftool
 
     def initialize
       super
-      @option_mapping.merge! group: :g
     end
 
     # Options to use with the exiftool command.
     def options
       opts = super
       if @group
-        opts[:g] = @group
+        opts["g#@group"] = true
       end
       opts
     end
