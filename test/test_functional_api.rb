@@ -122,7 +122,7 @@ class TestFunctionalApi < Test::Unit::TestCase
     end
 
     test 'option with value argument' do
-      pend 'find a good example'
+      pend 'find a good example' if respond_to? :pend
     end
 
     test 'numerical flag' do
