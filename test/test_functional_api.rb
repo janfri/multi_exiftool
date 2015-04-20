@@ -3,47 +3,62 @@ require_relative 'helper'
 
 class TestFunctionalApi < Test::Unit::TestCase
 
+  setup do
+    prepare_temp_dir
+  end
+
   context 'reading' do
 
+    setup do
+      @abc_authors = ['Jan Friedrich'] * 3
+      @abc_fnumbers = [5.6, 6.7, 8]
+      @abc_titles = 'Title A,Title B,Title C'.split(/,/)
+    end
+
     test 'successful reading only filenames' do
-      use_fixture 'exiftool -J a.jpg b.tif c.bmp' do
-        values, errors = MultiExiftool.read(%w(a.jpg b.tif c.bmp))
-        assert_kind_of Array, values
-        assert_equal [11.0, 9.0, 8.0], values.map {|e| e['FNumber']}
-        assert_equal [400, 200, 100], values.map {|e| e['ISO']}
+      run_in_temp_dir do
+        values, errors = MultiExiftool.read(%w(a.jpg b.jpg c.jpg))
+        assert_equal @abc_authors, values.map {|e| e['Author']}
+        assert_equal @abc_fnumbers, values.map {|e| e['FNumber']}
+        assert_equal @abc_titles, values.map {|e| e['Title']}
         assert_equal [], errors
       end
     end
 
     test 'successful reading with one tag' do
-      use_fixture 'exiftool -J -fnumber a.jpg b.tif c.bmp' do
-        values, errors = MultiExiftool.read(%w(a.jpg b.tif c.bmp), tags: %w(fnumber))
-        assert_kind_of Array, values
-        assert_equal [11.0, 9.0, 8.0], values.map {|e| e['FNumber']}
+      run_in_temp_dir do
+        values, errors = MultiExiftool.read(%w(a.jpg b.jpg c.jpg), tags: %w(title))
+        assert_equal @abc_titles, values.map {|e| e['Title']}
+        assert_equal [nil] * 3, values.map {|e| e['Author']}
         assert_equal [], errors
       end
     end
 
     test 'successful reading of hierarichal data' do
-      use_fixture 'exiftool -J -g 0 -fnumber a.jpg' do
-        values, errors = MultiExiftool.read(%w(a.jpg), tags: %w[fnumber], group: 0)
+      run_in_temp_dir do
+        values, errors = MultiExiftool.read(%w(a.jpg), group: 0)
         res = values.first
         assert_equal 'a.jpg', res.source_file
-        assert_equal 7.1, res.exif.fnumber
-        assert_equal 7.0, res.maker_notes.fnumber
+        assert_equal 5.6, res.exif.fnumber
         assert_equal [], errors
       end
     end
 
-    test 'generate correct command for numerical option' do
-      mocking_open3 'exiftool -J -n -orientation a.jpg', '', '' do
-        MultiExiftool.read(%w[a.jpg], tags: %w[orientation], numerical: true)
+    test 'successful reading with numerical option' do
+      run_in_temp_dir do
+        values, errors = MultiExiftool.read(%w[a.jpg b.jpg c.jpg], tags: %w[orientation], numerical: true)
+        assert_equal [1, 2, 3], values.map {|e| e.orientation}
+        assert_equal [], errors
       end
     end
 
     test 'options with boolean argument' do
-      mocking_open3 'exiftool -J -e a.jpg b.tif c.bmp', '', '' do
-        MultiExiftool.read(%w[a.jpg b.tif c.bmp], e: true)
+      run_in_temp_dir do
+        values, errors = MultiExiftool.read('a.jpg')
+        assert_equal 5.6, values.first.aperture
+        values, errors = MultiExiftool.read('a.jpg', e: true)
+        assert_equal nil, values.first.aperture
+        assert_equal [], errors
       end
     end
 
@@ -52,64 +67,71 @@ class TestFunctionalApi < Test::Unit::TestCase
   context 'writing' do
 
     setup do
-      @filenames = %w(a.jpg b.tif c.bmp)
+      @filenames = %w(a.jpg b.jpg c.jpg)
     end
 
     test 'simple case' do
-      mocking_open3 'exiftool -author=janfri a.jpg b.tif c.bmp', '', '' do
-        values = {:author => 'janfri'}
-        MultiExiftool.write @filenames, values
+      run_in_temp_dir do
+        values = {comment: 'foo'}
+        errors = MultiExiftool.write(@filenames, values)
+        assert errors.empty?
+        values, _errors = MultiExiftool.read(@filenames)
+        assert_equal %w(foo) * 3, values.map {|e| e.comment}
       end
     end
 
     test 'tags with spaces in values' do
-      mocking_open3 'exiftool -author=janfri -comment=some comment a.jpg b.tif c.bmp', '', '' do
-        values = {:author => 'janfri', :comment => 'some comment'}
-        MultiExiftool.write @filenames, values
+      run_in_temp_dir do
+        values = {author: 'Mister X'}
+        errors = MultiExiftool.write(@filenames, values)
+        assert errors.empty?
+        values, _errors = MultiExiftool.read(@filenames)
+        assert_equal ['Mister X'] * 3, values.map {|e| e.author}
       end
     end
 
     test 'tags with rational value' do
-      mocking_open3 'exiftool -shutterspeed=1/125 a.jpg b.tif c.bmp', '', '' do
-        values ={shutterspeed: Rational(1, 125)}
-        MultiExiftool.write @filenames, values
+      run_in_temp_dir do
+        values ={exposuretime: Rational(1, 125)}
+        errors = MultiExiftool.write(@filenames, values)
+        assert errors.empty?
+        values, _errors = MultiExiftool.read(@filenames)
+        assert_equal [Rational(1, 125)] * 3, values.map {|e| e.exposuretime}
       end
     end
 
     test 'tags with array-like values' do
-      mocking_open3 'exiftool -keywords=one -keywords=two -keywords=and three a.jpg b.tif c.bmp', '', '' do
-        values = {keywords: ['one', 'two', 'and three']}
-        MultiExiftool.write @filenames, values
+      run_in_temp_dir do
+        keywords = ['one', 'two', 'and three']
+        values = {keywords: keywords}
+        errors = MultiExiftool.write('a.jpg', values)
+        assert errors.empty?
+        values, _errors = MultiExiftool.read('a.jpg')
+        assert_equal keywords, values.first.keywords
       end
     end
 
     test 'options with boolean argument' do
-      mocking_open3 'exiftool -overwrite_original -author=janfri a.jpg b.tif c.bmp', '', '' do
-        values = {:author => 'janfri'}
-        options = {:overwrite_original => true}
-        MultiExiftool.write @filenames, values, options
+      run_in_temp_dir do
+        values = {comment: 'foo'}
+        options = {overwrite_original: true}
+        errors = MultiExiftool.write(@filenames, values, options)
+        assert errors.empty?
+        assert_equal [], Dir['*_original']
       end
     end
 
-    test 'options with value argument' do
-      mocking_open3 'exiftool -out output_file -author=janfri a.jpg b.tif c.bmp', '', '' do
-        values = {:author => 'janfri'}
-        options = {:out => 'output_file'}
-        MultiExiftool.write @filenames, values, options
-      end
+    test 'option with value argument' do
+      pend 'find a good example' if respond_to? :pend
     end
 
     test 'numerical flag' do
-      mocking_open3 'exiftool -n -author=janfri a.jpg b.tif c.bmp', '', '' do
-        values = {:author => 'janfri'}
-        MultiExiftool.write @filenames, values, numerical: true
-      end
-    end
-
-    test 'overwrite_original flag' do
-      mocking_open3 'exiftool -overwrite_original -author=janfri a.jpg b.tif c.bmp', '', '' do
-        values = {author: 'janfri'}
-        MultiExiftool.write @filenames, values, overwrite_original: true
+      run_in_temp_dir do
+        values = {orientation: 2}
+        errors = MultiExiftool.write(@filenames, values)
+        assert_equal ["Warning: Can't convert IFD0:Orientation (matches more than one PrintConv)", "Nothing to do."], errors
+        errors = MultiExiftool.write(@filenames, values, numerical: true)
+        assert errors.empty?
       end
     end
 
