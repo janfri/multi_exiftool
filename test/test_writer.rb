@@ -3,105 +3,106 @@ require_relative 'helper'
 
 class TestWriter < Test::Unit::TestCase
 
+  MANDATORY_ARGS = MultiExiftool::Writer::MANDATORY_ARGS
+
   setup do
     @writer = MultiExiftool::Writer.new
   end
 
   context 'various filename combinations' do
 
-    test 'command method, no filenames set' do
-      @writer.values = {:author => 'janfri'}
+    test 'exiftool_args method, no filenames set' do
+      @writer.values = {comment: 'foo'}
       assert_raises MultiExiftool::Error do
-        @writer.command
+        @writer.exiftool_args
       end
       @writer.filenames = []
       assert_raises MultiExiftool::Error do
-        @writer.command
+        @writer.exiftool_args
       end
     end
 
     test 'one filename as string' do
-      @writer.values = {:author => 'janfri'}
+      @writer.values = {comment: 'foo'}
       @writer.filenames = 'a.jpg'
-      command = 'exiftool -author=janfri a.jpg'
-      assert_equal command, @writer.command
+      exiftool_args = MANDATORY_ARGS + %w(-comment=foo a.jpg)
+      assert_equal exiftool_args, @writer.exiftool_args
     end
 
     test 'filenames with spaces' do
       @writer.filenames = ['one file with spaces.jpg', 'another file with spaces.tif']
-      @writer.values = {:author => 'janfri'}
-      command = 'exiftool -author=janfri one\ file\ with\ spaces.jpg another\ file\ with\ spaces.tif'
-      assert_equal command, @writer.command
+      @writer.values = {comment: 'foo'}
+      exiftool_args = MANDATORY_ARGS + ['-comment=foo', 'one file with spaces.jpg',
+                                       'another file with spaces.tif']
+      assert_equal exiftool_args, @writer.exiftool_args
     end
 
   end
 
-  context 'command method, various tags' do
+  context 'exiftool_args method, various tags' do
 
     setup do
       @writer.filenames = %w(a.jpg b.jpg c.jpg)
     end
 
     test 'simple case' do
-      @writer.values = {:author => 'janfri'}
-      command = 'exiftool -author=janfri a.jpg b.jpg c.jpg'
-      assert_equal command, @writer.command
+      @writer.values = {comment: 'foo'}
+      exiftool_args = MANDATORY_ARGS + %w(-comment=foo a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @writer.exiftool_args
     end
 
     test 'no values set' do
       assert_raises MultiExiftool::Error do
-        @writer.command
+        @writer.exiftool_args
       end
       @writer.values = {}
       assert_raises MultiExiftool::Error do
-        @writer.command
+        @writer.exiftool_args
       end
     end
 
     test 'tags with spaces in values' do
-      @writer.values = {:author => 'janfri', :comment => 'some comment'}
-      command = 'exiftool -author=janfri -comment=some\ comment a.jpg b.jpg c.jpg'
-      assert_equal command, @writer.command
+      @writer.values = {title: 'title', :comment => 'some comment'}
+      exiftool_args = MANDATORY_ARGS + ['-title=title', '-comment=some comment', 'a.jpg', 'b.jpg', 'c.jpg']
+      assert_equal exiftool_args, @writer.exiftool_args
     end
 
     test 'tags with rational value' do
       @writer.values ={shutterspeed: Rational(1, 125)}
-      command = 'exiftool -shutterspeed=1/125 a.jpg b.jpg c.jpg'
-      assert_equal command, @writer.command
+      exiftool_args = MANDATORY_ARGS + %w(-shutterspeed=1/125 a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @writer.exiftool_args
     end
 
     test 'tags with array-like values' do
       @writer.values = {keywords: ['one', 'two', 'and three']}
-      command = 'exiftool -keywords=one -keywords=two -keywords=and\ three a.jpg b.jpg c.jpg'
-      assert_equal command, @writer.command
+      exiftool_args = MANDATORY_ARGS + ['-keywords=one', '-keywords=two', '-keywords=and three',
+                                        'a.jpg', 'b.jpg', 'c.jpg']
+      assert_equal exiftool_args, @writer.exiftool_args
     end
 
     test 'options with boolean argument' do
-      @writer.values = {:author => 'janfri'}
+      @writer.values = {comment: 'foo'}
       @writer.options = {:overwrite_original => true}
-      command = 'exiftool -overwrite_original -author=janfri a.jpg b.jpg c.jpg'
-      assert_equal command, @writer.command
+      exiftool_args = MANDATORY_ARGS + %w(-overwrite_original -comment=foo a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @writer.exiftool_args
     end
 
     test 'options with value argument' do
-      @writer.values = {:author => 'janfri'}
-      @writer.options = {:out => 'output_file'}
-      command = 'exiftool -out output_file -author=janfri a.jpg b.jpg c.jpg'
-      assert_equal command, @writer.command
+      pend 'find a good example' if respond_to? :pend
     end
 
     test 'numerical flag' do
-      @writer.values = {:author => 'janfri'}
+      @writer.values = {comment: 'foo'}
       @writer.numerical = true
-      command = 'exiftool -n -author=janfri a.jpg b.jpg c.jpg'
-      assert_equal command, @writer.command
+      exiftool_args = MANDATORY_ARGS + %w(-n -comment=foo a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @writer.exiftool_args
     end
 
     test 'overwrite_original flag' do
-      @writer.values = {author: 'janfri'}
+      @writer.values = {comment: 'foo'}
       @writer.overwrite_original = true
-      command = 'exiftool -overwrite_original -author=janfri a.jpg b.jpg c.jpg'
-      assert_equal command, @writer.command
+      exiftool_args = MANDATORY_ARGS + %w(-overwrite_original -comment=foo a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @writer.exiftool_args
     end
 
   end

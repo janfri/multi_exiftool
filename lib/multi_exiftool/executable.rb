@@ -43,7 +43,7 @@ module MultiExiftool
         if val == true
           "-#{arg}"
         else
-          "-#{arg} #{val}"
+          %W[-#{arg} #{val}]
         end
       end
     end
@@ -54,7 +54,7 @@ module MultiExiftool
 
     def execute_command
       stdin, @stdout, @stderr = Open3.popen3(exiftool_command, '-@', '-')
-      command.each do |part|
+      exiftool_args.each do |part|
         stdin << part
         stdin << "\n"
       end

@@ -4,28 +4,32 @@ require 'yaml'
 
 class TestWriterGroups < Test::Unit::TestCase
 
+  MANDATORY_ARGS = MultiExiftool::Writer::MANDATORY_ARGS
+
   setup do
     @writer = MultiExiftool::Writer.new
-    @writer.filenames = %w(a.jpg b.bmp c.tif)
+    @writer.filenames = %w(a.jpg b.jpg c.jpg)
   end
 
   test 'simple case' do
     @writer.values = {:exif => {:comment => 'test'}  }
-    command = 'exiftool -exif:comment=test a.jpg b.bmp c.tif'
-    assert_equal command, @writer.command
+    exiftool_args = MANDATORY_ARGS + %w(-exif:comment=test a.jpg b.jpg c.jpg)
+    assert_equal exiftool_args, @writer.exiftool_args
   end
 
   test 'more than one groups and tags' do
     @writer.values = YAML.load <<-END
       exif:
-        author: janfri
+        author: Mr. X
         comment: some comment
       xmp:
-        author: janfri
+        author: Mr. X
         subjectlocation: somewhere else
     END
-    command = 'exiftool -exif:author=janfri -exif:comment=some\ comment -xmp:author=janfri -xmp:subjectlocation=somewhere\ else a.jpg b.bmp c.tif'
-    assert_equal command, @writer.command
+    exiftool_args = MANDATORY_ARGS + ['-exif:author=Mr. X', '-exif:comment=some comment',
+                                      '-xmp:author=Mr. X', '-xmp:subjectlocation=somewhere else',
+                                      'a.jpg', 'b.jpg', 'c.jpg']
+    assert_equal exiftool_args, @writer.exiftool_args
   end
 
   test 'tags with array-like values' do
@@ -36,8 +40,9 @@ class TestWriterGroups < Test::Unit::TestCase
           - two
           - and three
     END
-    command = 'exiftool -exif:keywords=one -exif:keywords=two -exif:keywords=and\ three a.jpg b.bmp c.tif'
-    assert_equal command, @writer.command
+    exiftool_args = MANDATORY_ARGS + ['-exif:keywords=one', '-exif:keywords=two', '-exif:keywords=and three',
+                                      'a.jpg', 'b.jpg', 'c.jpg']
+    assert_equal exiftool_args, @writer.exiftool_args
   end
 
 end

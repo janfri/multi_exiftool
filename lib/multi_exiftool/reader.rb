@@ -28,11 +28,11 @@ module MultiExiftool
       opts
     end
 
-    # Getting the command for the command-line which would be executed
+    # Getting the command-line arguments which would be executed
     # when calling #read. It could be useful for logging, debugging or
     # maybe even for creating a batch-file with exiftool command to be
     # processed.
-    def command
+    def exiftool_args
       fail MultiExiftool::Error, 'No filenames.' if filenames.empty?
       cmd = []
       cmd << MANDATORY_ARGS

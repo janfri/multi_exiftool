@@ -3,76 +3,78 @@ require_relative 'helper'
 
 class TestReader < Test::Unit::TestCase
 
+  MANDATORY_ARGS = MultiExiftool::Reader::MANDATORY_ARGS
+
   setup do
     @reader = MultiExiftool::Reader.new
   end
 
-  context 'command method' do
+  context 'exiftool_args method' do
 
     test 'simple case' do
       @reader.filenames = %w(a.jpg b.jpg c.jpg)
-      command = 'exiftool -J a.jpg b.jpg c.jpg'
-      assert_equal command, @reader.command
+      exiftool_args = MANDATORY_ARGS + %w(a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @reader.exiftool_args
     end
 
     test 'no filenames' do
       assert_raises MultiExiftool::Error do
-        @reader.command
+        @reader.exiftool_args
       end
       @reader.filenames = []
       assert_raises MultiExiftool::Error do
-        @reader.command
+        @reader.exiftool_args
       end
     end
 
     test 'one filename as string' do
       @reader.filenames = 'a.jpg'
-      command = 'exiftool -J a.jpg'
-      assert_equal command, @reader.command
+      exiftool_args = MANDATORY_ARGS + %w(a.jpg)
+      assert_equal exiftool_args, @reader.exiftool_args
     end
 
     test 'filenames with spaces' do
       @reader.filenames = ['one file with spaces.jpg', 'another file with spaces.tif']
-      command = 'exiftool -J one\ file\ with\ spaces.jpg another\ file\ with\ spaces.tif'
-      assert_equal command, @reader.command
+      exiftool_args = MANDATORY_ARGS + ['one file with spaces.jpg', 'another file with spaces.tif']
+      assert_equal exiftool_args, @reader.exiftool_args
     end
 
     test 'tags' do
       @reader.filenames = %w(a.jpg b.jpg c.jpg)
       @reader.tags = %w(author fnumber)
-      command = 'exiftool -J -author -fnumber a.jpg b.jpg c.jpg'
-      assert_equal command, @reader.command
+      exiftool_args = MANDATORY_ARGS + %w(-author -fnumber a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @reader.exiftool_args
     end
 
     test 'options with boolean argument' do
       @reader.filenames = %w(a.jpg b.jpg c.jpg)
       @reader.options = {:e => true}
-      command = 'exiftool -J -e a.jpg b.jpg c.jpg'
-      assert_equal command, @reader.command
+      exiftool_args = MANDATORY_ARGS + %w(-e a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @reader.exiftool_args
     end
 
     test 'options with value argument' do
       @reader.filenames = %w(a.jpg b.jpg c.jpg)
       @reader.options = {:lang => 'de'}
-      command = 'exiftool -J -lang de a.jpg b.jpg c.jpg'
-      assert_equal command, @reader.command
+      exiftool_args = MANDATORY_ARGS + %w(-lang de a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @reader.exiftool_args
     end
 
     test 'numerical flag' do
       @reader.filenames = %w(a.jpg b.jpg c.jpg)
       @reader.numerical = true
-      command = 'exiftool -J -n a.jpg b.jpg c.jpg'
-      assert_equal command, @reader.command
+      exiftool_args = MANDATORY_ARGS + %w(-n a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @reader.exiftool_args
     end
 
     test 'group flag' do
       @reader.filenames = %w(a.jpg)
       @reader.group = 0
-      command = 'exiftool -J -g0 a.jpg'
-      assert_equal command, @reader.command
+      exiftool_args = MANDATORY_ARGS + %w(-g0 a.jpg)
+      assert_equal exiftool_args, @reader.exiftool_args
       @reader.group = 1
-      command = 'exiftool -J -g1 a.jpg'
-      assert_equal command, @reader.command
+      exiftool_args = MANDATORY_ARGS + %w(-g1 a.jpg)
+      assert_equal exiftool_args, @reader.exiftool_args
     end
 
   end
