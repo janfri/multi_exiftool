@@ -76,10 +76,10 @@ install the gem with
 
 == Contribution
 
-The code is also hosted in a git repository on Gitorious at
-http://gitorious.org/multi_exiftool
-or
+The code is also hosted in a git repository at
 http://github.com/janfri/multi_exiftool
+or
+https://bitbucket.org/janfri/multi_exiftool
 feel free to contribute!
 
 == Author
@@ -90,7 +90,7 @@ Jan Friedrich <janfri26gmail.com>
 
   The MIT License
 
-  Copyright (c) 2009-2014 Jan Friedrich
+  Copyright (c) 2009-2015 Jan Friedrich
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
