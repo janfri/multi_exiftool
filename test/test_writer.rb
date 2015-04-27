@@ -3,7 +3,7 @@ require_relative 'helper'
 
 class TestWriter < Test::Unit::TestCase
 
-  MANDATORY_ARGS = MultiExiftool::Writer::MANDATORY_ARGS
+  MANDATORY_ARGS = MultiExiftool::Writer.mandatory_args
 
   setup do
     @writer = MultiExiftool::Writer.new

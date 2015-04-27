@@ -3,7 +3,7 @@ require_relative 'helper'
 
 class TestReader < Test::Unit::TestCase
 
-  MANDATORY_ARGS = MultiExiftool::Reader::MANDATORY_ARGS
+  MANDATORY_ARGS = MultiExiftool::Reader.mandatory_args
 
   setup do
     @reader = MultiExiftool::Reader.new

@@ -8,8 +8,6 @@ module MultiExiftool
   # possible errors.
   class Writer
 
-    MANDATORY_ARGS = %w(-charset FileName=utf8 -charset utf8)
-
     attr_accessor :overwrite_original, :values
 
     include Executable
@@ -17,6 +15,14 @@ module MultiExiftool
     def initialize
       super
       @values = {}
+    end
+
+    def self.mandatory_args
+      if MultiExiftool.exiftool_version >= 9.79
+        %w(-charset FileName=utf8 -charset utf8)
+      else
+        %w(-charset utf8)
+      end
     end
 
     # Options to use with the exiftool command.
@@ -33,7 +39,7 @@ module MultiExiftool
     def exiftool_args
       fail MultiExiftool::Error, 'No filenames.' if filenames.empty?
       cmd = []
-      cmd << MANDATORY_ARGS
+      cmd << Writer.mandatory_args
       cmd << options_args
       cmd << values_args
       cmd << filenames

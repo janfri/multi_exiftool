@@ -7,11 +7,10 @@ module MultiExiftool
   module Executable
 
     attr_reader :filenames
-    attr_accessor :exiftool_command, :errors, :numerical
+    attr_accessor :errors, :numerical
     attr_writer :options
 
     def initialize
-      @exiftool_command = 'exiftool'
       @options = {}
       @filenames = []
       @option_mapping = {numerical: :n}
@@ -34,6 +33,10 @@ module MultiExiftool
     end
 
     private
+
+    def exiftool_command
+      MultiExiftool.exiftool_command
+    end
 
     def options_args
       opts = options

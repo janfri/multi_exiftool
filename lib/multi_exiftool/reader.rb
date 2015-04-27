@@ -9,14 +9,20 @@ module MultiExiftool
   # the results as well as possible errors.
   class Reader
 
-    MANDATORY_ARGS = %w(-J -charset FileName=utf8 -charset utf8)
-
     attr_accessor :tags, :group
 
     include Executable
 
     def initialize
       super
+    end
+
+    def self.mandatory_args
+      if MultiExiftool.exiftool_version >= 9.79
+        %w(-J -charset FileName=utf8 -charset utf8)
+      else
+        %w(-J -charset utf8)
+      end
     end
 
     # Options to use with the exiftool command.
@@ -35,7 +41,7 @@ module MultiExiftool
     def exiftool_args
       fail MultiExiftool::Error, 'No filenames.' if filenames.empty?
       cmd = []
-      cmd << MANDATORY_ARGS
+      cmd << Reader.mandatory_args
       cmd << options_args
       cmd << tags_args
       cmd << filenames

@@ -49,5 +49,25 @@ module MultiExiftool
 
   class Error < ::StandardError; end
 
+  @exiftool_command = 'exiftool'
+
+  class << self
+
+    attr_accessor :exiftool_command
+    attr_reader :exiftool_version
+
+    def exiftool_command= cmd
+      @exiftool_command = cmd
+      @exiftool_version = nil
+    end
+
+    # Exiftool version as float (since exiftool versions
+    # are numbered "float friendly")
+    def exiftool_version
+      @exiftool_version ||= `#{exiftool_command} -ver`.to_f
+    end
+
+  end
+
 end
 
