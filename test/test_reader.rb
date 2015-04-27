@@ -118,8 +118,19 @@ class TestReader < Test::Unit::TestCase
         @reader.filenames = %w(a.jpg b.jpg c.jpg)
         @reader.tags = %w(fnumber)
         res =  @reader.read
-        assert_kind_of Array, res
         assert_equal [5.6, 6.7, 8], res.map {|e| e['FNumber']}
+        assert_equal Set.new(%w(SourceFile FNumber)), res.first.tags
+        assert_equal [], @reader.errors
+      end
+    end
+
+    test 'successful reading with one tag as symbol' do
+      run_in_temp_dir do
+        @reader.filenames = %w(a.jpg b.jpg c.jpg)
+        @reader.tags = :fnumber
+        res =  @reader.read
+        assert_equal [5.6, 6.7, 8], res.map {|e| e.fnumber}
+        assert_equal Set.new(%w(SourceFile FNumber)), res.first.tags
         assert_equal [], @reader.errors
       end
     end
