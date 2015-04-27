@@ -6,9 +6,8 @@ module MultiExiftool
   # Mixin for Reader and Writer.
   module Executable
 
-    attr_reader :filenames
-    attr_accessor :errors, :numerical
-    attr_writer :options
+    attr_reader :errors
+    attr_accessor :filenames, :numerical, :options
 
     def initialize
       @options = {}
