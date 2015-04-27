@@ -67,7 +67,7 @@ See the examples in the examples directory.
 - An installation of the Exiftool command-line application (version 7.65 or
   higher). Instructions for installation you can find under
   http://www.sno.phy.queensu.ca/~phil/exiftool/install.html .
-- If you have problems with special characters (like german umlauts) in
+- If you have problems with special characters (like German umlauts) in
 filenames on windows system it is recommended to use exiftool version 9.79
 or higher.
 

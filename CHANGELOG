@@ -1,3 +1,13 @@
+0.4.0
+New method Values#tags to get access to unmodified tag names.
+Directly sending parameters to stdin of exiftool to make it
+work on windows with umlauts in filenames (Many thanks to
+Claudius Coenen for the research, implementing and testing the
+idea!).
+Complete rewrite of the test suite to use real tests.
+Allow to set tags as single value.
+A lot of internal refactoring.
+
 0.3.0
 New functional api.
 Update documentation.
