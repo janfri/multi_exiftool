@@ -15,6 +15,7 @@ module MultiExiftool
 
     def initialize
       super
+      @tags = []
     end
 
     def self.mandatory_args
@@ -49,6 +50,10 @@ module MultiExiftool
     end
 
     alias read execute # :nodoc:
+
+    def tags= value
+      @tags = Array(value)
+    end
 
     private
 

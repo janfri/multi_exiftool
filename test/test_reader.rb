@@ -9,6 +9,19 @@ class TestReader < Test::Unit::TestCase
     @reader = MultiExiftool::Reader.new
   end
 
+  context 'tags' do
+
+    test 'tags are initialized as array' do
+      assert_equal [], @reader.tags
+    end
+
+    test 'tags could be set as single value' do
+      @reader.tags = 'fnumber'
+      assert_equal ['fnumber'], @reader.tags
+    end
+
+  end
+
   context 'exiftool_args method' do
 
     test 'simple case' do
