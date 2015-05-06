@@ -40,7 +40,7 @@ module MultiExiftool
     # maybe even for creating a batch-file with exiftool command to be
     # processed.
     def exiftool_args
-      fail MultiExiftool::Error, 'No filenames.' if filenames.empty?
+      super
       cmd = []
       cmd << Reader.mandatory_args
       cmd << options_args

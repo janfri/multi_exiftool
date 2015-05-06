@@ -25,6 +25,10 @@ module MultiExiftool
       @filenames = Array(value)
     end
 
+    def exiftool_args
+      fail MultiExiftool::Error, 'No filenames.' if filenames.empty?
+    end
+
     def execute # :nodoc:
       prepare_execution
       execute_command
