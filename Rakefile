@@ -5,7 +5,7 @@ require 'regtest/task'
 
 Rim.setup do |p|
   p.name = 'multi_exiftool'
-  p.version = '0.4.0'
+  p.version = '0.4.1'
   p.authors = 'Jan Friedrich'
   p.email = 'janfri26@gmail.com'
   p.summary = 'This library is a wrapper for the Exiftool command-line application (http://www.sno.phy.queensu.ca/~phil/exiftool).'

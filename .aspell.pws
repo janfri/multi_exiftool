@@ -1,8 +1,7 @@
-personal_ws-1.1 en 21 
+personal_ws-1.1 en 22 
+NONINFRINGEMENT
 janfri
 multi
-MultiExiftool
-MERCHANTABILITY
 api
 sublicense
 exiftool
@@ -11,12 +10,14 @@ ok
 timestamps
 jpg
 refactoring
-NONINFRINGEMENT
 Gitorious
+gemspec
 Friedrich
+MultiExiftool
 filenames
 README
 stdin
+MERCHANTABILITY
 Coenen
 stderr
 gittycat
