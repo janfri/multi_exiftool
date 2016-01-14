@@ -4,10 +4,12 @@ result:
 - - !ruby/object:MultiExiftool::Values
     values:
       sourcefile: regtest/test.jpg
+      exiftoolversion: 10.09
       filename: test.jpg
       directory: regtest
       filesize: 43 kB
       filetype: JPEG
+      filetypeextension: jpg
       mimetype: image/jpeg
       jfifversion: 1.01
       exifbyteorder: Big-endian (Motorola, MM)
@@ -110,10 +112,12 @@ result:
     tags: !ruby/object:Set
       hash:
         SourceFile: true
+        ExifToolVersion: true
         FileName: true
         Directory: true
         FileSize: true
         FileType: true
+        FileTypeExtension: true
         MIMEType: true
         JFIFVersion: true
         ExifByteOrder: true
