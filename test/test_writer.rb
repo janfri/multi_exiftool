@@ -87,10 +87,6 @@ class TestWriter < Test::Unit::TestCase
       assert_equal exiftool_args, @writer.exiftool_args
     end
 
-    test 'options with value argument' do
-      pend 'find a good example' if respond_to? :pend
-    end
-
     test 'numerical flag' do
       @writer.values = {comment: 'foo'}
       @writer.numerical = true

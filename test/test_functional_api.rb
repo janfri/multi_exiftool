@@ -121,10 +121,6 @@ class TestFunctionalApi < Test::Unit::TestCase
       end
     end
 
-    test 'option with value argument' do
-      pend 'find a good example' if respond_to? :pend
-    end
-
     test 'numerical flag' do
       run_in_temp_dir do
         values = {orientation: 2}
