@@ -36,7 +36,7 @@ class TestValuesUsingGroups < Test::Unit::TestCase
     assert_equal @values.exif, $block_self
     assert_equal @values.exif, res
     @values.iptc do
-      assert false, "This block should not be executed because IPTC isn't aviable."
+      assert false, "This block should not be executed because IPTC isn't available."
     end
   end
 
@@ -54,7 +54,7 @@ class TestValuesUsingGroups < Test::Unit::TestCase
     assert_equal self, $self
     assert_equal @values.exif, res
     @values.iptc do
-      assert false, "This block should not be executed because IPTC isn't aviable."
+      assert false, "This block should not be executed because IPTC isn't available."
     end
   end
 
