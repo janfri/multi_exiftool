@@ -2,7 +2,7 @@
 
 == Description
 
-This library is wrapper for the Exiftool command-line application
+This library is wrapper for the ExifTool command-line application
 (http://www.sno.phy.queensu.ca/~phil/exiftool) written by Phil Harvey.
 It is designed for dealing with multiple files at once by creating
 commands to call exiftool with various arguments, call it and parsing
@@ -64,7 +64,7 @@ See the examples in the examples directory.
 == Requirements
 
 - Ruby 1.9.1 or higher
-- An installation of the Exiftool command-line application (version 7.65 or
+- An installation of the ExifTool command-line application (version 7.65 or
   higher). Instructions for installation you can find under
   http://www.sno.phy.queensu.ca/~phil/exiftool/install.html .
 - If you have problems with special characters (like German umlauts) in
@@ -73,7 +73,7 @@ or higher.
 
 == Installation
 
-First you need Exiftool (see under Requirements above). Then you can simply
+First you need ExifTool (see under Requirements above). Then you can simply
 install the gem with
  gem install multi_exiftool
 

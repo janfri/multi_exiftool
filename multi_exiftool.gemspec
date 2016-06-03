@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.authors = ["Jan Friedrich"]
   s.date = "2015-07-07"
-  s.description = "This library a is wrapper for the Exiftool command-line application (http://www.sno.phy.queensu.ca/~phil/exiftool) written by Phil Harvey. It is designed for dealing with multiple files at once by creating commands to call exiftool with various arguments, call it and parsing the results."
+  s.description = "This library a is wrapper for the ExifTool command-line application (http://www.sno.phy.queensu.ca/~phil/exiftool) written by Phil Harvey. It is designed for dealing with multiple files at once by creating commands to call exiftool with various arguments, call it and parsing the results."
   s.email = "janfri26@gmail.com"
   s.files = ["CHANGELOG", "LICENSE", "README.rdoc", "Rakefile", "lib/multi_exiftool", "lib/multi_exiftool.rb", "lib/multi_exiftool/executable.rb", "lib/multi_exiftool/reader.rb", "lib/multi_exiftool/values.rb", "lib/multi_exiftool/writer.rb", "test/data", "test/data/a.jpg", "test/data/b.jpg", "test/data/c.jpg", "test/helper.rb", "test/temp", "test/temp/a.jpg", "test/temp/a.jpg_original", "test/temp/b.jpg", "test/temp/b.jpg_original", "test/temp/c.jpg", "test/temp/c.jpg_original", "test/test_executable.rb", "test/test_exiftool_stuff.rb", "test/test_functional_api.rb", "test/test_reader.rb", "test/test_values.rb", "test/test_values_using_groups.rb", "test/test_writer.rb", "test/test_writer_groups.rb"]
   s.homepage = "http://gitorious.org/multi_exiftool"
@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = Gem::Requirement.new(">= 1.9.1")
   s.requirements = ["exiftool, version 7.65 or higher"]
   s.rubygems_version = "2.5.0"
-  s.summary = "This library is a wrapper for the Exiftool command-line application (http://www.sno.phy.queensu.ca/~phil/exiftool)."
+  s.summary = "This library is a wrapper for the ExifTool command-line application (http://www.sno.phy.queensu.ca/~phil/exiftool)."
 
   if s.respond_to? :specification_version then
     s.specification_version = 4

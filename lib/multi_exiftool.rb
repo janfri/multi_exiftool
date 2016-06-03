@@ -61,7 +61,7 @@ module MultiExiftool
       @exiftool_version = nil
     end
 
-    # Exiftool version as float (since exiftool versions
+    # ExifTool version as float (since exiftool versions
     # are numbered "float friendly")
     def exiftool_version
       @exiftool_version ||= `#{exiftool_command} -ver`.to_f
