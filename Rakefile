@@ -23,4 +23,5 @@ Rim.setup do |p|
   }
   p.development_dependencies << 'contest' << 'regtest'
   p.requirements << 'exiftool, version 7.65 or higher'
+  p.test_warning = false
 end
