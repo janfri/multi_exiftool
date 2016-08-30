@@ -1,3 +1,7 @@
+0.4.3
+Handle timestamps with additional DST string.
+Some improvements in documentation.
+
 0.4.2
 Nothing new, 0.4.1 was broken.
 
