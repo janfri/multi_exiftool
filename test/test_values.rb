@@ -37,7 +37,8 @@ class TestValues < Test::Unit::TestCase
           'TimestampWithoutSeconds' => '2009:08:25 12:35',
           'TimestampWithoutZone' => '2009:08:25 12:35:42',
           'TimestampWithPositiveZone' => '2009:08:26 20:22:24+05:00',
-          'TimestampWithNegativeZone' => '2009:08:26 20:22:24-07:00'
+          'TimestampWithNegativeZone' => '2009:08:26 20:22:24-07:00',
+          'TimestampWithZoneAndDST' => '2016:07:23 15:40:55+02:00 DST'
         }
         @values = MultiExiftool::Values.new(hash)
       end
@@ -58,6 +59,12 @@ class TestValues < Test::Unit::TestCase
         values_time = @values['TimestampWithNegativeZone']
         assert_equal time, values_time
         assert_equal -7 * 3600, values_time.utc_offset
+      end
+
+      test 'Time object with zone and DST' do
+        time = Time.new(2016,7, 23,15, 40,55,'+02:00')
+        values_time = @values['TimestampWithZoneAndDST']
+        assert_equal time, values_time
       end
 
     end
