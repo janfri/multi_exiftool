@@ -121,7 +121,7 @@ class TestWriter < Test::Unit::TestCase
         @writer.values = {comment: 'foo', bar: 'x'}
         rc = @writer.write
         assert !rc
-        assert_equal ["Warning: Tag 'bar' does not exist", "Error: File not found - xxx"], @writer.errors
+        assert_equal ["Warning: Tag 'bar' is not supported", "Error: File not found - xxx"], @writer.errors
       end
     end
 
