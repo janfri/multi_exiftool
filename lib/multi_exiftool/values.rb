@@ -21,14 +21,21 @@ module MultiExiftool
       end
     end
 
+    # Gets the (posible converted) value for a tag
+    # (tag will be unified, i.e. FNumber, fnumber or f_number
+    # can be used for FNumber)
     def [](tag)
       parse_value(@values[Values.unify_tag(tag)])
     end
 
+    # Gets the original tag names of this instance
     def tags
       @values.keys.map {|tag| Values.tag_map[tag]}
     end
 
+    # Generate a hash representation of this instance
+    # with original tag names es keys and converted
+    # values as values
     def to_h
       @values.inject(Hash.new) do |h,a|
         k, v = a
