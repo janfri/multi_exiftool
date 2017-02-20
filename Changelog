@@ -1,3 +1,8 @@
+0.5.0
+New methods Values#to_h and #to_hash.
+Values#tags gives now an array instead of a set.
+Tag names are not longer saved per Values instance.
+
 0.4.3
 Handle timestamps with additional DST string.
 Some improvements in documentation.
