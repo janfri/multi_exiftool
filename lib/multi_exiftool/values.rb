@@ -9,15 +9,15 @@ module MultiExiftool
   # method_missing.
   class Values
 
-    attr_reader :tags
+    @tag_map = {}
 
     def initialize values
       @values = {}
-      @tags = Set.new
       values.map do |tag,val|
-        @tags << tag
+        unified_tag = Values.unify_tag(tag)
+        Values.tag_map[unified_tag] = tag
         val = val.kind_of?(Hash) ? Values.new(val) : val
-        @values[Values.unify_tag(tag)] = val
+        @values[unified_tag] = val
       end
     end
 
@@ -25,11 +25,21 @@ module MultiExiftool
       parse_value(@values[Values.unify_tag(tag)])
     end
 
-    def self.unify_tag tag
-      tag.gsub(/[-_]/, '').downcase
+    def tags
+      @values.keys.map {|tag| Values.tag_map[tag]}
     end
 
     private
+
+    class << self
+
+      attr_reader :tag_map
+
+      def unify_tag tag
+      tag.gsub(/[-_]/, '').downcase
+      end
+
+    end
 
     def method_missing tag, *args, &block
       res = self[Values.unify_tag(tag.to_s)]

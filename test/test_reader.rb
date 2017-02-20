@@ -119,7 +119,7 @@ class TestReader < Test::Unit::TestCase
         @reader.tags = %w(fnumber)
         res =  @reader.read
         assert_equal [5.6, 6.7, 8], res.map {|e| e['FNumber']}
-        assert_equal Set.new(%w(SourceFile FNumber)), res.first.tags
+        assert_equal %w(SourceFile FNumber), res.first.tags
         assert_equal [], @reader.errors
       end
     end
@@ -130,7 +130,7 @@ class TestReader < Test::Unit::TestCase
         @reader.tags = :fnumber
         res =  @reader.read
         assert_equal [5.6, 6.7, 8], res.map {|e| e.fnumber}
-        assert_equal Set.new(%w(SourceFile FNumber)), res.first.tags
+        assert_equal %w(SourceFile FNumber), res.first.tags
         assert_equal [], @reader.errors
       end
     end
