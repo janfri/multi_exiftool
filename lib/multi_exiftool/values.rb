@@ -29,6 +29,16 @@ module MultiExiftool
       @values.keys.map {|tag| Values.tag_map[tag]}
     end
 
+    def to_h
+      @values.inject(Hash.new) do |h,a|
+        k, v = a
+        h[Values.tag_map[k]] = parse_value(v)
+        h
+      end
+    end
+
+    alias to_hash to_h
+
     private
 
     class << self

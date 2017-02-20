@@ -86,12 +86,21 @@ class TestValues < Test::Unit::TestCase
 
   end
 
-  context 'tags' do
+  context 'tags and to_h' do
+
+    setup do
+      @hash = {'FNumber' => 8, 'Author' => 'janfri', 'E-MailAddress' => 'janfri26@gmail.com', 'DateTimeOriginal' => '2017:02:20 21:07:00'}
+      @values = MultiExiftool::Values.new(@hash)
+    end
 
     test 'tags preserves the original tag names' do
-      hash = {'FNumber' => 8, 'Author' => 'janfri', 'E-MailAddress' => 'janfri26@gmail.com'}
-      @values = MultiExiftool::Values.new(hash)
-      assert_equal hash.keys, @values.tags.to_a
+      assert_equal @hash.keys, @values.tags.to_a
+    end
+
+    test 'to_h preserves original tag names but uses converted values' do
+      dto = Time.new(2017, 2, 20, 21, 7, 0)
+      @hash['DateTimeOriginal'] = dto
+      assert_equal @hash, @values.to_h
     end
 
   end
