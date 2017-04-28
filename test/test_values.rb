@@ -35,11 +35,14 @@ class TestValues < Test::Unit::TestCase
       setup do
         hash = {
           'TimestampWithoutSeconds' => '2009:08:25 12:35',
-          'TimestampWithoutZone' => '2009:08:25 12:35:42',
+          'Timestamp' => '2009:08:25 12:35:42',
+          'TimestampWithFraction' => '2009:08:25 12:35:42.123',
           'TimestampWithPositiveZone' => '2009:08:26 20:22:24+05:00',
           'TimestampWithNegativeZone' => '2009:08:26 20:22:24-07:00',
+          'TimestampWithFractionAndZone' => '2016:07:23 15:40:55.123+02:00',
           'TimestampWithZoneAndDST' => '2016:07:23 15:40:55+02:00 DST',
-          'TimestampWithZ' => '2017:04:08 17:57:27Z'
+          'TimestampWithZ' => '2017:04:08 17:57:27Z',
+          'TimestampWithFractionAndZ' => '2017:04:08 17:57:27.123Z'
         }
         @values = MultiExiftool::Values.new(hash)
       end
@@ -48,7 +51,8 @@ class TestValues < Test::Unit::TestCase
         time = Time.local(2009, 8, 25, 12, 35)
         assert_equal time, @values['TimestampWithoutSeconds']
         time = Time.local(2009, 8, 25, 12, 35, 42)
-        assert_equal time, @values['TimestampWithoutZone']
+        assert_equal time, @values['Timestamp']
+        assert_equal time, @values['TimestampWithFraction']
       end
 
       test 'Time object with given zone' do
@@ -60,6 +64,9 @@ class TestValues < Test::Unit::TestCase
         values_time = @values['TimestampWithNegativeZone']
         assert_equal time, values_time
         assert_equal -7 * 3600, values_time.utc_offset
+        time = Time.new(2016,7, 23,15, 40,55,'+02:00')
+        values_time = @values['TimestampWithFractionAndZone']
+        assert_equal time, values_time
       end
 
       test 'Time object with zone and DST' do
@@ -71,6 +78,9 @@ class TestValues < Test::Unit::TestCase
       test 'Time object with UTC zone' do
         time = Time.new(2017, 4, 8, 17, 57, 27, '+00:00')
         values_time = @values['TimestampWithZ']
+        assert_equal time, values_time
+        assert_equal 0, values_time.utc_offset
+        values_time = @values['TimestampWithFractionAndZ']
         assert_equal time, values_time
         assert_equal 0, values_time.utc_offset
       end

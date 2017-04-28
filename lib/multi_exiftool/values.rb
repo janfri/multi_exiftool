@@ -73,7 +73,7 @@ module MultiExiftool
     def parse_value val
       return val unless val.kind_of?(String)
       case val
-      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::(\d\d))?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
+      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::(\d\d)(?:\.\d+)?)?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
         arr = $~.captures[0,6].map {|cap| cap.to_i}
         zone = $7
         zone = '+00:00' if zone == 'Z'
