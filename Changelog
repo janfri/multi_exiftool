@@ -1,3 +1,7 @@
+0.6.0
+Handle UTC timestamps.
+Support timestamps with fractions of second.
+
 0.5.0
 New methods Values#to_h and #to_hash.
 Values#tags gives now an array instead of a set.

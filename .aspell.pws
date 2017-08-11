@@ -1,4 +1,5 @@
-personal_ws-1.1 en 24 
+personal_ws-1.1 en 25 
+UTC
 janfri
 multi
 MultiExiftool
@@ -6,8 +7,8 @@ MERCHANTABILITY
 api
 Gemfile
 sublicense
-exiftool
 ExifTool
+exiftool
 gmail
 ok
 timestamps
