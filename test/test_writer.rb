@@ -62,7 +62,7 @@ class TestWriter < Test::Unit::TestCase
     end
 
     test 'tags with spaces in values' do
-      @writer.values = {title: 'title', :comment => 'some comment'}
+      @writer.values = {title: 'title', comment: 'some comment'}
       exiftool_args = MANDATORY_ARGS + ['-title=title', '-comment=some comment', 'a.jpg', 'b.jpg', 'c.jpg']
       assert_equal exiftool_args, @writer.exiftool_args
     end
@@ -82,7 +82,7 @@ class TestWriter < Test::Unit::TestCase
 
     test 'options with boolean argument' do
       @writer.values = {comment: 'foo'}
-      @writer.options = {:overwrite_original => true}
+      @writer.options = {overwrite_original: true}
       exiftool_args = MANDATORY_ARGS + %w(-overwrite_original -comment=foo a.jpg b.jpg c.jpg)
       assert_equal exiftool_args, @writer.exiftool_args
     end

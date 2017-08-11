@@ -61,14 +61,14 @@ class TestReader < Test::Unit::TestCase
 
     test 'options with boolean argument' do
       @reader.filenames = %w(a.jpg b.jpg c.jpg)
-      @reader.options = {:e => true}
+      @reader.options = {e: true}
       exiftool_args = MANDATORY_ARGS + %w(-e a.jpg b.jpg c.jpg)
       assert_equal exiftool_args, @reader.exiftool_args
     end
 
     test 'options with value argument' do
       @reader.filenames = %w(a.jpg b.jpg c.jpg)
-      @reader.options = {:lang => 'de'}
+      @reader.options = {lang: 'de'}
       exiftool_args = MANDATORY_ARGS + %w(-lang de a.jpg b.jpg c.jpg)
       assert_equal exiftool_args, @reader.exiftool_args
     end

@@ -12,7 +12,7 @@ class TestWriterGroups < Test::Unit::TestCase
   end
 
   test 'simple case' do
-    @writer.values = {:exif => {:comment => 'test'}  }
+    @writer.values = {exif: {comment: 'test'}  }
     exiftool_args = MANDATORY_ARGS + %w(-exif:comment=test a.jpg b.jpg c.jpg)
     assert_equal exiftool_args, @writer.exiftool_args
   end
