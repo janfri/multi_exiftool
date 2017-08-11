@@ -20,19 +20,19 @@ reader = MultiExiftool::Reader.new
 reader.filenames = Dir['*.jpg']
 results = reader.read
 unless reader.errors.empty?
-$stderr.puts reader.errors
+  $stderr.puts reader.errors
 end
 results.each do |values|
-puts "#{values.file_name}: #{values.comment}"
+  puts "#{values.file_name}: #{values.comment}"
 end
 
 # Functional approach
 results, errors = MultiExiftool.read(Dir['*.jpg'])
 unless reader.errors.empty?
-$stderr.puts reader.errors
+  $stderr.puts reader.errors
 end
 results.each do |values|
-puts "#{values.file_name}: #{values.comment}"
+  puts "#{values.file_name}: #{values.comment}"
 end
 ```
 
@@ -46,17 +46,17 @@ writer = MultiExiftool::Writer.new
 writer.filenames = Dir['*.jpg']
 writer.values = {creator: 'Jan Friedrich', copyright: 'Public Domain'}
 if writer.write
-puts 'ok'
+  puts 'ok'
 else
-puts writer.errors
+  puts writer.errors
 end
 
 # Functional approach
 errors = MultiExiftool.write(Dir['*.jpg'],  {creator: 'Jan Friedrich', copyright: 'Public Domain'})
 if errors.empty?
-puts 'ok'
+  puts 'ok'
 else
-puts writer.errors
+  puts writer.errors
 end
 ```
 
