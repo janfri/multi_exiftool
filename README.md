@@ -2,7 +2,7 @@
 
 ## Description
 
-This library is wrapper for the ExifTool command-line application
+This library is a wrapper for the ExifTool command-line application
 (http://www.sno.phy.queensu.ca/~phil/exiftool) written by Phil Harvey.
 It is designed for dealing with multiple files at once by creating
 commands to call exiftool with various arguments, call it and parsing
