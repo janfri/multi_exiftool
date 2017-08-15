@@ -1,3 +1,6 @@
+0.6.1
+Upgrade to rim version 2.10.0 to unfreeze gemspec.
+
 0.6.0
 Handle UTC timestamps.
 Support timestamps with fractions of second.
