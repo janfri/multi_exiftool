@@ -1,7 +1,9 @@
 *~
 .*.swp
+.regtestrc
 .rimrc
 .yardoc
+Gemfile.lock
 doc
 pkg
 test/temp
