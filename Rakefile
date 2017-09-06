@@ -21,7 +21,7 @@ Rim.setup do |p|
 | http://www.sno.phy.queensu.ca/~phil/exiftool/install.html             |
 +-----------------------------------------------------------------------+
   }
-  p.development_dependencies << 'contest' << 'regtest'
+  p.development_dependencies << 'contest' << 'regtest' << 'test-unit'
   p.requirements << 'exiftool, version 7.65 or higher'
   p.test_warning = false
 end
