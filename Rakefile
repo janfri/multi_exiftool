@@ -1,7 +1,6 @@
 require 'rim/tire'
-require 'rim/aspell'
 require 'rim/version'
-require 'regtest/task'
+require 'rim/regtest'
 
 Rim.setup do |p|
   p.name = 'multi_exiftool'
@@ -21,7 +20,8 @@ Rim.setup do |p|
 | http://www.sno.phy.queensu.ca/~phil/exiftool/install.html             |
 +-----------------------------------------------------------------------+
   }
-  p.development_dependencies << 'contest' << 'regtest' << 'test-unit'
+  p.development_dependencies << %w(contest ~>0.1)
+  p.development_dependencies << 'test-unit'
   p.requirements << 'exiftool, version 7.65 or higher'
   p.test_warning = false
 end
