@@ -3,10 +3,6 @@ require_relative 'helper'
 
 class TestFunctionalApi < Test::Unit::TestCase
 
-  setup do
-    prepare_temp_dir
-  end
-
   context 'reading' do
 
     setup do
