@@ -22,7 +22,7 @@ class TestExiftoolStuff < Test::Unit::TestCase
       v = MultiExiftool.exiftool_version
       assert_not_nil v
     end
-    assert t_now * 100 < t_org
+    assert t_now * 10 < t_org, 'access to cached version of attribute exiftool_version should be 10 times faster'
   end
 
   protected
