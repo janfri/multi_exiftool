@@ -1,13 +1,14 @@
 # encoding: utf-8
 # frozen_string_literal: true
 
+require_relative 'lib/multi_exiftool'
 require 'rim/tire'
 require 'rim/version'
 require 'rim/regtest'
 
 Rim.setup do |p|
   p.name = 'multi_exiftool'
-  p.version = '0.7.0'
+  p.version = MultiExiftool::VERSION
   p.authors = 'Jan Friedrich'
   p.email = 'janfri26@gmail.com'
   p.summary = 'This library is a wrapper for the ExifTool command-line application (http://www.sno.phy.queensu.ca/~phil/exiftool).'

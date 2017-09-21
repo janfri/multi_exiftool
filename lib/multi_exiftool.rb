@@ -7,6 +7,8 @@ require_relative 'multi_exiftool/writer'
 
 module MultiExiftool
 
+  VERSION = '0.8.0'
+
   # Reading metadata
   # Be aware: it returns an array of two elements:
   # values, errors
