@@ -93,13 +93,20 @@ class TestValues < Test::Unit::TestCase
 
       setup do
         hash = {
-          'ShutterSpeed' => '1/200'
+          'ShutterSpeed' => '1/200',
+          'PartOfSet' => '1/2',
+          'Track' => '1/5'
         }
         @values = MultiExiftool::Values.new(hash)
       end
 
       test 'rational values' do
         assert_equal Rational(1, 200), @values['ShutterSpeed']
+      end
+
+      test 'no rational conversion' do
+        assert_equal '1/2', @values['PartOfSet']
+        assert_equal '1/5', @values['Track']
       end
 
     end

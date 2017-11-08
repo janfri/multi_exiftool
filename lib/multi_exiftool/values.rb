@@ -75,6 +75,10 @@ module MultiExiftool
 
     def convert tag, val
       return val unless val.kind_of?(String)
+      case tag
+      when 'partofset', 'track'
+        return val
+      end
       case val
       when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::(\d\d)(?:\.\d+)?)?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
         arr = $~.captures[0,6].map {|cap| cap.to_i}
