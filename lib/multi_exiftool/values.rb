@@ -27,7 +27,8 @@ module MultiExiftool
     # (tag will be unified, i.e. FNumber, fnumber or f_number
     # can be used for FNumber)
     def [](tag)
-      parse_value(@values[Values.unify_tag(tag)])
+      unified_tag = Values.unify_tag(tag)
+      convert(unified_tag, @values[unified_tag])
     end
 
     # Gets the original tag names of this instance
@@ -39,9 +40,9 @@ module MultiExiftool
     # with original tag names es keys and converted
     # values as values
     def to_h
-      @values.inject(Hash.new) do |h,a|
-        k, v = a
-        h[Values.tag_map[k]] = parse_value(v)
+      @values.inject(Hash.new) do |h, a|
+        tag, val = a
+        h[Values.tag_map[tag]] = convert(Values.unify_tag(tag), val)
         h
       end
     end
@@ -72,7 +73,7 @@ module MultiExiftool
       res
     end
 
-    def parse_value val
+    def convert tag, val
       return val unless val.kind_of?(String)
       case val
       when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::(\d\d)(?:\.\d+)?)?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
