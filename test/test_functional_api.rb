@@ -131,4 +131,22 @@ class TestFunctionalApi < Test::Unit::TestCase
 
   end
 
+  context 'clearing' do
+
+    setup do
+      @filenames = %w(a.jpg b.jpg c.jpg)
+    end
+
+    test 'simple case' do
+      run_in_temp_dir do
+        values = {comment: 'foo', orientation: 2}
+        errors = MultiExiftool.clear(@filenames)
+        assert errors.empty?
+        values, _errors = MultiExiftool.read(@filenames)
+        assert_equal @filenames.map {nil}, values.map {|e| e.comment}
+      end
+    end
+
+  end
+
 end
