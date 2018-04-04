@@ -1,4 +1,4 @@
-# MultiExiftool
+# MultiExiftool [![Build Status](https://travis-ci.org/janfri/multi_exiftool.svg?branch=master)](https://travis-ci.org/janfri/multi_exiftool)
 
 ## Description
 
