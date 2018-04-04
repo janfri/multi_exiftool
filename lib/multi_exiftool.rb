@@ -51,6 +51,22 @@ module MultiExiftool
     writer.errors
   end
 
+  # Clearing metadata
+  # Returns an array of the error messages
+  #
+  # Example:
+  #   errors = MultiExiftool.clear(Dir['*.jpg'])
+  #   unless errors.empty?
+  #     # do error handling
+  #   end
+  def self.clear(filenames)
+    writer = Writer.new
+    writer.filenames = filenames
+    writer.values = {all: ''}
+    writer.write
+    writer.errors
+  end
+
   class Error < ::StandardError; end
 
   @exiftool_command = 'exiftool'
