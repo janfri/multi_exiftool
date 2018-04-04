@@ -9,8 +9,7 @@ require 'tmpdir'
 
 module TestHelper
 
-  DATA_DIR = File.join(File.dirname(__FILE__), 'data')
-  DATA_FILES = Dir.glob("#{DATA_DIR}/*.jpg")
+  DATA_FILES = Dir.glob(File.join(File.dirname(__FILE__), 'data/*'))
 
   def run_in_temp_dir &block
     Dir.mktmpdir do |tmpdir|
