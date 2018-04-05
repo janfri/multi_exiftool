@@ -32,7 +32,7 @@ class TestFunctionalApi < Test::Unit::TestCase
       end
     end
 
-    test 'successful reading of hierarichal data' do
+    test 'successful reading of hierarchical data' do
       run_in_temp_dir do
         values, errors = MultiExiftool.read(%w(a.jpg), group: 0)
         res = values.first
