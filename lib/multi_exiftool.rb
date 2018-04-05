@@ -55,6 +55,21 @@ module MultiExiftool
       writer.errors
     end
 
+    # Deleting metadata
+    # Returns an array of the error messages
+    #
+    # Examples:
+    #   # delete values for all tags
+    #   errors = MultiExiftool.delete_values(Dir['*.jpg'])
+    #   unless errors.empty?
+    #     # do error handling
+    #   end
+    #
+    #   # delete values for tags Author and Title
+    #   errors = MultiExiftool.delete_values(Dir['*.jpg'], %w[author title])
+    #   unless errors.empty?
+    #     # do error handling
+    #   end
     def delete_values filenames, tags: :all
       values = Array(tags).inject(Hash.new) {|h,tag| h[tag] = nil; h}
       write(filenames, values)
