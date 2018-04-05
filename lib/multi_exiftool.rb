@@ -24,7 +24,7 @@ module MultiExiftool
     #   else
     #     # error handling
     #   end
-    def read(filenames, opts={})
+    def read filenames, opts={}
       reader = Reader.new
       reader.filenames = filenames
       if val = opts.delete(:tags)
@@ -46,7 +46,7 @@ module MultiExiftool
     #   unless errors.empty?
     #     # do error handling
     #   end
-    def write(filenames, values, opts={})
+    def write filenames, values, opts={}
       writer = Writer.new
       writer.filenames = filenames
       writer.values = values
