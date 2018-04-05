@@ -176,8 +176,13 @@ class TestFunctionalApi < Test::Unit::TestCase
     test 'error if tags do not exist' do
       run_in_temp_dir do
         errors = MultiExiftool.delete_values(@filenames, tags: %w[foo bar])
-        expected_errors = ["Warning: Tag 'foo' is not defined", "Warning: Tag 'bar' is not defined", "Nothing to do."]
-        assert_equal expected_errors, errors
+        err1, err2, err3 = errors
+        expected1 = /^Warning: Tag 'foo' is not (defined|supported)$/
+        expected2 = /^Warning: Tag 'bar' is not (defined|supported)$/
+        expected3 = 'Nothing to do.'
+        assert_match expected1, err1
+        assert_match expected2, err2
+        assert_equal expected3, err3
       end
     end
 
