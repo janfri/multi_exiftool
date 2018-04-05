@@ -55,6 +55,11 @@ module MultiExiftool
       writer.errors
     end
 
+    def delete_values filenames, tags: :all
+      values = Array(tags).inject(Hash.new) {|h,tag| h[tag] = nil; h}
+      write(filenames, values)
+    end
+
     attr_accessor :exiftool_command
     attr_reader :exiftool_version
 

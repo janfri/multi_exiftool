@@ -131,4 +131,56 @@ class TestFunctionalApi < Test::Unit::TestCase
 
   end
 
+  context 'deleting' do
+
+    setup do
+      @filenames = %w(a.jpg b.jpg c.jpg)
+    end
+
+    test 'delete all values' do
+      run_in_temp_dir do
+        errors = MultiExiftool.delete_values(@filenames)
+        assert_equal [], errors
+        values, errors = MultiExiftool.read(@filenames)
+        assert_equal [nil, nil, nil], values.map {|e| e['Author']}
+        assert_equal [nil, nil, nil], values.map {|e| e['FNumber']}
+        assert_equal [nil, nil, nil], values.map {|e| e['Title']}
+        assert_equal [], errors
+      end
+    end
+
+    test 'delete values for some tags' do
+      run_in_temp_dir do
+        errors = MultiExiftool.delete_values(@filenames, tags: %w(author title))
+        assert_equal [], errors
+        values, errors = MultiExiftool.read(@filenames)
+        assert_equal [nil, nil, nil], values.map {|e| e['Author']}
+        assert_equal [5.6, 6.7, 8], values.map {|e| e['FNumber']}
+        assert_equal [nil, nil, nil], values.map {|e| e['Title']}
+        assert_equal [], errors
+      end
+    end
+
+    test 'delete values for one tag' do
+      run_in_temp_dir do
+        errors = MultiExiftool.delete_values(@filenames, tags: :title)
+        assert_equal [], errors
+        values, errors = MultiExiftool.read(@filenames)
+        assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
+        assert_equal [5.6, 6.7, 8], values.map {|e| e['FNumber']}
+        assert_equal [nil, nil, nil], values.map {|e| e['Title']}
+        assert_equal [], errors
+      end
+    end
+
+    test 'error if tags do not exist' do
+      run_in_temp_dir do
+        errors = MultiExiftool.delete_values(@filenames, tags: %w[foo bar])
+        expected_errors = ["Warning: Tag 'foo' is not defined", "Warning: Tag 'bar' is not defined", "Nothing to do."]
+        assert_equal expected_errors, errors
+      end
+    end
+
+  end
+
 end
