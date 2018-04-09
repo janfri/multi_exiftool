@@ -60,6 +60,26 @@ else
 end
 ```
 
+### Deleting
+
+```ruby
+# Delete ALL values
+errors = MultiExiftool.delete_values(Dir['*.jpg'])
+if errors.empty?
+  puts 'ok'
+else
+  puts writer.errors
+end
+
+# Delete values for tags Author and Title
+errors = MultiExiftool.delete_values(Dir['*.jpg'], tags: %w(author title))
+if errors.empty?
+  puts 'ok'
+else
+  puts writer.errors
+end
+```
+
 ### Further Examples
 
 See the examples in the examples directory.
