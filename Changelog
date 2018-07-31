@@ -1,3 +1,7 @@
+0.9.1
+Fix bug in handling of timestamps with fractions of second introduced in
+version 0.6.0. Thanks to Andrew Kendall for reporting and analyzing.
+
 0.9.0
 Add method MultiExiftool.delete_values.
 
@@ -9,7 +13,6 @@ So PartOfSet and Track values are not longer converted to Rational.  Fix a
 really big bug in test suite: Would always pass because run_in_temp_dir was
 broken, so the block was never executed. Therefor 46 assertions were not
 executed since version 0.7.0. Many thanks to szTheory for this great catch!
-
 
 0.7.0
 Use Dir.tmpdir instead of test/temp for tests which manipulates images.
