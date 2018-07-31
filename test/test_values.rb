@@ -54,6 +54,7 @@ class TestValues < Test::Unit::TestCase
         assert_equal time, @values['TimestampWithoutSeconds']
         time = Time.local(2009, 8, 25, 12, 35, 42)
         assert_equal time, @values['Timestamp']
+        time = Time.local(2009, 8, 25, 12, 35, 42.123)
         assert_equal time, @values['TimestampWithFraction']
       end
 
@@ -66,7 +67,7 @@ class TestValues < Test::Unit::TestCase
         values_time = @values['TimestampWithNegativeZone']
         assert_equal time, values_time
         assert_equal -7 * 3600, values_time.utc_offset
-        time = Time.new(2016,7, 23,15, 40,55,'+02:00')
+        time = Time.new(2016, 7, 23, 15, 40, 55.123,'+02:00')
         values_time = @values['TimestampWithFractionAndZone']
         assert_equal time, values_time
       end
@@ -82,6 +83,7 @@ class TestValues < Test::Unit::TestCase
         values_time = @values['TimestampWithZ']
         assert_equal time, values_time
         assert_equal 0, values_time.utc_offset
+        time = Time.new(2017, 4, 8, 17, 57, 27.123, '+00:00')
         values_time = @values['TimestampWithFractionAndZ']
         assert_equal time, values_time
         assert_equal 0, values_time.utc_offset

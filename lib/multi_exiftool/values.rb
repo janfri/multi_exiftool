@@ -80,12 +80,12 @@ module MultiExiftool
         return val
       end
       case val
-      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::(\d\d)(?:\.\d+)?)?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
-        arr = $~.captures[0,6].map {|cap| cap.to_i}
+      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::((?:\d\d)(?:\.\d+)?))?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
+        year, month, day, hour, minute = $~.captures[0,5].map {|cap| cap.to_i}
+        second = $6.to_f
         zone = $7
         zone = '+00:00' if zone == 'Z'
-        arr << zone if zone
-        Time.new(*arr)
+        Time.new(year, month, day, hour, minute, second, zone)
       when %r(^(\d+)/(\d+)$)
         Rational($1, $2)
       else
