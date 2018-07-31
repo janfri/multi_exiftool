@@ -59,11 +59,11 @@ class TestValues < Test::Unit::TestCase
       end
 
       test 'Time object with given zone' do
-        time = Time.new(2009,8,26,20,22,24,'+05:00')
+        time = Time.new(2009, 8, 26, 20, 22, 24, '+05:00')
         values_time = @values['TimestampWithPositiveZone']
         assert_equal time, values_time
         assert_equal 5 * 3600, values_time.utc_offset
-        time = Time.new(2009,8,26,20,22,24,'-07:00')
+        time = Time.new(2009, 8, 26, 20, 22, 24, '-07:00')
         values_time = @values['TimestampWithNegativeZone']
         assert_equal time, values_time
         assert_equal -7 * 3600, values_time.utc_offset
@@ -73,7 +73,7 @@ class TestValues < Test::Unit::TestCase
       end
 
       test 'Time object with zone and DST' do
-        time = Time.new(2016,7, 23,15, 40,55,'+02:00')
+        time = Time.new(2016, 7, 23, 15, 40, 55,'+02:00')
         values_time = @values['TimestampWithZoneAndDST']
         assert_equal time, values_time
       end
