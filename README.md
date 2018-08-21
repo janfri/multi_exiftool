@@ -85,6 +85,54 @@ end
 See the examples in the examples directory.
 
 
+## Automatic conversion of values
+
+By default values are converted to useful instances of Ruby classes. The
+following conversions are implemented at the moment:
+
+* Timestamps => Time (with local time zone of no one given)
+* values of form "n/m" => Rational except PartOfSet and Track
+
+The conversion is done in the method Values#convert. So you can change it's
+behaviour as following examples shows.
+
+### Example 1
+
+```ruby
+module MyConversion
+  def convert tag, val
+    val # no conversion at all
+  end
+end
+
+MultiExiftool::Values.prepend MyConversion
+```
+
+### Example 2
+
+```ruby
+module MultiExiftool
+  module MyConversion
+    def convert tag, val
+      converted_val = super
+      case converted_val
+      when Time
+        converted_val.utc # convert Time objects to utc
+      when Rational
+        val # no conversion
+      else
+        converted_val # use default conversion
+      end
+    end
+  end
+
+  Values.prepend MyConversion
+end
+```
+
+The method Values#convert is called each time a value is fetched.
+
+
 ## Requirements
 
 - Ruby 1.9.1 or higher

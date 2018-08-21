@@ -31,6 +31,29 @@ module MultiExiftool
       convert(unified_tag, @values[unified_tag])
     end
 
+    # Convert values on the basis of tag name and value. It is calles each time
+    # a value is fethed from a Values instance.
+    # @return (maybe) converted value
+    def convert tag, val
+      return val unless val.kind_of?(String)
+      case tag
+      when 'partofset', 'track'
+        return val
+      end
+      case val
+      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::((?:\d\d)(?:\.\d+)?))?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
+        year, month, day, hour, minute = $~.captures[0,5].map {|cap| cap.to_i}
+        second = $6.to_f
+        zone = $7
+        zone = '+00:00' if zone == 'Z'
+        Time.new(year, month, day, hour, minute, second, zone)
+      when %r(^(\d+)/(\d+)$)
+        Rational($1, $2)
+      else
+        val
+      end
+    end
+
     # Gets the original tag names of this instance
     def tags
       @values.keys.map {|tag| Values.tag_map[tag]}
@@ -71,26 +94,6 @@ module MultiExiftool
         end
       end
       res
-    end
-
-    def convert tag, val
-      return val unless val.kind_of?(String)
-      case tag
-      when 'partofset', 'track'
-        return val
-      end
-      case val
-      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::((?:\d\d)(?:\.\d+)?))?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
-        year, month, day, hour, minute = $~.captures[0,5].map {|cap| cap.to_i}
-        second = $6.to_f
-        zone = $7
-        zone = '+00:00' if zone == 'Z'
-        Time.new(year, month, day, hour, minute, second, zone)
-      when %r(^(\d+)/(\d+)$)
-        Rational($1, $2)
-      else
-        val
-      end
     end
 
   end
