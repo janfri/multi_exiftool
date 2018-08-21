@@ -7,7 +7,7 @@ require_relative 'multi_exiftool/writer'
 
 module MultiExiftool
 
-  VERSION = '0.9.1'
+  VERSION = '0.10.0'
 
   @exiftool_command = 'exiftool'
 

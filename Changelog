@@ -1,3 +1,8 @@
+0.10.0
+Values#convert is now a public method. So you can simply adapt the value
+conversion to your needs.
+
+
 0.9.1
 Fix bug in handling of timestamps with fractions of second introduced in
 version 0.6.0. Thanks to Andrew Kendall for reporting and analyzing.
