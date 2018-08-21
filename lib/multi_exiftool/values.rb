@@ -11,6 +11,12 @@ module MultiExiftool
   # method_missing.
   class Values
 
+    # Regular expression to determine timestamp values
+    REGEXP_TIMESTAMP = /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::((?:\d\d)(?:\.\d+)?))?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
+
+    # Regular expression to determine rational values
+    REGEXP_RATIONAL = %r(^(\d+)/(\d+)$)
+
     @tag_map = {}
 
     def initialize values
@@ -41,13 +47,13 @@ module MultiExiftool
         return val
       end
       case val
-      when /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::((?:\d\d)(?:\.\d+)?))?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
+      when REGEXP_TIMESTAMP
         year, month, day, hour, minute = $~.captures[0,5].map {|cap| cap.to_i}
         second = $6.to_f
         zone = $7
         zone = '+00:00' if zone == 'Z'
         Time.new(year, month, day, hour, minute, second, zone)
-      when %r(^(\d+)/(\d+)$)
+      when REGEXP_RATIONAL
         Rational($1, $2)
       else
         val

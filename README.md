@@ -130,6 +130,21 @@ module MultiExiftool
 end
 ```
 
+### Example 3
+
+```ruby
+m = Module.new do
+  def convert tag, val
+    if val =~ MultiExiftool::Values::REGEXP_TIMESTAMP
+      val # no conversion
+    else
+      super # use default conversion
+    end
+  end
+end
+MultiExiftool::Values.prepend m
+```
+
 The method Values#convert is called each time a value is fetched.
 
 
