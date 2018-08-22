@@ -113,6 +113,20 @@ class TestValues < Test::Unit::TestCase
 
     end
 
+    context 'invalid values' do
+
+      test 'timestamp with only zeros' do
+        values = MultiExiftool::Values.new('TimeWithOnlyZeros' => '0000:00:00 00:00:00')
+        assert_nil values['TimeWithOnlyZeros']
+      end
+
+      test 'rational with denominator zero' do
+        values = MultiExiftool::Values.new('DenominatorZero' => '1/0')
+        assert_equal '1/0', values['DenominatorZero']
+      end
+
+    end
+
   end
 
   context 'has_tag?' do

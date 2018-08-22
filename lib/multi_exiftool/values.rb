@@ -49,11 +49,15 @@ module MultiExiftool
       case val
       when REGEXP_TIMESTAMP
         year, month, day, hour, minute = $~.captures[0,5].map {|cap| cap.to_i}
+        if month == 0 || day == 0
+          return nil
+        end
         second = $6.to_f
         zone = $7
         zone = '+00:00' if zone == 'Z'
         Time.new(year, month, day, hour, minute, second, zone)
       when REGEXP_RATIONAL
+        return val if $2.to_i == 0
         Rational($1, $2)
       else
         val
