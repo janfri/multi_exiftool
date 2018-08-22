@@ -94,7 +94,7 @@ following conversions are implemented at the moment:
 * values of form "n/m" => Rational except PartOfSet and Track
 
 The conversion is done in the method Values#convert. So you can change it's
-behaviour as following examples shows.
+behaviour as following examples show.
 
 ### Example 1
 

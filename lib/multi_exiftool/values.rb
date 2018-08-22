@@ -37,8 +37,8 @@ module MultiExiftool
       convert(unified_tag, @values[unified_tag])
     end
 
-    # Convert values on the basis of tag name and value. It is calles each time
-    # a value is fethed from a Values instance.
+    # Converts values on the basis of unified tag name and value. It is called
+    # each time a value is fethed from a Values instance.
     # @return (maybe) converted value
     def convert tag, val
       return val unless val.kind_of?(String)
@@ -75,7 +75,7 @@ module MultiExiftool
       @values.keys.map {|tag| Values.tag_map[tag]}
     end
 
-    # Generate a hash representation of this instance
+    # Generates a hash representation of this instance
     # with original tag names es keys and converted
     # values as values
     def to_h
