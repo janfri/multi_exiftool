@@ -1,3 +1,9 @@
+0.11.0
+New method Values#has_tag? to check if a tag is present.
+Handle invalid values for timestamps and rationals: Timestamps where month or
+day is zero (i.e. 0000:00:00 00:00:00) are converted to nil. Strings of the
+form n/0 are not interpreted as rational value and are not converted.
+
 0.10.0
 Values#convert is now a public method. So you can simply adapt the value
 conversion to your needs.
