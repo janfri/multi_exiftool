@@ -60,6 +60,12 @@ module MultiExiftool
       end
     end
 
+    # Checks if a tag is present
+    # @param Tag as string or symbol (will be unified)
+    def has_tag? tag
+      @values.has_key?(Values.unify_tag(tag.to_s))
+    end
+
     # Gets the original tag names of this instance
     def tags
       @values.keys.map {|tag| Values.tag_map[tag]}

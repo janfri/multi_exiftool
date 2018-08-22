@@ -115,6 +115,31 @@ class TestValues < Test::Unit::TestCase
 
   end
 
+  context 'has_tag?' do
+    setup do
+      @hash = {'FNumber' => 8, 'Author' => 'janfri', 'E-MailAddress' => 'janfri26@gmail.com', 'DateTimeOriginal' => '2018:08:22 11:50:00'}
+      @values = MultiExiftool::Values.new(@hash)
+    end
+
+    test 'different formats as string' do
+      @hash.keys.each do |k|
+        assert_true @values.has_tag? k
+      end
+    end
+
+    test 'different formats as symbol' do
+      @hash.keys.each do |k|
+        assert_true @values.has_tag? k.to_sym
+      end
+    end
+
+    test 'non existent key' do
+      ['iso', 'ISO', :iso, :ISO].each do |t|
+        assert_false @values.has_tag? t
+      end
+    end
+  end
+
   context 'tags and to_h' do
 
     setup do
