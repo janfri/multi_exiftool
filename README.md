@@ -28,7 +28,7 @@ end
 
 # Functional approach
 results, errors = MultiExiftool.read(Dir['*.jpg'])
-unless reader.errors.empty?
+unless errors.empty?
   $stderr.puts reader.errors
 end
 results.each do |values|
