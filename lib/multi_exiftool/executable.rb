@@ -11,9 +11,9 @@ module MultiExiftool
     attr_reader :errors
     attr_accessor :filenames, :numerical, :options
 
-    def initialize
-      @options = {}
-      @filenames = []
+    def initialize filenames=[], options={}
+      @options = options
+      @filenames = filenames
       @option_mapping = {numerical: :n}
     end
 

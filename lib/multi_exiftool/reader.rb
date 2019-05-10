@@ -15,9 +15,17 @@ module MultiExiftool
 
     include Executable
 
-    def initialize
-      super
-      @tags = []
+    def initialize filenames=[], opts={}
+      super(filenames, opts)
+      if val = opts.delete(:tags)
+        @tags = val
+      else
+        @tags = []
+      end
+      if val = opts.delete(:group)
+        @group = val
+      end
+      @options = opts unless opts.empty?
     end
 
     def self.mandatory_args

@@ -14,9 +14,9 @@ module MultiExiftool
 
     include Executable
 
-    def initialize
-      super
-      @values = {}
+    def initialize filenames=[], values={}, opts={}
+      super(filenames, opts)
+      @values = values
     end
 
     def self.mandatory_args
