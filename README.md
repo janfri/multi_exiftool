@@ -178,6 +178,11 @@ or
 https://bitbucket.org/janfri/multi_exiftool
 feel free to contribute!
 
+## Versioning
+
+MultiExiftool follows [Semantic Versioning](https://semver.org/), both SemVer and
+SemVerTag.
+
 ## Author
 
 Jan Friedrich <janfri26gmail.com>
