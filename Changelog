@@ -1,3 +1,7 @@
+0.12.0
+Implement Values#respond_to_missing?.
+Improve documentation and fix example code.
+
 0.11.0
 New method Values#has_tag? to check if a tag is present.
 Handle invalid values for timestamps and rationals: Timestamps where month or
