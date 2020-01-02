@@ -3,7 +3,7 @@
 ## Description
 
 This library is a wrapper for the ExifTool command-line application
-(http://www.sno.phy.queensu.ca/~phil/exiftool) written by Phil Harvey.
+(https://exiftool.org) written by Phil Harvey.
 It is designed for dealing with multiple files at once by creating
 commands to call exiftool with various arguments, call it and parsing
 the results.
@@ -153,7 +153,7 @@ The method Values#convert is called each time a value is fetched.
 - Ruby 1.9.1 or higher
 - An installation of the ExifTool command-line application (version 7.65 or
 higher). Instructions for installation you can find under
-http://www.sno.phy.queensu.ca/~phil/exiftool/install.html .
+https://exiftool.org/install.html .
 - If you have problems with special characters (like German umlauts) in
 filenames on windows system it is recommended to use exiftool version 9.79
 or higher.
