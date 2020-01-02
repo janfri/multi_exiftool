@@ -112,6 +112,9 @@ module MultiExiftool
       res
     end
 
+    def respond_to_missing? tag, *args
+      has_tag?(tag) || super
+    end
   end
 
 end

@@ -173,4 +173,24 @@ class TestValues < Test::Unit::TestCase
 
   end
 
+  context 'respond_to_missing?' do
+
+    setup do
+      hash = {'FNumber' => 8, 'Author' => 'janfri'}
+      @values = MultiExiftool::Values.new(hash)
+    end
+
+    test 'existing keys' do
+      [:fnumber, :f_number, :FNumber, 'fnumber', 'f_number', 'FNumber', :author, :Author, 'author', 'Author'].each do |t|
+        assert_true @values.respond_to? t
+      end
+    end
+
+    test 'non existing key' do
+      ['iso', 'ISO', :iso, :ISO].each do |t|
+        assert_false @values.respond_to? t
+      end
+    end
+
+  end
 end
