@@ -4,7 +4,7 @@ result:
 - - !ruby/object:MultiExiftool::Values
     values:
       sourcefile: regtest/test.jpg
-      exiftoolversion: 11.01
+      exiftoolversion: 11.7
       filename: test.jpg
       directory: regtest
       filesize: 43 kB
@@ -64,7 +64,7 @@ result:
       imagestabilization: 'On'
       zonematching: ISO Setting Used
       colortemperature: 0
-      lenstype: Minolta AF 28-135mm F4-4.5 or Sigma Lens
+      lenstype: Minolta AF 28-135mm F4-4.5 or Other Lens
       usercomment: ''
       flashpixversion: '0100'
       colorspace: sRGB
@@ -99,7 +99,7 @@ result:
       ycbcrsubsampling: YCbCr4:2:0 (2 2)
       aperture: 9.5
       imagesize: 1x1
-      lensid: Minolta AF 28-135mm F4-4.5
+      lensid: Tokina AT-X 242 AF 24-200mm F3.5-5.6
       megapixels: 1.0e-06
       scalefactor35efl: 1.5
       shutterspeed: 1/60
