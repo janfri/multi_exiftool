@@ -60,6 +60,39 @@ else
 end
 ```
 
+If it is necessary to write different values to multiple files there is batch processing
+
+```ruby
+require 'multi_exiftool'
+
+# Object oriented approach
+batch = Batch.new do
+  Dir['*.jpg'].each_with_index do |filename, i|
+    values = {creator: 'Jan Friedrich', copyright: 'Public Domain', comment: "This is file number #{i+1}."}
+    write filename, values
+  end
+end
+if batch.execute
+  puts 'ok'
+else
+  puts batch.errors
+end
+
+# Functional approach
+errors = MultiExiftool.batch do
+  Dir['*.jpg'].each_with_index do |filename, i|
+    values = {creator: 'Jan Friedrich', copyright: 'Public Domain', comment: "This is file number #{i+1}."}
+    write filename, values
+  end
+end
+if errors.empty?
+  puts 'ok'
+else
+  puts batch.errors
+end
+```
+
+
 ### Deleting
 
 ```ruby
