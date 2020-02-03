@@ -65,6 +65,24 @@ module MultiExiftool
       write(filenames, values)
     end
 
+
+    # Execute a batch of write commands
+    # Returns an array of the error messages
+    #
+    # Example:
+    #   errors = MultiExiftool.batch do
+    #     Dir['*.jpg'].each_with_index do |filename, i|
+    #       write filename, {author: 'Jan Friedrich', comment: "This is file number #{i+1}."}
+    #     end
+    #   unless errors.empty?
+    #     # do error handling
+    #   end
+    def batch &block
+      batch = Batch.new &block
+      batch.execute
+      batch.errors
+    end
+
     attr_accessor :exiftool_command
     attr_reader :exiftool_version
 

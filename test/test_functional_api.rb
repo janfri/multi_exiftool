@@ -188,4 +188,51 @@ class TestFunctionalApi < Test::Unit::TestCase
 
   end
 
+  context 'batch' do
+    setup do
+      @filenames = %w(a.jpg b.jpg c.jpg)
+      @multiple_values = @filenames.map do |fn|
+        {author: 'Jan Friedrich', comment: "Comment for file #{fn}"}
+      end
+    end
+
+    test 'only filenames and values' do
+      run_in_temp_dir do
+        filenames = @filenames
+        multiple_values = @multiple_values
+        errors = MultiExiftool.batch do
+          filenames.zip multiple_values do |filename, values|
+            write filename, values
+          end
+        end
+        assert_equal [], errors
+        values, errors = MultiExiftool.read(@filenames)
+        assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
+        assert_equal ['Comment for file a.jpg', 'Comment for file b.jpg', 'Comment for file c.jpg'], values.map {|e| e['Comment']}
+        assert_equal [], errors
+        assert_equal 3, Dir['*_original'].size
+      end
+    end
+
+    test 'options with boolean argument' do
+      run_in_temp_dir do
+        filenames = @filenames
+        multiple_values = @multiple_values
+        options = {overwrite_original: true}
+        errors = MultiExiftool.batch do
+          filenames.zip multiple_values do |filename, values|
+            write filename, values, options
+          end
+        end
+        assert_equal [], errors
+        values, errors = MultiExiftool.read(@filenames)
+        assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
+        assert_equal ['Comment for file a.jpg', 'Comment for file b.jpg', 'Comment for file c.jpg'], values.map {|e| e['Comment']}
+        assert_equal [], errors
+        assert_equal [], Dir['*_original']
+      end
+    end
+
+  end
+
 end
