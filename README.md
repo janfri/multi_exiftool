@@ -66,11 +66,11 @@ If it is necessary to write different values to multiple files there is batch pr
 require 'multi_exiftool'
 
 # Object oriented approach
-batch = Batch.new do
-  Dir['*.jpg'].each_with_index do |filename, i|
-    values = {creator: 'Jan Friedrich', copyright: 'Public Domain', comment: "This is file number #{i+1}."}
-    write filename, values
-  end
+
+batch = MultiExiftool::Batch.new
+Dir['*.jpg'].each_with_index do |filename, i|
+  values = {creator: 'Jan Friedrich', copyright: 'Public Domain', comment: "This is file number #{i+1}."}
+  batch.write filename, values
 end
 if batch.execute
   puts 'ok'
@@ -79,6 +79,7 @@ else
 end
 
 # Functional approach
+
 errors = MultiExiftool.batch do
   Dir['*.jpg'].each_with_index do |filename, i|
     values = {creator: 'Jan Friedrich', copyright: 'Public Domain', comment: "This is file number #{i+1}."}
@@ -88,7 +89,21 @@ end
 if errors.empty?
   puts 'ok'
 else
-  puts batch.errors
+  puts errors
+end
+
+# or alternative with block parameter as yielded Batch instance
+
+errors = MultiExiftool.batch do |batch|
+  Dir['*.jpg'].each_with_index do |filename, i|
+    values = {creator: 'Jan Friedrich', copyright: 'Public Domain', comment: "This is file number #{i+1}."}
+    batch.write filename, values
+  end
+end
+if errors.empty?
+  puts 'ok'
+else
+  puts errors
 end
 ```
 
