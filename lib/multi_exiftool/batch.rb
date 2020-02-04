@@ -14,7 +14,7 @@ module MultiExiftool
     # Define batch operation inside a block
     def initialize &blk
       @writers = []
-      instance_exec &blk
+      instance_exec &blk if block_given?
     end
 
     # Define a write operation for the batch.

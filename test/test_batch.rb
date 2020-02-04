@@ -17,29 +17,23 @@ class TestBatch < Test::Unit::TestCase
     end
 
     test 'only filenames and values' do
-      filenames = @filenames
-      multiple_values = @multiple_values
-      batch = MultiExiftool::Batch.new do
-        filenames.zip multiple_values do |filename, values|
-          write filename, values
-        end
+      batch = MultiExiftool::Batch.new
+      @filenames.zip @multiple_values do |filename, values|
+        batch.write filename, values
       end
-      exiftool_args = filenames.zip(multiple_values).map do |filename, values|
+      exiftool_args = @filenames.zip(@multiple_values).map do |filename, values|
         [MANDATORY_WRITER_ARGS, '-author=janfri', "-comment=Comment for file #{filename}", filename, '-execute']
       end.flatten
       assert_equal exiftool_args, batch.exiftool_args
     end
 
     test 'filenames, values and options' do
-      filenames = @filenames
-      multiple_values = @multiple_values
       options = {overwrite_original: true}
-      batch = MultiExiftool::Batch.new do
-        filenames.zip multiple_values do |filename, values|
-          write filename, values, options
-        end
+      batch = MultiExiftool::Batch.new
+      @filenames.zip @multiple_values do |filename, values|
+        batch.write filename, values, options
       end
-      exiftool_args = filenames.zip(multiple_values).map do |filename, _values|
+      exiftool_args = @filenames.zip(@multiple_values).map do |filename, _values|
         [MANDATORY_WRITER_ARGS, '-overwrite_original', '-author=janfri', "-comment=Comment for file #{filename}", filename, '-execute']
       end.flatten
       assert_equal exiftool_args, batch.exiftool_args
