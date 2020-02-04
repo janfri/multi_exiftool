@@ -1,3 +1,6 @@
+0.14.0
+Improve api for batch processing.
+
 0.13.0
 Implement batch processing to allow to write different values to multiple file
 with only one call of the ExifTool command-line application.
