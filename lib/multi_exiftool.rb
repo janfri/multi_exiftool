@@ -78,7 +78,12 @@ module MultiExiftool
     #     # do error handling
     #   end
     def batch &block
-      batch = Batch.new &block
+      batch = Batch.new
+      if block.arity == 0
+        batch.instance_exec &block
+      else
+        yield batch
+      end
       batch.execute
       batch.errors
     end
