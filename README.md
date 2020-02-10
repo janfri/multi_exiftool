@@ -233,7 +233,7 @@ SemVerTag.
 
 ## Author
 
-Jan Friedrich <janfri26gmail.com>
+Jan Friedrich <janfri26@gmail.com>
 
 ## MIT License
 
