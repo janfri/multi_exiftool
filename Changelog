@@ -1,3 +1,6 @@
+0.15.0
+Make multi_exiftool work with Ruby 1.9 again.
+
 0.14.1
 Fix two typos.
 
