@@ -137,19 +137,19 @@ class TestValues < Test::Unit::TestCase
 
     test 'different formats as string' do
       @hash.keys.each do |k|
-        assert_true @values.has_tag? k
+        assert_equal true, @values.has_tag?(k)
       end
     end
 
     test 'different formats as symbol' do
       @hash.keys.each do |k|
-        assert_true @values.has_tag? k.to_sym
+        assert_equal true, @values.has_tag?(k.to_sym)
       end
     end
 
     test 'non existent key' do
       ['iso', 'ISO', :iso, :ISO].each do |t|
-        assert_false @values.has_tag? t
+        assert_equal false, @values.has_tag?(t)
       end
     end
   end
@@ -182,13 +182,13 @@ class TestValues < Test::Unit::TestCase
 
     test 'existing keys' do
       [:fnumber, :f_number, :FNumber, 'fnumber', 'f_number', 'FNumber', :author, :Author, 'author', 'Author'].each do |t|
-        assert_true @values.respond_to? t
+        assert_equal true, @values.respond_to?(t)
       end
     end
 
     test 'non existing key' do
       ['iso', 'ISO', :iso, :ISO].each do |t|
-        assert_false @values.respond_to? t
+        assert_equal false, @values.respond_to?(t)
       end
     end
 
