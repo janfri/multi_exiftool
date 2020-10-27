@@ -9,12 +9,15 @@ module MultiExiftool
   module Executable
 
     attr_reader :errors
-    attr_accessor :filenames, :numerical, :options
+    attr_accessor :config, :filenames, :numerical, :options
 
     def initialize filenames=[], options={}
       @options = options
       @filenames = filenames
       @option_mapping = {numerical: :n}
+      if val = options.delete(:config)
+        @config = val
+      end
     end
 
     def options
@@ -57,7 +60,11 @@ module MultiExiftool
     end
 
     def execute_command
-      stdin, @stdout, @stderr = Open3.popen3(exiftool_command, '-@', '-')
+      args = ['-@', '-']
+      if @config
+        args = ['-config', @config] + args
+      end
+      stdin, @stdout, @stderr = Open3.popen3(exiftool_command, *args)
       exiftool_args.each do |part|
         stdin << part
         stdin << "\n"

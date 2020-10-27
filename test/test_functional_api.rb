@@ -60,6 +60,18 @@ class TestFunctionalApi < Test::Unit::TestCase
       end
     end
 
+    test 'successful reading with user defined tags in config file' do
+      run_in_temp_dir do
+        values, errors = MultiExiftool.read(%w[a.jpg b.jpg c.jpg], tags: %w[basename fileextension])
+        assert_equal [nil, nil, nil], values.map(&:basename)
+        assert_equal [nil, nil, nil], values.map(&:file_extension)
+        assert_equal [], errors
+        values, errors = MultiExiftool.read(%w[a.jpg b.jpg c.jpg], config: 'example.config', tags: %w[basename fileextension])
+        assert_equal %w[a b c], values.map(&:basename)
+        assert_equal %w[jpg]*3, values.map(&:file_extension)
+        assert_equal [], errors
+      end
+    end
   end
 
   context 'writing' do
