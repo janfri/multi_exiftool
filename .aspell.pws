@@ -1,4 +1,4 @@
-personal_ws-1.1 en 33 
+personal_ws-1.1 en 34 
 Coenen
 ExifTool
 Friedrich
@@ -13,6 +13,7 @@ README
 SemVer
 SemVerTag
 api
+config
 dir
 exiftool
 filenames

@@ -1,3 +1,6 @@
+0.16.0
+Add option to use config files.
+
 0.15.0
 Make multi_exiftool work with Ruby 1.9 again.
 
