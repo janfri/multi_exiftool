@@ -160,13 +160,13 @@ class TestReader < Test::Unit::TestCase
     test 'successful reading with user defined tags in config file' do
       run_in_temp_dir do
         @reader.filenames = %w(a.jpg b.jpg c.jpg)
-        @reader.tags = %w[basename]
+        @reader.tags = %w[mybasename]
         res = @reader.read
-        assert_equal [nil, nil, nil], res.map(&:basename)
+        assert_equal [nil, nil, nil], res.map(&:mybasename)
         assert_equal [], @reader.errors
         @reader.config = 'example.config'
         res = @reader.read
-        assert_equal %w[a b c], res.map(&:basename)
+        assert_equal %w[a b c], res.map(&:mybasename)
         assert_equal [], @reader.errors
       end
     end
