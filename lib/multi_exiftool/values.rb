@@ -55,7 +55,11 @@ module MultiExiftool
         second = $6.to_f
         zone = $7
         zone = '+00:00' if zone == 'Z'
-        Time.new(year, month, day, hour, minute, second, zone)
+        begin
+          Time.new(year, month, day, hour, minute, second, zone)
+        rescue ArgumentError
+          val
+        end
       when REGEXP_RATIONAL
         return val if $2.to_i == 0
         Rational($1, $2)

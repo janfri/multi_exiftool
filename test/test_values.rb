@@ -120,6 +120,12 @@ class TestValues < Test::Unit::TestCase
         assert_nil values['TimeWithOnlyZeros']
       end
 
+      test 'timestamp with invalid data' do
+        ts =  '2022:25:01 16:25'
+        values = MultiExiftool::Values.new('InvalidTimestamp' => ts)
+        assert_equal ts, values['InvalidTimestamp']
+      end
+
       test 'rational with denominator zero' do
         values = MultiExiftool::Values.new('DenominatorZero' => '1/0')
         assert_equal '1/0', values['DenominatorZero']
