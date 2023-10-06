@@ -1,3 +1,6 @@
+0.17.1
+Maintenance release: update Ruby versions for CI.
+
 0.17.0
 In case of an invalid timestamp value return the unconverted string value of
 that tag.
