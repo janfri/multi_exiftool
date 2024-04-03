@@ -20,11 +20,7 @@ module MultiExiftool
     end
 
     def self.mandatory_args
-      if MultiExiftool.exiftool_version >= 9.79
-        %w(-charset FileName=utf8 -charset utf8)
-      else
-        %w(-charset utf8)
-      end
+      %w(-charset FileName=utf8 -charset utf8)
     end
 
     # Options to use with the exiftool command.

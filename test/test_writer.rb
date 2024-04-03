@@ -123,11 +123,7 @@ class TestWriter < Test::Unit::TestCase
         @writer.values = {comment: 'foo', bar: 'x'}
         rc = @writer.write
         assert !rc
-        if MultiExiftool.exiftool_version >= 10.38
-          assert_equal ["Warning: Tag 'bar' is not defined", "Error: File not found - xxx"], @writer.errors
-        else
-          assert_equal ["Warning: Tag 'bar' is not supported", "Error: File not found - xxx"], @writer.errors
-        end
+        assert_equal ["Warning: Tag 'bar' is not defined", "Error: File not found - xxx"], @writer.errors
       end
     end
 

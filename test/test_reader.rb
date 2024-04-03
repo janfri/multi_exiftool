@@ -101,11 +101,7 @@ class TestReader < Test::Unit::TestCase
         @reader.filenames = %w(non_existing_file)
         res = @reader.read
         assert_equal [], res
-        if MultiExiftool.exiftool_version < 11.10
-          assert_equal ['File not found: non_existing_file'], @reader.errors
-        else
-          assert_equal ['Error: File not found - non_existing_file'], @reader.errors
-        end
+        assert_equal ['Error: File not found - non_existing_file'], @reader.errors
       end
     end
 
@@ -115,11 +111,7 @@ class TestReader < Test::Unit::TestCase
         @reader.tags = %w(fnumber foo)
         res = @reader.read
         assert_equal [5.6], res.map {|e| e['FNumber']}
-        if MultiExiftool.exiftool_version < 11.10
-          assert_equal ['File not found: xxx'], @reader.errors
-        else
-          assert_equal ['Error: File not found - xxx'], @reader.errors
-        end
+        assert_equal ['Error: File not found - xxx'], @reader.errors
       end
     end
 

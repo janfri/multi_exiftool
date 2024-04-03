@@ -189,8 +189,8 @@ class TestFunctionalApi < Test::Unit::TestCase
       run_in_temp_dir do
         errors = MultiExiftool.delete_values(@filenames, tags: %w[foo bar])
         err1, err2 = errors
-        expected1 = /^Warning: Tag 'foo' is not (defined|supported)$/
-        expected2 = /^Warning: Tag 'bar' is not (defined|supported)$/
+        expected1 = /^Warning: Tag 'foo' is not defined$/
+        expected2 = /^Warning: Tag 'bar' is not defined$/
         assert_match expected1, err1
         assert_match expected2, err2
       end
