@@ -71,11 +71,6 @@ module MultiExiftool
       res.flatten
     end
 
-    def parse_results
-      @errors = @stderr.read.split(/\n/)
-      @errors.empty?
-    end
-
   end
 
 end

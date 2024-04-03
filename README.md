@@ -199,12 +199,9 @@ The method Values#convert is called each time a value is fetched.
 ## Requirements
 
 - Ruby 1.9.1 or higher
-- An installation of the ExifTool command-line application (version 7.65 or
+- An installation of the ExifTool command-line application (version 11.10 or
 higher). Instructions for installation you can find under
 https://exiftool.org/install.html .
-- If you have problems with special characters (like German umlauts) in
-filenames on windows system it is recommended to use exiftool version 9.79
-or higher.
 
 ## Installation
 

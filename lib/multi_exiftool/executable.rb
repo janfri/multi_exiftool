@@ -72,6 +72,15 @@ module MultiExiftool
       stdin.close
     end
 
+    def parse_results
+      parse_errors
+      @errors.empty?
+    end
+
+    def parse_errors
+      @errors = @stderr.read.lines(chomp: true).select {|l| l =~ /^(Error|Warning):/}
+    end
+
   end
 
 end

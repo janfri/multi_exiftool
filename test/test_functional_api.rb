@@ -135,7 +135,7 @@ class TestFunctionalApi < Test::Unit::TestCase
       run_in_temp_dir do
         values = {orientation: 2}
         errors = MultiExiftool.write(@filenames, values)
-        assert_equal ["Warning: Can't convert IFD0:Orientation (matches more than one PrintConv)", "Nothing to do."], errors
+        assert_equal ["Warning: Can't convert IFD0:Orientation (matches more than one PrintConv)"], errors
         errors = MultiExiftool.write(@filenames, values, numerical: true)
         assert errors.empty?
       end
@@ -188,13 +188,11 @@ class TestFunctionalApi < Test::Unit::TestCase
     test 'error if tags do not exist' do
       run_in_temp_dir do
         errors = MultiExiftool.delete_values(@filenames, tags: %w[foo bar])
-        err1, err2, err3 = errors
+        err1, err2 = errors
         expected1 = /^Warning: Tag 'foo' is not (defined|supported)$/
         expected2 = /^Warning: Tag 'bar' is not (defined|supported)$/
-        expected3 = 'Nothing to do.'
         assert_match expected1, err1
         assert_match expected2, err2
-        assert_equal expected3, err3
       end
     end
 

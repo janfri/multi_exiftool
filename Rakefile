@@ -18,14 +18,14 @@ Rim.setup do |p|
   p.homepage = 'https://github.com/janfri/multi_exiftool'
   p.install_message = %q{
 +-----------------------------------------------------------------------+
-| Please ensure you have installed exiftool version 7.65 or higher and  |
+| Please ensure you have installed exiftool version 11.10 or higher and |
 | it's found in your PATH (Try "exiftool -ver" on your commandline).    |
 | For more details see                                                  |
-| https://exiftool.org/install.html             |
+| https://exiftool.org/install.html                                     |
 +-----------------------------------------------------------------------+
   }
   p.development_dependencies << %w(contest ~>0.1)
   p.development_dependencies << 'test-unit'
-  p.requirements << 'exiftool, version 7.65 or higher'
+  p.requirements << 'exiftool, version 11.10 or higher'
   p.test_warning = false
 end

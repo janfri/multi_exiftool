@@ -30,13 +30,6 @@ module MultiExiftool
       @writers.map {|w| w.exiftool_args + ['-execute']}.flatten
     end
 
-    private
-
-    def parse_results
-      @errors = @stderr.read.split(/\n/)
-      @errors.empty?
-    end
-
   end
 
 end
