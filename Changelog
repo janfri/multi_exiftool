@@ -1,3 +1,8 @@
+0.18.0
+Adapt handling of errors. Only lines in STDERR which starts with "Error:" or
+"Warning:" are now interpreted as error messages. Therefore ExifTool 11.10 is
+now the minimal supported version.
+
 0.17.1
 Maintenance release: update Ruby versions for CI.
 
