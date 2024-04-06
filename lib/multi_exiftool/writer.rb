@@ -10,7 +10,7 @@ module MultiExiftool
   # possible errors.
   class Writer
 
-    attr_accessor :overwrite_original, :values
+    attr_accessor :values
 
     include Executable
 
@@ -21,13 +21,6 @@ module MultiExiftool
 
     def self.mandatory_args
       %w(-charset FileName=utf8 -charset utf8)
-    end
-
-    # Options to use with the exiftool command.
-    def options
-      opts = super
-      opts[:overwrite_original] = true if @overwrite_original
-      opts
     end
 
     # Getting the command-line arguments which would be executed
