@@ -14,7 +14,7 @@ unless errors.empty?
 end
 
 # Ensuring that for all files with EXIF rotation value of 76 the EXIF value orientation is 6
-# end for EXIF rotation value 82 the EXIF orientation value is 8
+# and for EXIF rotation value 82 the EXIF orientation value is 8
 
 # Determine the filenames
 update_orientation_to_6 = results.select {|r| r.rotation == 76 && r.orientation != 6}.map {|r| r.sourcefile}
