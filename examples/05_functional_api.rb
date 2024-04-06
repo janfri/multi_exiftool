@@ -21,8 +21,13 @@ update_orientation_to_6 = results.select {|r| r.rotation == 76 && r.orientation 
 update_orientation_to_8 = results.select {|r| r.rotation == 82 && r.orientation != 8}.map {|r| r.sourcefile}
 
 # Update
-errors  = MultiExiftool.write(update_orientation_to_6, {orientation: 6}, numerical: true, overwrite_original: true)
-errors += MultiExiftool.write(update_orientation_to_8, {orientation: 8}, numerical: true, overwrite_original: true)
+errors = []
+unless update_orientation_to_6.empty?
+  errors += MultiExiftool.write(update_orientation_to_6, {orientation: 6}, numerical: true, overwrite_original: true)
+end
+unless update_orientation_to_8.empty?
+  errors += MultiExiftool.write(update_orientation_to_8, {orientation: 8}, numerical: true, overwrite_original: true)
+end
 
 unless errors.empty?
   $stderr.puts reader.errors
