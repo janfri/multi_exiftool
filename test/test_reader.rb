@@ -77,17 +77,17 @@ class TestReader < Test::Unit::TestCase
 
     test 'numerical flag' do
       @reader.filenames = %w(a.jpg b.jpg c.jpg)
-      @reader.numerical = true
+      @reader.options.numerical = true
       exiftool_args = MANDATORY_ARGS + %w(-n a.jpg b.jpg c.jpg)
       assert_equal exiftool_args, @reader.exiftool_args
     end
 
     test 'group flag' do
       @reader.filenames = %w(a.jpg)
-      @reader.group = 0
+      @reader.opts.group = 0
       exiftool_args = MANDATORY_ARGS + %w(-g0 a.jpg)
       assert_equal exiftool_args, @reader.exiftool_args
-      @reader.group = 1
+      @reader.opts.group = 1
       exiftool_args = MANDATORY_ARGS + %w(-g1 a.jpg)
       assert_equal exiftool_args, @reader.exiftool_args
     end
@@ -141,7 +141,7 @@ class TestReader < Test::Unit::TestCase
       run_in_temp_dir do
         @reader.filenames = %w(a.jpg)
         @reader.tags = %w(fnumber)
-        @reader.group = 0
+        @reader.options.group = 0
         res =  @reader.read.first
         assert_equal 'a.jpg', res.source_file
         assert_equal 5.6, res.exif.fnumber
@@ -156,7 +156,7 @@ class TestReader < Test::Unit::TestCase
         res = @reader.read
         assert_equal [nil, nil, nil], res.map(&:mybasename)
         assert_equal [], @reader.messages.errors
-        @reader.config = 'example.config'
+        @reader.opts.config = 'example.config'
         res = @reader.read
         assert_equal %w[a b c], res.map(&:mybasename)
         assert_equal [], @reader.messages.errors

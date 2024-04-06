@@ -1,6 +1,7 @@
 # encoding: utf-8
 # frozen_string_literal: true
 
+require_relative 'options'
 require 'open3'
 
 require_relative 'messages'
@@ -11,21 +12,18 @@ module MultiExiftool
   module Executable
 
     attr_reader :messages
-    attr_accessor :config, :filenames, :numerical, :options
+    attr_accessor :filenames, :options
 
-    def initialize filenames=[], options={}
-      @options = options
-      @filenames = filenames
-      @option_mapping = {numerical: :n}
-      if val = options.delete(:config)
-        @config = val
-      end
+    def initialize filenames=[], **options
+      self.options = options
+      self.filenames = filenames
     end
 
-    def options
-      opts = @options.dup
-      opts[:n] = true if @numerical
-      opts
+    def options= opts
+      unless opts.kind_of? Options
+        opts = Options.new(opts)
+      end
+      @options = opts
     end
 
     def filenames= value
@@ -38,23 +36,12 @@ module MultiExiftool
       parse_results
     end
 
+    alias opts options
+
     private
 
     def exiftool_command
       MultiExiftool.exiftool_command
-    end
-
-    def options_args
-      opts = options
-      return [] if opts.empty?
-      opts.map do |opt, val|
-        arg = @option_mapping[opt] || opt
-        if val == true
-          "-#{arg}"
-        else
-          %W[-#{arg} #{val}]
-        end
-      end
     end
 
     def prepare_execution
@@ -63,8 +50,8 @@ module MultiExiftool
 
     def execute_command
       args = ['-@', '-']
-      if @config
-        args = ['-config', @config] + args
+      if c = @options.config
+        args = ['-config', c] + args
       end
       stdin, @stdout, @stderr = Open3.popen3(exiftool_command, *args)
       exiftool_args.each do |part|

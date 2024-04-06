@@ -66,7 +66,7 @@ class TestFunctionalApi < Test::Unit::TestCase
         assert_equal [nil, nil, nil], values.map(&:mybasename)
         assert_equal [nil, nil, nil], values.map(&:file_extension)
         assert_equal [], messages.errors_and_warnings
-        values, messages = MultiExiftool.read(%w[a.jpg b.jpg c.jpg], config: 'example.config', tags: %w[mybasename fileextension])
+        values, messages = MultiExiftool.read(%w[a.jpg b.jpg c.jpg], tags: %w[mybasename fileextension], config: 'example.config')
         assert_equal %w[a b c], values.map(&:mybasename)
         assert_equal %w[jpg]*3, values.map(&:file_extension)
         assert_equal [], messages.errors_and_warnings
@@ -125,7 +125,7 @@ class TestFunctionalApi < Test::Unit::TestCase
       run_in_temp_dir do
         values = {comment: 'foo'}
         options = {overwrite_original: true}
-        messages = MultiExiftool.write(@filenames, values, options)
+        messages = MultiExiftool.write(@filenames, values, **options)
         assert !messages.errors_or_warnings?
         assert_equal [], Dir['*_original']
       end
@@ -234,7 +234,7 @@ class TestFunctionalApi < Test::Unit::TestCase
           options = {overwrite_original: true}
           messages = MultiExiftool.batch do
             filenames.zip multiple_values do |filename, values|
-              write filename, values, options
+              write filename, values, **options
             end
           end
           assert_equal [], messages.errors_and_warnings
@@ -271,7 +271,7 @@ class TestFunctionalApi < Test::Unit::TestCase
           options = {overwrite_original: true}
           messages = MultiExiftool.batch do |batch|
             @filenames.zip @multiple_values do |filename, values|
-              batch.write filename, values, options
+              batch.write filename, values, **options
             end
           end
           assert_equal [], messages.errors_and_warnings
