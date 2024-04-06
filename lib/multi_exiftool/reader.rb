@@ -11,34 +11,17 @@ module MultiExiftool
   # the results as well as possible errors.
   class Reader
 
-    attr_accessor :tags, :group
+    attr_accessor :tags
 
     include Executable
 
-    def initialize filenames=[], opts={}
-      super(filenames, opts)
-      if val = opts.delete(:tags)
-        @tags = val
-      else
-        @tags = []
-      end
-      if val = opts.delete(:group)
-        @group = val
-      end
-      @options = opts unless opts.empty?
+    def initialize filenames=[], tags: nil, **options
+      super(filenames, **options)
+      self.tags = tags
     end
 
     def self.mandatory_args
       %w(-J -charset FileName=utf8 -charset utf8)
-    end
-
-    # Options to use with the exiftool command.
-    def options
-      opts = super
-      if @group
-        opts["g#@group"] = true
-      end
-      opts
     end
 
     # Getting the command-line arguments which would be executed
@@ -49,7 +32,7 @@ module MultiExiftool
       fail MultiExiftool::Error, 'No filenames.' if filenames.empty?
       cmd = []
       cmd << Reader.mandatory_args
-      cmd << options_args
+      cmd << options.options_args
       cmd << tags_args
       cmd << filenames
       cmd.flatten

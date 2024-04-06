@@ -10,24 +10,17 @@ module MultiExiftool
   # possible errors.
   class Writer
 
-    attr_accessor :overwrite_original, :values
+    attr_accessor :values
 
     include Executable
 
-    def initialize filenames=[], values={}, opts={}
-      super(filenames, opts)
-      @values = values
+    def initialize filenames=[], values={}, **options
+      super(filenames, **options)
+      self.values = values
     end
 
     def self.mandatory_args
       %w(-charset FileName=utf8 -charset utf8)
-    end
-
-    # Options to use with the exiftool command.
-    def options
-      opts = super
-      opts[:overwrite_original] = true if @overwrite_original
-      opts
     end
 
     # Getting the command-line arguments which would be executed
@@ -38,7 +31,7 @@ module MultiExiftool
       fail MultiExiftool::Error, 'No filenames.' if filenames.empty?
       cmd = []
       cmd << Writer.mandatory_args
-      cmd << options_args
+      cmd << options.options_args
       cmd << values_args
       cmd << filenames
       cmd.flatten
