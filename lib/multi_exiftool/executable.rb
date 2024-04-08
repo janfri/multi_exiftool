@@ -3,6 +3,8 @@
 
 require 'open3'
 
+require_relative 'messages'
+
 module MultiExiftool
 
   # Mixin for Reader and Writer.
