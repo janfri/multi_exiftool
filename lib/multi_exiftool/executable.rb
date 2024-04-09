@@ -10,7 +10,7 @@ module MultiExiftool
   # Mixin for Reader and Writer.
   module Executable
 
-    attr_reader :errors
+    attr_reader :messages
     attr_accessor :config, :filenames, :numerical, :options
 
     def initialize filenames=[], options={}
@@ -58,7 +58,7 @@ module MultiExiftool
     end
 
     def prepare_execution
-      @errors = []
+      @messages = Messages.new([])
     end
 
     def execute_command
@@ -75,12 +75,12 @@ module MultiExiftool
     end
 
     def parse_results
-      parse_errors
-      @errors.empty?
+      parse_messages
+      !@messages.errors_or_warnings?
     end
 
-    def parse_errors
-      @errors = @stderr.read.lines(chomp: true).select {|l| l =~ /^(Error|Warning):/}
+    def parse_messages
+      @messages = Messages.new(@stderr.read.lines(chomp: true))
     end
 
   end

@@ -10,10 +10,10 @@ comment = $stdin.gets.chomp
 
 writer = MultiExiftool::Writer.new
 writer.filenames = ARGV
-writer.overwrite_original = true
+writer.options.overwrite_original = true
 writer.values = {comment: comment}
 if writer.write
   puts 'ok'
 else
-  puts writer.errors.join
+  puts writer.messages.warnings_and_errors.join("\n")
 end

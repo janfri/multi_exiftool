@@ -6,10 +6,10 @@ if ARGV.empty?
 end
 
 # Reading only the tags Orientation and Rotation using the -n option of exiftool
-results, errors = MultiExiftool.read(ARGV, tags: %w[orientation rotation], numerical: true)
+results, messages = MultiExiftool.read(ARGV, tags: %w[orientation rotation], numerical: true)
 
-unless errors.empty?
-  $stderr.puts reader.errors
+if messages.errors_or_warnings?
+  $stderr.puts reader.messages.warnings_and_errors
   exit 1
 end
 
@@ -21,15 +21,17 @@ update_orientation_to_6 = results.select {|r| r.rotation == 76 && r.orientation 
 update_orientation_to_8 = results.select {|r| r.rotation == 82 && r.orientation != 8}.map {|r| r.sourcefile}
 
 # Update
-errors = []
+errors_and_warnings = []
 unless update_orientation_to_6.empty?
-  errors += MultiExiftool.write(update_orientation_to_6, {orientation: 6}, numerical: true, overwrite_original: true)
+  messages = MultiExiftool.write(update_orientation_to_6, {orientation: 6}, numerical: true, overwrite_original: true)
+  errors_and_warnings += messages.errors_and_warnings
 end
 unless update_orientation_to_8.empty?
-  errors += MultiExiftool.write(update_orientation_to_8, {orientation: 8}, numerical: true, overwrite_original: true)
+  messages = MultiExiftool.write(update_orientation_to_8, {orientation: 8}, numerical: true, overwrite_original: true)
+  errors_and_warnings += messages.errors_and_warnings
 end
 
-unless errors.empty?
+unless errors_and_warnings.empty?
   $stderr.puts reader.errors
   exit 1
 end

@@ -19,17 +19,18 @@ require 'multi_exiftool'
 reader = MultiExiftool::Reader.new
 reader.filenames = Dir['*.jpg']
 results = reader.read
-unless reader.errors.empty?
-  $stderr.puts reader.errors
+messages = reader.messages
+if messages.errors_or_warnings?
+  $stderr.puts reader.errors_and_warnings
 end
 results.each do |values|
   puts "#{values.file_name}: #{values.comment}"
 end
 
 # Functional approach
-results, errors = MultiExiftool.read(Dir['*.jpg'])
-unless errors.empty?
-  $stderr.puts reader.errors
+results, messages = MultiExiftool.read(Dir['*.jpg'])
+if messages.errors_or_warnings?
+  $stderr.puts messages.errors_and_warnings
 end
 results.each do |values|
   puts "#{values.file_name}: #{values.comment}"
@@ -48,15 +49,15 @@ writer.values = {creator: 'Jan Friedrich', copyright: 'Public Domain'}
 if writer.write
   puts 'ok'
 else
-  puts writer.errors
+  puts writer.messages.errors_and_warnings
 end
 
 # Functional approach
-errors = MultiExiftool.write(Dir['*.jpg'],  {creator: 'Jan Friedrich', copyright: 'Public Domain'})
-if errors.empty?
+messages = MultiExiftool.write(Dir['*.jpg'],  {creator: 'Jan Friedrich', copyright: 'Public Domain'})
+if !messages.warnings_or_errors?
   puts 'ok'
 else
-  puts writer.errors
+  puts messages.warnings_and_errors
 end
 ```
 
@@ -75,32 +76,32 @@ end
 if batch.execute
   puts 'ok'
 else
-  puts batch.errors
+  puts batch.messages.errors_and_warnings
 end
 
 # Functional approach
 
-errors = MultiExiftool.batch do
+messages = MultiExiftool.batch do
   Dir['*.jpg'].each_with_index do |filename, i|
     values = {creator: 'Jan Friedrich', copyright: 'Public Domain', comment: "This is file number #{i+1}."}
     write filename, values
   end
 end
-if errors.empty?
+if !messages.errors_or_warnings?
   puts 'ok'
 else
-  puts errors
+  puts messages.errors_and_warnings
 end
 
 # or alternative with block parameter as yielded Batch instance
 
-errors = MultiExiftool.batch do |batch|
+messages = MultiExiftool.batch do |batch|
   Dir['*.jpg'].each_with_index do |filename, i|
     values = {creator: 'Jan Friedrich', copyright: 'Public Domain', comment: "This is file number #{i+1}."}
     batch.write filename, values
   end
 end
-if errors.empty?
+if !messages.errors_or_warnings?
   puts 'ok'
 else
   puts errors
@@ -112,19 +113,19 @@ end
 
 ```ruby
 # Delete ALL values
-errors = MultiExiftool.delete_values(Dir['*.jpg'])
-if errors.empty?
+messages = MultiExiftool.delete_values(Dir['*.jpg'])
+if !messages.errors_or_warnings?
   puts 'ok'
 else
-  puts writer.errors
+  puts messages.errors_and_warnings
 end
 
 # Delete values for tags Author and Title
-errors = MultiExiftool.delete_values(Dir['*.jpg'], tags: %w(author title))
-if errors.empty?
+messages = MultiExiftool.delete_values(Dir['*.jpg'], tags: %w(author title))
+if !messages.warnings_or_errors?
   puts 'ok'
 else
-  puts writer.errors
+  puts messages.errors_and_warnings
 end
 ```
 

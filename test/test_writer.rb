@@ -113,7 +113,7 @@ class TestWriter < Test::Unit::TestCase
         @writer.values = {comment: 'foo'}
         rc = @writer.write
         assert rc
-        assert_equal [], @writer.errors
+        assert_equal [], @writer.messages.errors_and_warnings
       end
     end
 
@@ -123,7 +123,7 @@ class TestWriter < Test::Unit::TestCase
         @writer.values = {comment: 'foo', bar: 'x'}
         rc = @writer.write
         assert !rc
-        assert_equal ["Warning: Tag 'bar' is not defined", "Error: File not found - xxx"], @writer.errors
+        assert_equal ["Warning: Tag 'bar' is not defined", "Error: File not found - xxx"], @writer.messages.errors_and_warnings
       end
     end
 

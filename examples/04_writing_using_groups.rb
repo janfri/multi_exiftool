@@ -29,5 +29,5 @@ END
 if writer.write
   puts 'ok'
 else
-  puts writer.errors.join
+  puts writer.messages.warnings_and_errors.join("\n")
 end

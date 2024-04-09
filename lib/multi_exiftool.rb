@@ -19,30 +19,30 @@ module MultiExiftool
     # values, errors
     #
     # Example:
-    #   values, errors = MultiExiftool.read(Dir['*.jpg'])
-    #   if errors.empty?
-    #     values.each {|val| do_something_with(val) }
-    #   else
+    #   values, messages = MultiExiftool.read(Dir['*.jpg'])
+    #   if messages.errors_or_warnings?
     #     # error handling
+    #   else
+    #     values.each {|val| do_something_with(val) }
     #   end
     def read filenames, opts={}
       reader = Reader.new(filenames, opts)
       values = reader.read
-      [values, reader.errors]
+      [values, reader.messages]
     end
 
     # Writing metadata
     # Returns an array of the error messages
     #
     # Example:
-    #   errors = MultiExiftool.write(Dir['*.jpg'], {author: 'Jan Friedrich'})
-    #   unless errors.empty?
+    #   messages = MultiExiftool.write(Dir['*.jpg'], {author: 'Jan Friedrich'})
+    #   if messages.errors_or_warnings?
     #     # do error handling
     #   end
     def write filenames, values, opts={}
       writer = Writer.new(filenames, values, opts)
       writer.write
-      writer.errors
+      writer.messages
     end
 
     # Deleting metadata
@@ -50,14 +50,14 @@ module MultiExiftool
     #
     # Examples:
     #   # delete values for all tags
-    #   errors = MultiExiftool.delete_values(Dir['*.jpg'])
-    #   unless errors.empty?
+    #   messages = MultiExiftool.delete_values(Dir['*.jpg'])
+    #   if messages.errors_or_warnings?
     #     # do error handling
     #   end
     #
     #   # delete values for tags Author and Title
-    #   errors = MultiExiftool.delete_values(Dir['*.jpg'], %w[author title])
-    #   unless errors.empty?
+    #   messages = MultiExiftool.delete_values(Dir['*.jpg'], %w[author title])
+    #   if messages.errors_or_warnings?
     #     # do error handling
     #   end
     def delete_values filenames, opts={}
@@ -71,11 +71,11 @@ module MultiExiftool
     # Returns an array of the error messages
     #
     # Example:
-    #   errors = MultiExiftool.batch do
+    #   messages = MultiExiftool.batch do
     #     Dir['*.jpg'].each_with_index do |filename, i|
     #       write filename, {author: 'Jan Friedrich', comment: "This is file number #{i+1}."}
     #     end
-    #   unless errors.empty?
+    #   if messages.errors_or_warnings?
     #     # do error handling
     #   end
     def batch &block
@@ -86,7 +86,7 @@ module MultiExiftool
         yield batch
       end
       batch.execute
-      batch.errors
+      batch.messages
     end
 
     attr_accessor :exiftool_command
