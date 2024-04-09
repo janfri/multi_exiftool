@@ -70,7 +70,7 @@ module MultiExiftool
 
     def parse_results
       stdout = @stdout.read
-      parse_errors
+      parse_messages
       json = JSON.parse(stdout)
       json.map {|values| Values.new(values)}
     rescue JSON::ParserError

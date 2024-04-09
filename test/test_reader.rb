@@ -101,7 +101,7 @@ class TestReader < Test::Unit::TestCase
         @reader.filenames = %w(non_existing_file)
         res = @reader.read
         assert_equal [], res
-        assert_equal ['Error: File not found - non_existing_file'], @reader.errors
+        assert_equal ['Error: File not found - non_existing_file'], @reader.messages.errors
       end
     end
 
@@ -111,7 +111,7 @@ class TestReader < Test::Unit::TestCase
         @reader.tags = %w(fnumber foo)
         res = @reader.read
         assert_equal [5.6], res.map {|e| e['FNumber']}
-        assert_equal ['Error: File not found - xxx'], @reader.errors
+        assert_equal ['Error: File not found - xxx'], @reader.messages.errors
       end
     end
 
@@ -122,7 +122,7 @@ class TestReader < Test::Unit::TestCase
         res =  @reader.read
         assert_equal [5.6, 6.7, 8], res.map {|e| e['FNumber']}
         assert_equal %w(SourceFile FNumber), res.first.tags
-        assert_equal [], @reader.errors
+        assert_equal [], @reader.messages.errors
       end
     end
 
@@ -133,7 +133,7 @@ class TestReader < Test::Unit::TestCase
         res =  @reader.read
         assert_equal [5.6, 6.7, 8], res.map {|e| e.fnumber}
         assert_equal %w(SourceFile FNumber), res.first.tags
-        assert_equal [], @reader.errors
+        assert_equal [], @reader.messages.errors
       end
     end
 
@@ -145,7 +145,7 @@ class TestReader < Test::Unit::TestCase
         res =  @reader.read.first
         assert_equal 'a.jpg', res.source_file
         assert_equal 5.6, res.exif.fnumber
-        assert_equal [], @reader.errors
+        assert_equal [], @reader.messages.errors
       end
     end
 
@@ -155,11 +155,11 @@ class TestReader < Test::Unit::TestCase
         @reader.tags = %w[mybasename]
         res = @reader.read
         assert_equal [nil, nil, nil], res.map(&:mybasename)
-        assert_equal [], @reader.errors
+        assert_equal [], @reader.messages.errors
         @reader.config = 'example.config'
         res = @reader.read
         assert_equal %w[a b c], res.map(&:mybasename)
-        assert_equal [], @reader.errors
+        assert_equal [], @reader.messages.errors
       end
     end
 
