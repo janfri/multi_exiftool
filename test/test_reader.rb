@@ -77,7 +77,7 @@ class TestReader < Test::Unit::TestCase
 
     test 'numerical flag' do
       @reader.filenames = %w(a.jpg b.jpg c.jpg)
-      @reader.options.numerical = true
+      @reader.numerical = true
       exiftool_args = MANDATORY_ARGS + %w(-n a.jpg b.jpg c.jpg)
       assert_equal exiftool_args, @reader.exiftool_args
     end

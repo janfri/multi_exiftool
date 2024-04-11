@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require 'open3'
-require 'ostruct'
 
 module MultiExiftool
 
@@ -10,18 +9,21 @@ module MultiExiftool
   module Executable
 
     attr_reader :errors
-    attr_accessor :config, :filenames, :options
+    attr_accessor :config, :filenames, :numerical, :options
 
     def initialize filenames=[], options={}
-      self.options = options
-      self.filenames = filenames
+      @options = options
+      @filenames = filenames
+      @option_mapping = {numerical: :n}
       if val = options.delete(:config)
-        self.config = val
+        @config = val
       end
     end
 
-    def options= opts
-      @options = OpenStruct.new(opts)
+    def options
+      opts = @options.dup
+      opts[:n] = true if @numerical
+      opts
     end
 
     def filenames= value
@@ -34,32 +36,19 @@ module MultiExiftool
       parse_results
     end
 
-    alias opts options
-
     private
-
-    def pimped_options
-      opts = @options.to_h
-      if opts.delete(:numerical)
-        opts[:n] = true
-      end
-      opts
-    end
-
 
     def exiftool_command
       MultiExiftool.exiftool_command
     end
 
     def options_args
-      opts = pimped_options
+      opts = options
       return [] if opts.empty?
-      opts.map do |arg, val|
-        case val
-        when true
+      opts.map do |opt, val|
+        arg = @option_mapping[opt] || opt
+        if val == true
           "-#{arg}"
-        when false, nil
-          ''
         else
           %W[-#{arg} #{val}]
         end

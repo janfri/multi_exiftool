@@ -91,14 +91,14 @@ class TestWriter < Test::Unit::TestCase
 
     test 'numerical flag' do
       @writer.values = {comment: 'foo'}
-      @writer.options.numerical = true
+      @writer.numerical = true
       exiftool_args = MANDATORY_ARGS + %w(-n -comment=foo a.jpg b.jpg c.jpg)
       assert_equal exiftool_args, @writer.exiftool_args
     end
 
     test 'overwrite_original flag' do
       @writer.values = {comment: 'foo'}
-      @writer.options.overwrite_original = true
+      @writer.overwrite_original = true
       exiftool_args = MANDATORY_ARGS + %w(-overwrite_original -comment=foo a.jpg b.jpg c.jpg)
       assert_equal exiftool_args, @writer.exiftool_args
     end

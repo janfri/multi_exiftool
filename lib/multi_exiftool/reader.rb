@@ -15,18 +15,30 @@ module MultiExiftool
 
     include Executable
 
-    def initialize filenames=[], options={}
-      opts = options.dup
+    def initialize filenames=[], opts={}
       super(filenames, opts)
-      self.tags = opts.delete(:tags)
-      if val = opts.delete(:group)
-        self.group = val
+      if val = opts.delete(:tags)
+        @tags = val
+      else
+        @tags = []
       end
-      self.options = opts
+      if val = opts.delete(:group)
+        @group = val
+      end
+      @options = opts unless opts.empty?
     end
 
     def self.mandatory_args
       %w(-J -charset FileName=utf8 -charset utf8)
+    end
+
+    # Options to use with the exiftool command.
+    def options
+      opts = super
+      if @group
+        opts["g#@group"] = true
+      end
+      opts
     end
 
     # Getting the command-line arguments which would be executed
@@ -50,14 +62,6 @@ module MultiExiftool
     end
 
     private
-
-    def pimped_options
-      opts = super
-      if @group
-        opts["g#@group"] = true
-      end
-      opts
-    end
 
     def tags_args
       return [] unless @tags
