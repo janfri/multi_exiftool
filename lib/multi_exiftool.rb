@@ -104,6 +104,12 @@ module MultiExiftool
       @exiftool_version ||= `#{exiftool_command} -ver`.to_f
     end
 
+    # Converts a name to a unified name by removing underscores und dashes and
+    # downcasing it
+    def unify name
+      name.to_s.gsub(/[-_]/, '').downcase
+    end
+
   end
 
   class Error < ::StandardError; end

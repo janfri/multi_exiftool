@@ -22,7 +22,7 @@ module MultiExiftool
     def initialize values
       @values = {}
       values.map do |tag,val|
-        unified_tag = Values.unify_tag(tag)
+        unified_tag = MultiExiftool.unify(tag)
         Values.tag_map[unified_tag] = tag
         val = val.kind_of?(Hash) ? Values.new(val) : val
         @values[unified_tag] = val
@@ -33,7 +33,7 @@ module MultiExiftool
     # (tag will be unified, i.e. FNumber, fnumber or f_number
     # can be used for FNumber)
     def [](tag)
-      unified_tag = Values.unify_tag(tag)
+      unified_tag = MultiExiftool.unify(tag)
       convert(unified_tag, @values[unified_tag])
     end
 
@@ -71,7 +71,7 @@ module MultiExiftool
     # Checks if a tag is present
     # @param Tag as string or symbol (will be unified)
     def has_tag? tag
-      @values.has_key?(Values.unify_tag(tag.to_s))
+      @values.has_key?(MultiExiftool.unify(tag))
     end
 
     # Gets the original tag names of this instance
@@ -85,7 +85,7 @@ module MultiExiftool
     def to_h
       @values.inject(Hash.new) do |h, a|
         tag, val = a
-        h[Values.tag_map[tag]] = convert(Values.unify_tag(tag), val)
+        h[Values.tag_map[tag]] = convert(MultiExiftool.unify(tag), val)
         h
       end
     end
@@ -98,14 +98,10 @@ module MultiExiftool
 
       attr_reader :tag_map
 
-      def unify_tag tag
-      tag.gsub(/[-_]/, '').downcase
-      end
-
     end
 
     def method_missing tag, *args, &block
-      res = self[Values.unify_tag(tag.to_s)]
+      res = self[MultiExiftool.unify(tag)]
       if res && block_given?
         if block.arity > 0
           yield res
