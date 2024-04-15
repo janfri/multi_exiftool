@@ -4,13 +4,13 @@
 require_relative 'helper'
 require 'date'
 
-class TestValues < Test::Unit::TestCase
+class TestReaderValues < Test::Unit::TestCase
 
   context 'value access' do
 
     setup do
       hash = {'FNumber' => 8, 'Author' => 'janfri'}
-      @values = MultiExiftool::Values.new(hash)
+      @values = MultiExiftool::ReaderValues.new(hash)
     end
 
     test 'original spelling of tag name' do
@@ -46,7 +46,7 @@ class TestValues < Test::Unit::TestCase
           'TimestampWithZ' => '2017:04:08 17:57:27Z',
           'TimestampWithFractionAndZ' => '2017:04:08 17:57:27.123Z'
         }
-        @values = MultiExiftool::Values.new(hash)
+        @values = MultiExiftool::ReaderValues.new(hash)
       end
 
       test 'local Time object' do
@@ -99,7 +99,7 @@ class TestValues < Test::Unit::TestCase
           'PartOfSet' => '1/2',
           'Track' => '1/5'
         }
-        @values = MultiExiftool::Values.new(hash)
+        @values = MultiExiftool::ReaderValues.new(hash)
       end
 
       test 'rational values' do
@@ -116,18 +116,18 @@ class TestValues < Test::Unit::TestCase
     context 'invalid values' do
 
       test 'timestamp with only zeros' do
-        values = MultiExiftool::Values.new('TimeWithOnlyZeros' => '0000:00:00 00:00:00')
+        values = MultiExiftool::ReaderValues.new('TimeWithOnlyZeros' => '0000:00:00 00:00:00')
         assert_nil values['TimeWithOnlyZeros']
       end
 
       test 'timestamp with invalid data' do
         ts =  '2022:25:01 16:25'
-        values = MultiExiftool::Values.new('InvalidTimestamp' => ts)
+        values = MultiExiftool::ReaderValues.new('InvalidTimestamp' => ts)
         assert_equal ts, values['InvalidTimestamp']
       end
 
       test 'rational with denominator zero' do
-        values = MultiExiftool::Values.new('DenominatorZero' => '1/0')
+        values = MultiExiftool::ReaderValues.new('DenominatorZero' => '1/0')
         assert_equal '1/0', values['DenominatorZero']
       end
 
@@ -138,7 +138,7 @@ class TestValues < Test::Unit::TestCase
   context 'has_tag?' do
     setup do
       @hash = {'FNumber' => 8, 'Author' => 'janfri', 'E-MailAddress' => 'janfri26@gmail.com', 'DateTimeOriginal' => '2018:08:22 11:50:00'}
-      @values = MultiExiftool::Values.new(@hash)
+      @values = MultiExiftool::ReaderValues.new(@hash)
     end
 
     test 'different formats as string' do
@@ -164,7 +164,7 @@ class TestValues < Test::Unit::TestCase
 
     setup do
       @hash = {'FNumber' => 8, 'Author' => 'janfri', 'E-MailAddress' => 'janfri26@gmail.com', 'DateTimeOriginal' => '2017:02:20 21:07:00'}
-      @values = MultiExiftool::Values.new(@hash)
+      @values = MultiExiftool::ReaderValues.new(@hash)
     end
 
     test 'tags preserves the original tag names' do
@@ -183,7 +183,7 @@ class TestValues < Test::Unit::TestCase
 
     setup do
       hash = {'FNumber' => 8, 'Author' => 'janfri'}
-      @values = MultiExiftool::Values.new(hash)
+      @values = MultiExiftool::ReaderValues.new(hash)
     end
 
     test 'existing keys' do
