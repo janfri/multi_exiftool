@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require_relative 'executable'
+require_relative 'reader_values'
 require 'json'
 
 module MultiExiftool
@@ -55,7 +56,7 @@ module MultiExiftool
       stdout = @stdout.read
       parse_messages
       json = JSON.parse(stdout)
-      json.map {|values| Values.new(values)}
+      json.map {|values| ReaderValues.new(values)}
     rescue JSON::ParserError
       return []
     end

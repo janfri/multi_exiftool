@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require_relative 'multi_exiftool/options'
-require_relative 'multi_exiftool/values'
 require_relative 'multi_exiftool/reader'
 require_relative 'multi_exiftool/writer'
 require_relative 'multi_exiftool/batch'

@@ -6,10 +6,10 @@ require 'set'
 
 module MultiExiftool
 
-  # Representing (tag, value) pairs of metadata.
+  # Representing (tag, value) pairs of metadata as result of Reader#read.
   # Access via bracket-methods or dynamic method-interpreting via
   # method_missing.
-  class Values
+  class ReaderValues
 
     # Regular expression to determine timestamp values
     REGEXP_TIMESTAMP = /^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)(?::((?:\d\d)(?:\.\d+)?))?((?:[-+]\d\d:\d\d)|(?:Z))?(?: *DST)?$/
@@ -23,8 +23,8 @@ module MultiExiftool
       @values = {}
       values.map do |tag,val|
         unified_tag = MultiExiftool.unify(tag)
-        Values.tag_map[unified_tag] = tag
-        val = val.kind_of?(Hash) ? Values.new(val) : val
+        ReaderValues.tag_map[unified_tag] = tag
+        val = val.kind_of?(Hash) ? ReaderValues.new(val) : val
         @values[unified_tag] = val
       end
     end
@@ -32,13 +32,13 @@ module MultiExiftool
     # Gets the (posible converted) value for a tag
     # (tag will be unified, i.e. FNumber, fnumber or f_number
     # can be used for FNumber)
-    def [](tag)
+    def [] tag
       unified_tag = MultiExiftool.unify(tag)
       convert(unified_tag, @values[unified_tag])
     end
 
     # Converts values on the basis of unified tag name and value. It is called
-    # each time a value is fethed from a Values instance.
+    # each time a value is fethed from a ReaderValues instance.
     # @return (maybe) converted value
     def convert tag, val
       return val unless val.kind_of?(String)
@@ -76,7 +76,7 @@ module MultiExiftool
 
     # Gets the original tag names of this instance
     def tags
-      @values.keys.map {|tag| Values.tag_map[tag]}
+      @values.keys.map {|tag| ReaderValues.tag_map[tag]}
     end
 
     # Generates a hash representation of this instance
@@ -85,7 +85,7 @@ module MultiExiftool
     def to_h
       @values.inject(Hash.new) do |h, a|
         tag, val = a
-        h[Values.tag_map[tag]] = convert(MultiExiftool.unify(tag), val)
+        h[ReaderValues.tag_map[tag]] = convert(MultiExiftool.unify(tag), val)
         h
       end
     end
@@ -115,6 +115,7 @@ module MultiExiftool
     def respond_to_missing? tag, *args
       has_tag?(tag) || super
     end
+
   end
 
 end

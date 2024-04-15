@@ -142,7 +142,7 @@ following conversions are implemented at the moment:
 * Timestamps => Time (with local time zone of no one given)
 * values of form "n/m" => Rational except PartOfSet and Track
 
-The conversion is done in the method Values#convert. So you can change it's
+The conversion is done in the method ReaderValues#convert. So you can change it's
 behaviour as following examples show.
 
 ### Example 1
@@ -154,7 +154,7 @@ module MyConversion
   end
 end
 
-MultiExiftool::Values.prepend MyConversion
+MultiExiftool::ReaderValues.prepend MyConversion
 ```
 
 ### Example 2
@@ -175,7 +175,7 @@ module MultiExiftool
     end
   end
 
-  Values.prepend MyConversion
+  ReaderValues.prepend MyConversion
 end
 ```
 
@@ -184,17 +184,17 @@ end
 ```ruby
 m = Module.new do
   def convert tag, val
-    if val =~ MultiExiftool::Values::REGEXP_TIMESTAMP
+    if val =~ MultiExiftool::ReaderValues::REGEXP_TIMESTAMP
       val # no conversion
     else
       super # use default conversion
     end
   end
 end
-MultiExiftool::Values.prepend m
+MultiExiftool::ReaderValues.prepend m
 ```
 
-The method Values#convert is called each time a value is fetched.
+The method ReaderValues#convert is called each time a value is fetched.
 
 
 ## Requirements

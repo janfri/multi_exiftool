@@ -3,11 +3,11 @@
 
 require_relative 'helper'
 
-class TestValuesUsingGroups < Test::Unit::TestCase
+class TestReaderValuesUsingGroups < Test::Unit::TestCase
 
   setup do
     hash = {'EXIF' => {'FNumber' => 8, 'Author' => 'janfri'}}
-    @values = MultiExiftool::Values.new(hash)
+    @values = MultiExiftool::ReaderValues.new(hash)
   end
 
   test 'bracket access' do
