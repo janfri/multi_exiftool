@@ -60,8 +60,7 @@ module MultiExiftool
     #   if messages.errors_or_warnings?
     #     # do error handling
     #   end
-    def delete_values filenames, opts={}
-      tags = opts.fetch(:tags, :all)
+    def delete_values filenames, tags: :all
       values = Array(tags).inject(Hash.new) {|h,tag| h[tag] = nil; h}
       write(filenames, values)
     end
