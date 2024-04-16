@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require_relative 'helper'
-require_relative '../lib/multi_exiftool/writer_values'
 require 'date'
 
 class TestWriterValues < Test::Unit::TestCase
