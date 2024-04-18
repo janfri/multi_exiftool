@@ -102,10 +102,18 @@ module MultiExiftool
       @exiftool_version ||= `#{exiftool_command} -ver`.to_f
     end
 
-    # Converts a name to a unified name by removing underscores und dashes and
+    # :nodoc:
+
+    # Converts a name to a unified name by converting it with to_s and
     # downcasing it
     def unify name
-      name.to_s.gsub(/[-_]/, '').downcase
+      name.to_s.downcase
+    end
+
+    # Converts a name to a unified name by converting it with to_s and removing
+    # underscores and downcasing it
+    def unify2 name
+      name.to_s.gsub('_', '').downcase
     end
 
   end
