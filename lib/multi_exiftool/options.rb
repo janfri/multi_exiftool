@@ -119,6 +119,10 @@ module MultiExiftool
       res
     end
 
+    alias to_hash to_h
+
+    # :nodoc:
+
     def options_args
       args = []
       to_h.each_pair do |k, v|
@@ -139,6 +143,8 @@ module MultiExiftool
       end
       args.flatten.map(&:to_s)
     end
+
+    private
 
     def method_missing meth, val=nil
       m = MultiExiftool.unify(meth)
