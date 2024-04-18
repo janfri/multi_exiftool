@@ -43,8 +43,8 @@ module MultiExiftool
 
     alias to_hash to_h
 
-    # :nodoc:
-
+    # Gets an array of the command-line arguments for this instance (internal
+    # use)
     def values_args
       raise MultiExiftool::Error.new('No values.') if @values.empty?
       values_to_param_array(@values).map {|arg| "-#{arg}"}
