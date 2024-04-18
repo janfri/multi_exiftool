@@ -17,13 +17,33 @@ class TestWriterValues < Test::Unit::TestCase
       assert_nil @values.fnumber
     end
 
+    test 'bracket setter' do
+      @values['ISO'] = 400
+      @values['Caption-Abstract'] = 'some text'
+      assert_equal 400, @values[:iso]
+      assert_equal 400, @values.iso
+      assert_equal 'some text', @values['caption-abstract']
+      assert_equal 'some text', @values['CAPTION-ABSTRACT']
+      assert_nil @values.caption_abstract
+      assert_nil @values.captionabstract
+      assert_equal ['-iso=400', '-caption-abstract=some text'], @values.values_args
+    end
+
     test 'setters' do
       @values.iso = 400
-      @values.fnumber = 5.6
+      @values.f_number = 5.6
       assert_equal 400, @values['ISO']
       assert_equal 400, @values.iso
       assert_equal 5.6, @values.fnumber
       assert_equal 5.6, @values.f_number
+      assert_equal 5.6, @values[:fnumber]
+      assert_nil @values['f-number']
+      assert_nil @values['F-Number']
+      assert_nil @values['f_number']
+      assert_nil @values['F_Number']
+      assert_nil @values[:f_number]
+      assert_nil @values[:F_Number]
+      assert_equal %w(-iso=400 -fnumber=5.6), @values.values_args
     end
 
     test 'values_args' do
@@ -31,7 +51,8 @@ class TestWriterValues < Test::Unit::TestCase
         @values.values_args
       end
       @values.iso = 400
-      @values.fnumber = 5.6
+      assert_equal %w(-iso=400), @values.values_args
+      @values.f_number = 5.6
       assert_equal %w(-iso=400 -fnumber=5.6), @values.values_args
     end
 
@@ -54,12 +75,12 @@ class TestWriterValues < Test::Unit::TestCase
       assert_equal 8, @values['fnumber']
       @values['fnumber'] = 5.6
       assert_equal 5.6, @values['fnumber']
-      assert_equal 5.6, @values['f_number']
-      @values['f_number'] = 8
-      assert_equal 8, @values['f_number']
-      assert_equal 8, @values['f-number']
-      @values['f-number'] = 5.6
-      assert_equal 5.6, @values['f-number']
+      assert_equal 5.6, @values['FNumber']
+      @values['fNumber'] = 8
+      assert_equal 8, @values['FNumber']
+      assert_equal 8, @values['FNUMBER']
+      @values['fNumber'] = 5.6
+      assert_equal 5.6, @values['FNUMBER']
     end
 
     test 'tag access via methods' do

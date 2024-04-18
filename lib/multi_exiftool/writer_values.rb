@@ -65,7 +65,7 @@ module MultiExiftool
     private
 
     def method_missing tag, val=nil, &block
-      unified_tag = MultiExiftool.unify(tag)
+      unified_tag = MultiExiftool.unify2(tag)
       if unified_tag =~ /^(.+)=$/
         self[$1] = val
       else

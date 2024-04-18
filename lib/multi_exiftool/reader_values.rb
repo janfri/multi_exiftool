@@ -101,7 +101,7 @@ module MultiExiftool
     end
 
     def method_missing tag, *args, &block
-      res = self[MultiExiftool.unify(tag)]
+      res = self[MultiExiftool.unify2(tag)]
       if res && block_given?
         if block.arity > 0
           yield res
@@ -113,7 +113,7 @@ module MultiExiftool
     end
 
     def respond_to_missing? tag, *args
-      has_tag?(tag) || super
+      has_tag?(MultiExiftool.unify2(tag)) || super
     end
 
   end

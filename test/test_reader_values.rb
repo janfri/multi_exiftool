@@ -9,7 +9,7 @@ class TestReaderValues < Test::Unit::TestCase
   context 'value access' do
 
     setup do
-      hash = {'FNumber' => 8, 'Author' => 'janfri'}
+      hash = {'FNumber' => 8, 'Caption-Abstract' => 'some text', 'WB_RGGBLevels' => '84 64 64 86'}
       @values = MultiExiftool::ReaderValues.new(hash)
     end
 
@@ -19,8 +19,24 @@ class TestReaderValues < Test::Unit::TestCase
 
     test 'variant spellings of tag names' do
       assert_equal 8, @values['fnumber']
-      assert_equal 8, @values['f_number']
-      assert_equal 8, @values['f-number']
+      assert_equal 8, @values['FNUMBER']
+      assert_nil @values['f_number']
+      assert_nil @values['f-number']
+    end
+
+    test 'underscores and dashes in tag names are preserved in bracket access' do
+      assert_nil @values['f_number']
+      assert_nil @values['f-number']
+      assert_equal 'some text', @values['Caption-Abstract']
+      assert_equal 'some text', @values['caption-abstract']
+      assert_equal 'some text', @values['CAPTION-ABSTRACT']
+      assert_nil @values['CaptionAbstract']
+      assert_nil @values['Caption_Abstract']
+      assert_equal '84 64 64 86', @values['WB_RGGBLevels']
+      assert_equal '84 64 64 86', @values['wb_rggblevels']
+      assert_equal '84 64 64 86', @values['WB_RGGBLEVELS']
+      assert_nil @values['WbRGGBLevels']
+      assert_nil @values['WB-RGGBLevels']
     end
 
     test 'tag access via methods' do
