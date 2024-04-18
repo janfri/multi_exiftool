@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require_relative 'helper'
+require 'yaml'
 
 class TestWriter < Test::Unit::TestCase
 
@@ -35,7 +36,7 @@ class TestWriter < Test::Unit::TestCase
       @writer.filenames = ['one file with spaces.jpg', 'another file with spaces.tif']
       @writer.values = {comment: 'foo'}
       exiftool_args = MANDATORY_ARGS + ['-comment=foo', 'one file with spaces.jpg',
-                                       'another file with spaces.tif']
+                                        'another file with spaces.tif']
       assert_equal exiftool_args, @writer.exiftool_args
     end
 
@@ -125,6 +126,48 @@ class TestWriter < Test::Unit::TestCase
         assert !rc
         assert_equal ["Warning: Tag 'bar' is not defined", "Error: File not found - xxx"], @writer.messages.errors_and_warnings
       end
+    end
+
+  end
+
+  context 'using groups' do
+
+    setup do
+      @writer.filenames = %w(a.jpg b.jpg c.jpg)
+    end
+
+    test 'simple case' do
+      @writer.values = {exif: {comment: 'test'}  }
+      exiftool_args = MANDATORY_ARGS + %w(-exif:comment=test a.jpg b.jpg c.jpg)
+      assert_equal exiftool_args, @writer.exiftool_args
+    end
+
+    test 'more than one groups and tags' do
+      @writer.values = YAML.load <<-END
+      exif:
+        author: Mr. X
+        comment: some comment
+      xmp:
+        author: Mr. X
+        subjectlocation: somewhere else
+      END
+      exiftool_args = MANDATORY_ARGS + ['-exif:author=Mr. X', '-exif:comment=some comment',
+                                        '-xmp:author=Mr. X', '-xmp:subjectlocation=somewhere else',
+                                        'a.jpg', 'b.jpg', 'c.jpg']
+      assert_equal exiftool_args, @writer.exiftool_args
+    end
+
+    test 'tags with array-like values' do
+      @writer.values = YAML.load <<-END
+      exif:
+        keywords:
+          - one
+          - two
+          - and three
+      END
+      exiftool_args = MANDATORY_ARGS + ['-exif:keywords=one', '-exif:keywords=two', '-exif:keywords=and three',
+                                        'a.jpg', 'b.jpg', 'c.jpg']
+      assert_equal exiftool_args, @writer.exiftool_args
     end
 
   end
