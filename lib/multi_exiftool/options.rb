@@ -121,8 +121,8 @@ module MultiExiftool
 
     alias to_hash to_h
 
-    # :nodoc:
-
+    # Gets an array of the command-line arguments for this instance (internal
+    # use)
     def options_args
       args = []
       to_h.each_pair do |k, v|
