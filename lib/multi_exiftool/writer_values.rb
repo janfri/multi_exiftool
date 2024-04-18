@@ -43,10 +43,14 @@ module MultiExiftool
 
     alias to_hash to_h
 
+    # :nodoc:
+
     def values_args
       raise MultiExiftool::Error.new('No values.') if @values.empty?
       values_to_param_array(@values).map {|arg| "-#{arg}"}
     end
+
+    private
 
     def values_to_param_array hash
       res = []
@@ -61,8 +65,6 @@ module MultiExiftool
       end
       res.flatten
     end
-
-    private
 
     def method_missing tag, val=nil, &block
       unified_tag = MultiExiftool.unify2(tag)
