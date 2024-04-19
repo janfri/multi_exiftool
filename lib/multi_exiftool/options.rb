@@ -147,14 +147,23 @@ module MultiExiftool
     private
 
     def method_missing meth, val=nil
-      m = MultiExiftool.unify(meth)
-      if m == meth.to_s
-        raise NoMethodError.new("undefined method '#{meth}' for an instance of Options")
+      opt = unify(meth)
+      if opt == meth.to_s
+        raise Error.new("option #{opt} is not supported")
       end
-      if m =~ /^(.+)=$/
-        self.send $1, val
+      if opt =~ /=$/
+        self.send(opt, val)
       else
-        self.send m
+        self.send(opt)
+      end
+    end
+
+    def unify opt
+      s = opt.to_s
+      if s.size > 1
+        s.gsub('_', '').downcase
+      else
+        s
       end
     end
 

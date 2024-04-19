@@ -20,13 +20,36 @@ class TestOptions < Test::Unit::TestCase
       assert @options.noprintconv
     end
 
+    test 'case handling' do
+      assert_nil @options.Numerical
+      assert_nil @options.SORT
+      assert_nil @options.P
+      assert_raises MultiExiftool::Error do
+        @options.N
+      end
+      assert_raises MultiExiftool::Error do
+        @options.p
+      end
+    end
+
+    test 'underscore handling' do
+      assert_nil @options.no_print_conv
+      @options.noprintconv = true
+      assert @options.no_print_conv
+    end
 
     test 'non members' do
-      assert_raises NoMethodError do
+      assert_raises MultiExiftool::Error do
         @options.x
       end
-      assert_raises NoMethodError do
+      assert_raises MultiExiftool::Error do
         @options.x = true
+      end
+      assert_raises MultiExiftool::Error do
+        @options.p
+      end
+      assert_raises MultiExiftool::Error do
+        @options.p = true
       end
     end
 
