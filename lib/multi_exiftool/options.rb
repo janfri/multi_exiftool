@@ -102,10 +102,20 @@ module MultiExiftool
     alias :preserve :P
     alias :preserve= :P=
 
+    undef p
+
     def initialize values={}
       values.each_pair do |k, v|
         self.send "#{k}=", v
       end
+    end
+
+    def [] opt
+      self.send(opt)
+    end
+
+    def []= opt, val
+      self.send("#{opt}=", val)
     end
 
     def to_h
@@ -149,7 +159,7 @@ module MultiExiftool
     def method_missing meth, val=nil
       opt = unify(meth)
       if opt == meth.to_s
-        raise Error.new("option #{opt} is not supported")
+        raise Error.new("option #{opt.sub(/=$/, '')} is not supported")
       end
       if opt =~ /=$/
         self.send(opt, val)

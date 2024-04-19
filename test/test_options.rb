@@ -53,6 +53,23 @@ class TestOptions < Test::Unit::TestCase
       end
     end
 
+    test 'bracket access' do
+      assert_nil @options[:n]
+      assert_nil @options['numerical']
+      @options.numerical = true
+      assert @options['n']
+      assert @options[:no_print_conv]
+      @options['P'] = true
+      assert @options.P
+      assert @options[:preserve]
+      assert_raises MultiExiftool::Error do
+        @options[:p]
+      end
+      assert_raises MultiExiftool::Error do
+        @options[:p] = false
+      end
+    end
+
     test 'to_h' do
       h = {}
       assert_equal h, @options.to_h
