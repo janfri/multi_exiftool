@@ -22,7 +22,7 @@ module MultiExiftool
     def initialize values
       @values = {}
       values.map do |tag,val|
-        unified_tag = MultiExiftool.unify(tag)
+        unified_tag = MultiExiftool.unify_tag(tag)
         ReaderValues.tag_map[unified_tag] = tag
         val = val.kind_of?(Hash) ? ReaderValues.new(val) : val
         @values[unified_tag] = val
@@ -33,7 +33,7 @@ module MultiExiftool
     # (tag will be unified, i.e. FNumber, fnumber or f_number
     # can be used for FNumber)
     def [] tag
-      unified_tag = MultiExiftool.unify(tag)
+      unified_tag = MultiExiftool.unify_tag(tag)
       convert(unified_tag, @values[unified_tag])
     end
 
@@ -71,7 +71,7 @@ module MultiExiftool
     # Checks if a tag is present
     # @param Tag as string or symbol (will be unified)
     def has_tag? tag
-      @values.has_key?(MultiExiftool.unify(tag))
+      @values.has_key?(MultiExiftool.unify_tag(tag))
     end
 
     # Gets the original tag names of this instance
@@ -85,7 +85,7 @@ module MultiExiftool
     def to_h
       @values.inject(Hash.new) do |h, a|
         tag, val = a
-        h[ReaderValues.tag_map[tag]] = convert(MultiExiftool.unify(tag), val)
+        h[ReaderValues.tag_map[tag]] = convert(MultiExiftool.unify_tag(tag), val)
         h
       end
     end
@@ -100,8 +100,8 @@ module MultiExiftool
 
     end
 
-    def method_missing tag, *args, &block
-      res = self[MultiExiftool.unify2(tag)]
+    def method_missing meth, *args, &block
+      res = self[MultiExiftool.unify_method(meth)]
       if res && block_given?
         if block.arity > 0
           yield res
@@ -112,8 +112,8 @@ module MultiExiftool
       res
     end
 
-    def respond_to_missing? tag, *args
-      has_tag?(MultiExiftool.unify2(tag)) || super
+    def respond_to_missing? meth, *args
+      has_tag?(MultiExiftool.unify_method(meth)) || super
     end
 
   end
