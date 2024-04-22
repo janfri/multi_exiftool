@@ -156,25 +156,38 @@ module MultiExiftool
 
     private
 
-    def method_missing meth, val=nil
-      opt = unify(meth)
-      if opt == meth.to_s
-        raise Error.new("option #{opt.sub(/=$/, '')} is not supported")
+    def method_missing meth, *args
+      m = try_find_real_method_name(meth)
+      if m
+        return self.send(m, *args)
       end
-      if opt =~ /=$/
-        self.send(opt, val)
-      else
-        self.send(opt)
-      end
+      opt = meth.to_s.sub(/=$/, '')
+      raise Error.new("option #{opt} is not supported")
     end
 
-    def unify opt
-      s = opt.to_s
-      if s.size > 1
-        s.gsub('_', '').downcase
-      else
-        s
+    def respond_to_missing? meth, *args
+      !try_find_real_method_name(meth).nil?
+    end
+
+
+    def try_find_real_method_name meth
+      m = meth.to_s
+      if m =~ /^[a-zA-Z]=?$/
+        return nil
       end
+      if m =~ /[A-Z]/
+        m.downcase!
+        if self.respond_to?(m)
+          return m
+        end
+      end
+      if m =~ /^[a-z]+(?:_[a-z0-9]+)+/
+        m.gsub!('_', '')
+        if self.respond_to? m
+          return m
+        end
+      end
+      nil
     end
 
   end
