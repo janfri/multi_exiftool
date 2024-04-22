@@ -18,14 +18,14 @@ module MultiExiftool
     # Gets the value for a tag (tag will be unified, i.e. FNumber, fnumber or
     # f_number can be used for FNumber)
     def [] tag
-      unified_tag = MultiExiftool.unify(tag)
+      unified_tag = MultiExiftool.unify_tag(tag)
       @values[unified_tag]
     end
 
     # Sets the value for a tag (tag will be unified, i.e. FNumber, fnumber or
     # f_number can be used for FNumber)
     def []= tag, val
-      unified_tag = MultiExiftool.unify(tag)
+      unified_tag = MultiExiftool.unify_tag(tag)
       if val.respond_to?(:to_hash) && !val.kind_of?(WriterValues)
         val = WriterValues.new(val)
       end
@@ -66,15 +66,15 @@ module MultiExiftool
       res.flatten
     end
 
-    def method_missing tag, val=nil, &block
-      unified_tag = MultiExiftool.unify2(tag)
-      if unified_tag =~ /^(.+)=$/
+    def method_missing meth, val=nil, &block
+      unified_meth = MultiExiftool.unify_method(meth)
+      if unified_meth =~ /^(.+)=$/
         self[$1] = val
       else
-        res = self[unified_tag]
+        res = self[unified_meth]
         if block_given?
           res = WriterValues.new unless res
-          self[unified_tag] = res
+          self[unified_meth] = res
           if block.arity > 0
             yield res
           else
