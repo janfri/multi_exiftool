@@ -142,4 +142,26 @@ class TestOptions < Test::Unit::TestCase
 
   end
 
+  context 'respond_to' do
+
+    setup do
+      @options = MultiExiftool::Options.new
+    end
+
+    test 'valid methods' do
+      %i(n n= numerical numerical= c c= exif_charset exif_charset= P P=
+      overwrite_original overwrite_original= overwrite_original_in_place
+      overwrite_original_in_place= coordFormat coord_format).each do |meth|
+        assert @options.respond_to?(meth), "method #{meth} should be supported"
+      end
+    end
+
+    test 'non valid methods' do
+      %i(N N= C C= x x= ISO iso Rotation rotation).each do |meth|
+        assert_false @options.respond_to?(meth), "method #{meth} should not be supported"
+      end
+    end
+
+  end
+
 end
