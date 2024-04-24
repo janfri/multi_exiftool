@@ -7,7 +7,7 @@ end
 
 reader = MultiExiftool::Reader.new
 reader.filenames = ARGV
-reader.group = 0
+reader.opts.group = 0
 results = reader.read
 results.each do |values|
   # direct access
