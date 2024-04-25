@@ -9,31 +9,31 @@ module MultiExiftool
     # ExifTool option +-b+ (+-binary+) Output metadata in binary format
     attr_accessor :b
 
-    # ExifTool option +-c FMT (+-coordFormat+) Set format for GPS coordinates
+    # ExifTool option <code>-c FMT</code> (+-coordFormat+) Set format for GPS coordinates
     attr_accessor :c
 
-    # ExifTool option +-charset exif=CHARSET+ Specify encoding for special characters
+    # ExifTool option <code>-charset exif=CHARSET</code> Specify encoding for special characters
     attr_accessor :exif_charset
 
-    # ExifTool option +-charset id3=CHARSET+ Specify encoding for special characters
+    # ExifTool option <code>-charset id3=CHARSET</code> Specify encoding for special characters
     attr_accessor :id3_charset
 
-    # ExifTool option +-charset iptc=CHARSET+ Specify encoding for special characters
+    # ExifTool option <code>-charset iptc=CHARSE</code> Specify encoding for special characters
     attr_accessor :iptc_charset
 
-    # ExifTool option +-charset photoshop=CHARSET+ Specify encoding for special characters
+    # ExifTool option <code>-charset photoshop=CHARSET</code> Specify encoding for special characters
     attr_accessor :photoshop_charset
 
-    # ExifTool option +-charset quicktime=CHARSET+ Specify encoding for special characters
+    # ExifTool option <code>-charset quicktime=CHARSET</code> Specify encoding for special characters
     attr_accessor :quicktime_charset
 
-    # ExifTool option +-charset riff=CHARSET+ Specify encoding for special characters
+    # ExifTool option <code>-charset riff=CHARSET</code> Specify encoding for special characters
     attr_accessor :riff_charset
 
     # Exiftool option +-g[NUM...]+ (+-groupHeadings+) Organize output by tag group
     attr_accessor :g
 
-    # ExifTool option +-lang [LANG]+ Set current language
+    # ExifTool option <code>-lang [LANG]</code> Set current language
     attr_accessor :lang
 
     # ExifTool option +-n+ (+--printConv+) No print conversion
@@ -57,15 +57,14 @@ module MultiExiftool
     # ExifTool option +-m+ (+-ignoreMinorErrors+) Ignore minor errors and warnings
     attr_accessor :m
 
-    # ExifTool option +-password PASSWD+ Password for processing protected files
+    # ExifTool option <code>-password PASSWD</code> Password for processing protected files
     attr_accessor :password
 
-    # ExifTool option +-globalTimeShift SHIFT+ Shift all formatted date/time values
+    # ExifTool option <code>-globalTimeShift SHIFT</code> Shift all formatted date/time values
     attr_accessor :globaltimeshift
 
-    # ExifTool option +-config CFGFILE+ Specify configuration file name
+    # ExifTool option <code>-config CFGFILE</code> Specify configuration file name
     attr_accessor :config
-
 
     # ExifTool option +-overwrite_original+ Overwrite original by renaming tmp file
     attr_accessor :overwrite_original
@@ -76,31 +75,31 @@ module MultiExiftool
     # ExifTool option +-P+ (+-preserve+) Preserve file modification date/time
     attr_accessor :P
 
-    # ExifTool option +-geotag TRKFILE+ Geotag images from specified GPS log
+    # ExifTool option <code>-geotag TRKFILE</code> Geotag images from specified GPS log
     attr_accessor :geotag
 
     alias :binary :b
-    alias :binary= :b=
+    alias :binary= :b= # :nodoc:
     alias :coordformat :c
-    alias :coordformat= :c=
+    alias :coordformat= :c= # :nodoc:
     alias :groupheadings :g
-    alias :groupheadings= :g=
+    alias :groupheadings= :g= # :nodoc:
     alias :group :g
-    alias :group= :g=
+    alias :group= :g= # :nodoc:
     alias :noprintconv :n
-    alias :noprintconv= :n=
+    alias :noprintconv= :n= # :nodoc:
     alias :numerical :n
-    alias :numerical= :n=
+    alias :numerical= :n= # :nodoc:
     alias :nocomposite :e
-    alias :nocomposite= :e=
+    alias :nocomposite= :e= # :nodoc:
     alias :extractembedded :ee
-    alias :extractembedded= :ee=
+    alias :extractembedded= :ee= # :nodoc:
     alias :fixbase :F
-    alias :fixbase= :F=
+    alias :fixbase= :F= # :nodoc:
     alias :ignoreminorerrors :m
-    alias :ignoreminorerrors= :m=
+    alias :ignoreminorerrors= :m= # :nodoc:
     alias :preserve :P
-    alias :preserve= :P=
+    alias :preserve= :P= # :nodoc:
 
     undef p
 
