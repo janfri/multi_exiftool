@@ -57,6 +57,9 @@ module MultiExiftool
     # ExifTool option +-m+ (+-ignoreMinorErrors+) Ignore minor errors and warnings
     attr_accessor :m
 
+    # ExifTool option <code>-o OUTFILE</code> (+-out+) Set output file or directory name
+    attr_accessor :o
+
     # ExifTool option <code>-password PASSWD</code> Password for processing protected files
     attr_accessor :password
 
@@ -98,6 +101,8 @@ module MultiExiftool
     alias :fixbase= :F= # :nodoc:
     alias :ignoreminorerrors :m
     alias :ignoreminorerrors= :m= # :nodoc:
+    alias :out :o
+    alias :out= :o= # :nodoc:
     alias :preserve :P
     alias :preserve= :P= # :nodoc:
 
