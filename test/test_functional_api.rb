@@ -72,6 +72,23 @@ class TestFunctionalApi < Test::Unit::TestCase
         assert_equal [], messages.errors_and_warnings
       end
     end
+
+    def check_numerical_orientation_a_b_c values, messages
+      assert_equal [1, 2, 3], values.map {|e| e.orientation}
+      assert_equal [], messages.errors_and_warnings
+    end
+
+    test 'alternative arguments of the read method' do
+      run_in_temp_dir do
+        values, messages = MultiExiftool.read(%w[a.jpg b.jpg c.jpg], tags: %w[orientation], numerical: true)
+        check_numerical_orientation_a_b_c values, messages
+        values, messages = MultiExiftool.read(%w[a.jpg b.jpg c.jpg], %w[orientation], numerical: true)
+        check_numerical_orientation_a_b_c values, messages
+        values, messages = MultiExiftool.read(%w[a.jpg b.jpg c.jpg], :orientation, numerical: true)
+        check_numerical_orientation_a_b_c values, messages
+      end
+    end
+
   end
 
   context 'writing' do
@@ -137,6 +154,15 @@ class TestFunctionalApi < Test::Unit::TestCase
         messages = MultiExiftool.write(@filenames, values)
         assert_equal ["Warning: Can't convert IFD0:Orientation (matches more than one PrintConv)"], messages.errors_and_warnings
         messages = MultiExiftool.write(@filenames, values, numerical: true)
+        assert !messages.errors_or_warnings?
+      end
+    end
+
+    test 'alternative arguments of the write method' do
+      run_in_temp_dir do
+        messages = MultiExiftool.write(@filenames, orientation: 2)
+        assert_equal ["Warning: Can't convert IFD0:Orientation (matches more than one PrintConv)"], messages.errors_and_warnings
+        messages = MultiExiftool.write(@filenames, orientation: 2, numerical: true)
         assert !messages.errors_or_warnings?
       end
     end

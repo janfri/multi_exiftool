@@ -172,4 +172,40 @@ class TestWriter < Test::Unit::TestCase
 
   end
 
+  context 'alternative arguments of the initialize method' do
+
+    setup do
+      @filenames = %w(a.jpg b.jpg)
+      @values = {iso: 800, fnumber: 5.6}
+      @options = {numerical: true, overwrite_original: true}
+      @args_without_opts = MANDATORY_ARGS + %w(-iso=800 -fnumber=5.6) + @filenames
+      @args_with_opts = MANDATORY_ARGS + %w(-n -overwrite_original -iso=800 -fnumber=5.6) + @filenames
+    end
+
+    test 'classical' do
+      writer = MultiExiftool::Writer.new(@filenames, @values)
+      assert_equal @args_without_opts, writer.exiftool_args
+      writer = MultiExiftool::Writer.new(@filenames, @values, **(@options))
+      assert_equal @args_with_opts, writer.exiftool_args
+    end
+
+    test 'options as explicit arguments' do
+      writer = MultiExiftool::Writer.new(@filenames, @values, numerical: true, overwrite_original: true)
+      assert_equal @args_with_opts, writer.exiftool_args
+    end
+
+    test 'values as explicit arguments no options' do
+      writer = MultiExiftool::Writer.new(@filenames, iso: 800, fnumber: 5.6)
+      assert_equal @args_without_opts, writer.exiftool_args
+    end
+
+    test 'values and options as explicit arguments' do
+      writer = MultiExiftool::Writer.new(@filenames, iso: 800, fnumber: 5.6, numerical: true, overwrite_original: true)
+      assert_equal @args_with_opts, writer.exiftool_args
+      writer = MultiExiftool::Writer.new(@filenames, iso: 800, numerical: true, fnumber: 5.6, overwrite_original: true)
+      assert_equal @args_with_opts, writer.exiftool_args
+    end
+
+  end
+
 end

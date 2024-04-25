@@ -16,9 +16,9 @@ module MultiExiftool
 
     include Executable
 
-    def initialize filenames=[], tags: nil, **options
+    def initialize filenames=[], *tags_pos, tags: nil, **options
       super(filenames, **options)
-      self.tags = tags
+      self.tags = tags_pos.flatten + Array(tags)
     end
 
     def self.mandatory_args
