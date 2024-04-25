@@ -15,7 +15,20 @@ module MultiExiftool
 
     include Executable
 
-    def initialize filenames=[], values={}, **options
+    def initialize filenames=[], values=nil, **vals_and_opts
+      if values
+        options = vals_and_opts
+      else
+        options = Options.new
+        values = {}
+        vals_and_opts.each_pair do |k, v|
+          if options.respond_to? k
+            options[k] = v
+          else
+            values[k] = v
+          end
+        end
+      end
       super(filenames, **options)
       self.values = values
     end

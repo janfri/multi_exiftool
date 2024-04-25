@@ -161,6 +161,48 @@ class TestReader < Test::Unit::TestCase
         assert_equal %w[a b c], res.map(&:mybasename)
         assert_equal [], @reader.messages.errors
       end
+
+    end
+
+  end
+
+  context 'alternative arguments of the initialize method' do
+
+    setup do
+      @filenames = %w(a.jpg b.jpg)
+      @tags = %i(iso fnumber)
+      @options = {numerical: true, m: true, lang: :de}
+      @args = MANDATORY_ARGS + %w(-lang de -m -n -iso -fnumber) + @filenames
+    end
+
+    test 'classical' do
+      reader = MultiExiftool::Reader.new(@filenames, @tags, **(@options))
+      assert_equal @args, reader.exiftool_args
+    end
+
+    test 'tags as keyword argument' do
+      reader = MultiExiftool::Reader.new(@filenames, tags: @tags, **(@options))
+      assert_equal @args, reader.exiftool_args
+    end
+
+    test 'tags as explicit arguments' do
+      reader = MultiExiftool::Reader.new(@filenames, :iso, :fnumber, **(@options))
+      assert_equal @args, reader.exiftool_args
+    end
+
+    test 'classical with options as explicit arguments' do
+      reader = MultiExiftool::Reader.new(@filenames, @tags, numerical: true, lang: :de, m: true)
+      assert_equal @args, reader.exiftool_args
+    end
+
+    test 'tags as keyword argument, options as explicit arguments' do
+      reader = MultiExiftool::Reader.new(@filenames, tags: @tags, numerical: true, lang: 'de', m: true)
+      assert_equal @args, reader.exiftool_args
+    end
+
+    test 'tags and options as explicit arguments' do
+      reader = MultiExiftool::Reader.new(@filenames, :iso, :fnumber, numerical: true, lang: 'de', m: true)
+      assert_equal @args, reader.exiftool_args
     end
 
   end

@@ -25,8 +25,8 @@ module MultiExiftool
     #   else
     #     values.each {|val| do_something_with(val) }
     #   end
-    def read filenames, tags: nil, **opts
-      reader = Reader.new(filenames, tags: tags, **opts)
+    def read filenames, *tags_pos, tags: nil, **opts
+      reader = Reader.new(filenames, *tags_pos, tags: tags, **opts)
       values = reader.read
       [values, reader.messages]
     end
@@ -39,8 +39,8 @@ module MultiExiftool
     #   if messages.errors_or_warnings?
     #     # do error handling
     #   end
-    def write filenames, values, **opts
-      writer = Writer.new(filenames, values, **opts)
+    def write filenames, values=nil, **vals_and_opts
+      writer = Writer.new(filenames, values, **vals_and_opts)
       writer.write
       writer.messages
     end
