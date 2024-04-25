@@ -97,8 +97,8 @@ module MultiExiftool
     alias :extractembedded= :ee=
     alias :fixbase :F
     alias :fixbase= :F=
-    alias :ignoreminor_errors :m
-    alias :ignoreminor_errors= :m=
+    alias :ignoreminorerrors :m
+    alias :ignoreminorerrors= :m=
     alias :preserve :P
     alias :preserve= :P=
 
