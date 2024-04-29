@@ -31,6 +31,13 @@ module MultiExiftool
       @writers.map {|w| w.exiftool_args + ['-execute']}.flatten
     end
 
+    private
+
+    def prepare_execution
+      super
+      fail MultiExiftool::Error if @writers.empty?
+    end
+
   end
 
 end
