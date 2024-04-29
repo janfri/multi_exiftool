@@ -122,6 +122,10 @@ module MultiExiftool
       self.send("#{opt}=", val)
     end
 
+    def merge other
+      Options.new(self.to_h.merge(other.to_h))
+    end
+
     def to_h
       res = {}
       self.instance_variables.sort.each do |var|
@@ -156,6 +160,10 @@ module MultiExiftool
         end
       end
       args.flatten.map(&:to_s)
+    end
+
+    def == other
+      to_h == other.to_h
     end
 
     private

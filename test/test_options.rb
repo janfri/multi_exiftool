@@ -164,4 +164,37 @@ class TestOptions < Test::Unit::TestCase
 
   end
 
+  context 'merge' do
+
+    setup do
+      @options1 = MultiExiftool::Options.new(numerical: true, fast: 2)
+      @options2 = MultiExiftool::Options.new(fast: 3, sort: true)
+      @options3 = MultiExiftool::Options.new(numerical: false, sort: nil)
+    end
+
+    test 'empty options' do
+      o = MultiExiftool::Options.new
+      assert_equal o, o.merge(o)
+      assert_equal @options1, @options1.merge(o)
+      assert_equal @options2, o.merge(@options2)
+      assert_equal @options3, o.merge(@options3.merge(o))
+    end
+
+    test 'combinantions' do
+      o = MultiExiftool::Options.new(numerical: true, fast: 3, sort: true)
+      assert_equal o, @options1.merge(@options2)
+      o = MultiExiftool::Options.new(numerical: true, fast: 2, sort: true)
+      assert_equal o, @options2.merge(@options1)
+      o = MultiExiftool::Options.new(numerical: false, fast: 2)
+      assert_equal o, @options1.merge(@options3)
+      o = MultiExiftool::Options.new(numerical: true, fast: 2)
+      assert_equal o, @options3.merge(@options1)
+      o = MultiExiftool::Options.new(numerical: false, fast: 3, sort: true)
+      assert_equal o, @options2.merge(@options3)
+      o = MultiExiftool::Options.new(numerical: false, fast: 3, sort: true)
+      assert_equal o, @options3.merge(@options2)
+    end
+
+  end
+
 end
