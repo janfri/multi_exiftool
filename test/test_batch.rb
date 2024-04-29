@@ -45,6 +45,45 @@ class TestBatch < Test::Unit::TestCase
       assert_equal exiftool_args, batch.exiftool_args
     end
 
+    test 'filenames, values and options set in batch' do
+      batch = MultiExiftool::Batch.new
+      batch.options.overwrite_original = true
+      @filenames.zip @multiple_values do |filename, values|
+        batch.write filename, values
+      end
+      exiftool_args = @filenames.zip(@multiple_values).map do |filename, _values|
+        [MANDATORY_WRITER_ARGS, '-overwrite_original', '-author=janfri', "-comment=Comment for file #{filename}", filename, '-execute']
+      end.flatten
+      assert_equal exiftool_args, batch.exiftool_args
+    end
+
+    test 'filenames, values and options set in batch and write' do
+      options = {overwrite_original: true}
+      batch = MultiExiftool::Batch.new
+      batch.options.out = 'output_dir'
+      @filenames.zip @multiple_values do |filename, values|
+        batch.write filename, values, **options
+      end
+      exiftool_args = @filenames.zip(@multiple_values).map do |filename, _values|
+        [MANDATORY_WRITER_ARGS, '-o', 'output_dir', '-overwrite_original', '-author=janfri', "-comment=Comment for file #{filename}", filename, '-execute']
+      end.flatten
+      assert_equal exiftool_args, batch.exiftool_args
+    end
+
+    test 'options of write method wins' do
+      options = {overwrite_original: true}
+      batch = MultiExiftool::Batch.new
+      batch.options.out = 'output_dir'
+      batch.options.overwrite_original = false
+      @filenames.zip @multiple_values do |filename, values|
+        batch.write filename, values, **options
+      end
+      exiftool_args = @filenames.zip(@multiple_values).map do |filename, _values|
+        [MANDATORY_WRITER_ARGS, '-o', 'output_dir', '-overwrite_original', '-author=janfri', "-comment=Comment for file #{filename}", filename, '-execute']
+      end.flatten
+      assert_equal exiftool_args, batch.exiftool_args
+    end
+
     test 'alternative arguments of the write method' do
       options = {overwrite_original: true}
       batch1 = MultiExiftool::Batch.new
