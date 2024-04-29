@@ -272,6 +272,25 @@ class TestFunctionalApi < Test::Unit::TestCase
         end
       end
 
+      test 'batch options' do
+        run_in_temp_dir do
+          filenames = @filenames
+          multiple_values = @multiple_values
+          messages = MultiExiftool.batch do
+            options.overwrite_original = true
+            filenames.zip multiple_values do |filename, values|
+              write filename, values
+            end
+          end
+          assert_equal [], messages.errors_and_warnings
+          values, messages = MultiExiftool.read(@filenames)
+          assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
+          assert_equal ['Comment for file a.jpg', 'Comment for file b.jpg', 'Comment for file c.jpg'], values.map {|e| e['Comment']}
+          assert_equal [], messages.errors_and_warnings
+          assert_equal [], Dir['*_original']
+        end
+      end
+
     end
 
     context 'yield' do
@@ -298,6 +317,25 @@ class TestFunctionalApi < Test::Unit::TestCase
           messages = MultiExiftool.batch do |batch|
             @filenames.zip @multiple_values do |filename, values|
               batch.write filename, values, **options
+            end
+          end
+          assert_equal [], messages.errors_and_warnings
+          values, messages = MultiExiftool.read(@filenames)
+          assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
+          assert_equal ['Comment for file a.jpg', 'Comment for file b.jpg', 'Comment for file c.jpg'], values.map {|e| e['Comment']}
+          assert_equal [], messages.errors_and_warnings
+          assert_equal [], Dir['*_original']
+        end
+      end
+
+      test 'batch options' do
+        run_in_temp_dir do
+          filenames = @filenames
+          multiple_values = @multiple_values
+          messages = MultiExiftool.batch do |batch|
+            batch.options.overwrite_original = true
+            filenames.zip multiple_values do |filename, values|
+              batch.write filename, values
             end
           end
           assert_equal [], messages.errors_and_warnings

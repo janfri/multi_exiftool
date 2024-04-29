@@ -21,6 +21,7 @@ module MultiExiftool
     # Define a write operation for the batch.
     def write filenames=[], values=nil, **vals_and_opts
       w = MultiExiftool::Writer.new(filenames, values, **vals_and_opts)
+      w.options = options.merge(w.options)
       @writers << w
     end
 
