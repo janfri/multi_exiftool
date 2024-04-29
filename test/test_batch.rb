@@ -7,6 +7,12 @@ class TestBatch < Test::Unit::TestCase
 
   MANDATORY_WRITER_ARGS = MultiExiftool::Writer.mandatory_args
 
+  test 'empty batch' do
+    assert_raises MultiExiftool::Error do
+      MultiExiftool::Batch.new.execute
+    end
+  end
+
   context 'exiftool_args method' do
 
     setup do
