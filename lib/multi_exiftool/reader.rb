@@ -61,6 +61,10 @@ module MultiExiftool
       return []
     end
 
+    def parse_messages
+      @messages = Messages.new(@stderr.readlines(chomp: true))
+    end
+
   end
 
 end

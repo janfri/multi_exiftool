@@ -102,6 +102,8 @@ class TestFunctionalApi < Test::Unit::TestCase
         values = {comment: 'foo'}
         messages = MultiExiftool.write(@filenames, values)
         assert !messages.errors_or_warnings?
+        assert_equal 1, messages.infos.size
+        assert_array_match_any /^\s*3 .+files updated$/, messages.infos
         values, _messages = MultiExiftool.read(@filenames)
         assert_equal %w(foo) * 3, values.map {|e| e.comment}
       end
@@ -112,6 +114,8 @@ class TestFunctionalApi < Test::Unit::TestCase
         values = {author: 'Mister X'}
         messages = MultiExiftool.write(@filenames, values)
         assert !messages.errors_or_warnings?
+        assert_equal 1, messages.infos.size
+        assert_array_match_any /^\s*3 .+files updated$/, messages.infos
         values, _messages = MultiExiftool.read(@filenames)
         assert_equal ['Mister X'] * 3, values.map {|e| e.author}
       end
@@ -122,6 +126,8 @@ class TestFunctionalApi < Test::Unit::TestCase
         values ={exposuretime: Rational(1, 125)}
         messages = MultiExiftool.write(@filenames, values)
         assert !messages.errors_or_warnings?
+        assert_equal 1, messages.infos.size
+        assert_array_match_any /^\s*3 .+files updated$/, messages.infos
         values, _messages = MultiExiftool.read(@filenames)
         assert_equal [Rational(1, 125)] * 3, values.map {|e| e.exposuretime}
       end
@@ -133,6 +139,8 @@ class TestFunctionalApi < Test::Unit::TestCase
         values = {keywords: keywords}
         messages = MultiExiftool.write('a.jpg', values)
         assert !messages.errors_or_warnings?
+        assert_equal 1, messages.infos.size
+        assert_array_match_any /^\s*1 .+files updated$/, messages.infos
         values, _messages = MultiExiftool.read('a.jpg')
         assert_equal keywords, values.first.keywords
       end
@@ -144,6 +152,8 @@ class TestFunctionalApi < Test::Unit::TestCase
         options = {overwrite_original: true}
         messages = MultiExiftool.write(@filenames, values, **options)
         assert !messages.errors_or_warnings?
+        assert_equal 1, messages.infos.size
+        assert_array_match_any /^\s*3 .+files updated$/, messages.infos
         assert_equal [], Dir['*_original']
       end
     end
@@ -155,6 +165,8 @@ class TestFunctionalApi < Test::Unit::TestCase
         assert_equal ["Warning: Can't convert IFD0:Orientation (matches more than one PrintConv)"], messages.errors_and_warnings
         messages = MultiExiftool.write(@filenames, values, numerical: true)
         assert !messages.errors_or_warnings?
+        assert_equal 1, messages.infos.size
+        assert_array_match_any /^\s*3 .+files updated$/, messages.infos
       end
     end
 
@@ -164,6 +176,8 @@ class TestFunctionalApi < Test::Unit::TestCase
         assert_equal ["Warning: Can't convert IFD0:Orientation (matches more than one PrintConv)"], messages.errors_and_warnings
         messages = MultiExiftool.write(@filenames, orientation: 2, numerical: true)
         assert !messages.errors_or_warnings?
+        assert_equal 1, messages.infos.size
+        assert_array_match_any /^\s*3 .+files updated$/, messages.infos
       end
     end
 
@@ -245,6 +259,9 @@ class TestFunctionalApi < Test::Unit::TestCase
             end
           end
           assert_equal [], messages.errors_and_warnings
+          infos = messages.infos
+          assert_equal 3, infos.size
+          assert_array_match_all /^\s*1 .+files updated$/, infos
           values, messages = MultiExiftool.read(@filenames)
           assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
           assert_equal ['Comment for file a.jpg', 'Comment for file b.jpg', 'Comment for file c.jpg'], values.map {|e| e['Comment']}
@@ -264,6 +281,9 @@ class TestFunctionalApi < Test::Unit::TestCase
             end
           end
           assert_equal [], messages.errors_and_warnings
+          infos = messages.infos
+          assert_equal 3, infos.size
+          assert_array_match_all /^\s*1 .+files updated$/, infos
           values, messages = MultiExiftool.read(@filenames)
           assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
           assert_equal ['Comment for file a.jpg', 'Comment for file b.jpg', 'Comment for file c.jpg'], values.map {|e| e['Comment']}
@@ -283,6 +303,9 @@ class TestFunctionalApi < Test::Unit::TestCase
             end
           end
           assert_equal [], messages.errors_and_warnings
+          infos = messages.infos
+          assert_equal 3, infos.size
+          assert_array_match_all /^\s*1 .+files updated$/, infos
           values, messages = MultiExiftool.read(@filenames)
           assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
           assert_equal ['Comment for file a.jpg', 'Comment for file b.jpg', 'Comment for file c.jpg'], values.map {|e| e['Comment']}
@@ -303,6 +326,9 @@ class TestFunctionalApi < Test::Unit::TestCase
             end
           end
           assert_equal [], messages.errors_and_warnings
+          infos = messages.infos
+          assert_equal 3, infos.size
+          assert_array_match_all /^\s*1 .+files updated$/, infos
           values, messages = MultiExiftool.read(@filenames)
           assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
           assert_equal ['Comment for file a.jpg', 'Comment for file b.jpg', 'Comment for file c.jpg'], values.map {|e| e['Comment']}
@@ -320,6 +346,9 @@ class TestFunctionalApi < Test::Unit::TestCase
             end
           end
           assert_equal [], messages.errors_and_warnings
+          infos = messages.infos
+          assert_equal 3, infos.size
+          assert_array_match_all /^\s*1 .+files updated$/, infos
           values, messages = MultiExiftool.read(@filenames)
           assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
           assert_equal ['Comment for file a.jpg', 'Comment for file b.jpg', 'Comment for file c.jpg'], values.map {|e| e['Comment']}
@@ -339,6 +368,9 @@ class TestFunctionalApi < Test::Unit::TestCase
             end
           end
           assert_equal [], messages.errors_and_warnings
+          infos = messages.infos
+          assert_equal 3, infos.size
+          assert_array_match_all /^\s*1 .+files updated$/, infos
           values, messages = MultiExiftool.read(@filenames)
           assert_equal ['Jan Friedrich'] * 3, values.map {|e| e['Author']}
           assert_equal ['Comment for file a.jpg', 'Comment for file b.jpg', 'Comment for file c.jpg'], values.map {|e| e['Comment']}

@@ -115,6 +115,9 @@ class TestWriter < Test::Unit::TestCase
         rc = @writer.write
         assert rc
         assert_equal [], @writer.messages.errors_and_warnings
+        infos = @writer.messages.infos
+        assert_equal 1, infos.size
+        assert_array_match_any /^\s*3 .+files updated$/, infos
       end
     end
 
@@ -125,6 +128,10 @@ class TestWriter < Test::Unit::TestCase
         rc = @writer.write
         assert !rc
         assert_equal ["Warning: Tag 'bar' is not defined", "Error: File not found - xxx"], @writer.messages.errors_and_warnings
+        infos = @writer.messages.infos
+        assert_equal 2, infos.size
+        assert_array_match_any /^\s*1 .+files updated/, infos
+        assert_array_match_any /^\s*1 files weren't updated due to errors$/, infos
       end
     end
 
