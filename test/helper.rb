@@ -20,6 +20,14 @@ module TestHelper
     end
   end
 
+  def assert_array_match_any re, arr
+    assert arr.any? {|s| s =~ re}, "#{re.inspect} does not match any entry of #{arr.inspect}"
+  end
+
+  def assert_array_match_all re, arr
+    assert arr.all? {|s| s =~ re}, "#{re.inspect} does not match all entries of #{arr.inspect}"
+  end
+
 end
 
 class Test::Unit::TestCase
