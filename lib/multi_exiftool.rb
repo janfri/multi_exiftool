@@ -8,7 +8,7 @@ require_relative 'multi_exiftool/batch'
 
 module MultiExiftool
 
-  VERSION = '0.18.0'
+  VERSION = '0.18.1'
 
   @exiftool_command = 'exiftool'
 

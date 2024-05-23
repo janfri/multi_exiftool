@@ -1,3 +1,6 @@
+0.18.1
+Fix a bug with large output which causes the hanging when reading data.
+
 0.18.0
 Adapt handling of errors. Only lines in STDERR which starts with "Error:" or
 "Warning:" are now interpreted as error messages. Therefore ExifTool 11.10 is
