@@ -13,7 +13,7 @@ Rim.setup do |p|
   p.email = 'janfri26@gmail.com'
   p.summary = 'This library is a wrapper for the ExifTool command-line application (https://exiftool.org).'
   p.description = 'This library is a wrapper for the ExifTool command-line application (https://exiftool.org) written by Phil Harvey. It is designed for dealing with multiple files at once by creating commands to call exiftool with various arguments, call it and parsing the results.'
-  p.ruby_version = '>=1.9.1'
+  p.ruby_version = '>=2.4.0'
   p.license = 'MIT'
   p.homepage = 'https://github.com/janfri/multi_exiftool'
   p.install_message = %q{
