@@ -4,10 +4,10 @@ result:
 - - !ruby/object:MultiExiftool::Values
     values:
       sourcefile: regtest/test.jpg
-      exiftoolversion: 12.26
+      exiftoolversion: 13.03
       filename: test.jpg
       directory: regtest
-      filesize: 43 KiB
+      filesize: 44 kB
       filetype: JPEG
       filetypeextension: jpg
       mimetype: image/jpeg
