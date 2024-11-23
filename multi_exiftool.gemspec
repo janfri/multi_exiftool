@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
     +-----------------------------------------------------------------------+
   END
 
-  s.required_ruby_version = '>= 1.9.1'
+  s.required_ruby_version = '>= 2.3'
   s.requirements << 'exiftool, version 11.10 or higher'
 
   s.add_development_dependency 'contest', '~> 0.1'

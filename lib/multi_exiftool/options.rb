@@ -183,7 +183,7 @@ module MultiExiftool
 
 
     def try_find_real_method_name meth
-      m = meth.to_s
+      m = +meth.to_s
       if m =~ /^[a-zA-Z]=?$/
         return nil
       end
